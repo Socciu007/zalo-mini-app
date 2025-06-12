@@ -1,0 +1,65 @@
+[
+  {
+    "id": "0",
+    "port": "SHANGHAI",
+    "portChi": "上海",
+    "destination": "MANZANILLO",
+    "destinationChi": "曼萨尼约",
+    "price": "$4000/$4200/$4200",
+    "time": "2025-06-25"
+  },
+  {
+    "id": "1",
+    "port": "SHANGHAI",
+    "portChi": "上海",
+    "destination": "SOKHNA",
+    "destinationChi": "索科纳",
+    "price": "$3000/$4000/$4000",
+    "time": "2025-06-23"
+  },
+  {
+    "id": "2",
+    "port": "SHANGHAI",
+    "portChi": "上海",
+    "destination": "JEDDAH",
+    "destinationChi": "吉达",
+    "price": "$3000/$4000/$4000",
+    "time": "2025-06-23"
+  },
+  {
+    "id": "3",
+    "port": "SHANGHAI",
+    "portChi": "上海",
+    "destination": "AQABA",
+    "destinationChi": "亚喀巴",
+    "price": "$3000/$3600/$3600",
+    "time": "2025-06-23"
+  },
+  {
+    "id": "4",
+    "port": "SHANGHAI",
+    "portChi": "上海",
+    "destination": "SINGAPORE",
+    "destinationChi": "新加坡",
+    "price": "$375/$700/$700",
+    "time": "2025-06-26"
+  },
+  {
+    "id": "5",
+    "port": "SHANGHAI",
+    "portChi": "上海",
+    "destination": "PORT KELANG",
+    "destinationChi": "巴生",
+    "price": "$375/$700/$700",
+    "time": "2025-06-24"
+  },
+  {
+    "id": "6",
+    "port": "SHANGHAI",
+    "portChi": "上海",
+    "destination": "NHAVA SHEVA",
+    "destinationChi": "那瓦什瓦",
+    "price": "$2475/$2500/$2500",
+    "time": "2025-06-24"
+  }
+]

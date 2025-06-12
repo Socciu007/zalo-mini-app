@@ -13,7 +13,7 @@
   "listSyncJS": [],
   "listAsyncJS": [],
   "template": {
-    "name": "zaui-coffee",
+    "name": "zaui-fargo",
     "primaryColor": "#006af5",
     "prefixCurrencySymbol": false,
     "currencySymbol": "đ",

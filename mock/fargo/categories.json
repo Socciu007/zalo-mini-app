@@ -1,0 +1,44 @@
+[
+  {
+    "id": "0",
+    "chi": "海运运价",
+    "eng": "Freight",
+    "vie": "Cước",
+    "icon": "assets/icons/icon-boat1.png"
+  },
+  {
+    "id": "1",
+    "chi": "箱货信息",
+    "eng": "Cargo",
+    "vie": "Hàng",
+    "icon": "assets/icons/icon-container.png"
+  },
+  {
+    "id": "2",
+    "chi": "北美快递",
+    "eng": "Express",
+    "vie": "Giao nhanh",
+    "icon": "assets/icons/icon-box.png"
+  },
+  {
+    "id": "3",
+    "chi": "我的收藏",
+    "eng": "Saved",
+    "vie": "Lưu",
+    "icon": "assets/icons/icon-folder.png"
+  },
+  {
+    "id": "4",
+    "chi": "我的订单",
+    "eng": "Orders",
+    "vie": "Đơn",
+    "icon": "assets/icons/icon-list.png"
+  },
+  {
+    "id": "5",
+    "chi": "电子合同",
+    "eng": "Contract",
+    "vie": "Hợp đồng",
+    "icon": "assets/icons/icon-wishlist.png"
+  }
+]

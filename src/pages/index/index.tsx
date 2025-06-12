@@ -13,13 +13,11 @@ const HomePage: React.FunctionComponent = () => {
     <Page className="relative flex-1 flex flex-col bg-white">
       <Welcome />
       <Box className="flex-1 overflow-auto">
-        <Inquiry />
-        <Banner />
+        {/* <Inquiry />
+        <Banner /> */}
         <Suspense>
           <Categories />
         </Suspense>
-        <Divider />
-        <Recommend />
         <Divider />
         <ProductList />
         <Divider />

@@ -50,6 +50,10 @@ export function getDummyImage(filename: string) {
   return `https://stc-zmp.zadn.vn/templates/zaui-coffee/dummy/${filename}`;
 }
 
+export function getPictures(filename: string) {
+  return `https://stc-zmp.zadn.vn/templates/zaui-coffee/pictures/${filename}`;
+}
+
 export function isIdentical(
   option1: SelectedOptions,
   option2: SelectedOptions,

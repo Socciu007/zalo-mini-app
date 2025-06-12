@@ -1,27 +1,44 @@
-import { FinalPrice } from "components/display/final-price";
 import React, { FC } from "react";
-import { Product } from "types/product";
+import { Booking } from "types/fargo/booking";
 import { Box, Text } from "zmp-ui";
-import { ProductPicker } from "./picker";
 
-export const ProductItem: FC<{ product: Product }> = ({ product }) => {
+export const ProductItem: FC<{ data: Booking }> = ({ data }) => {
   return (
-    <ProductPicker product={product}>
-      {({ open }) => (
-        <div className="space-y-2" onClick={open}>
-          <Box className="w-full aspect-square relative">
-            <img
-              loading="lazy"
-              src={product.image}
-              className="absolute left-0 right-0 top-0 bottom-0 w-full h-full object-cover object-center rounded-lg bg-skeleton"
-            />
+    <Box>
+      <Box className="bg-white rounded-md" onClick={() => {}}>
+        {/* Line 1: Origin -> Destination */}
+        <Box className="flex p-4 items-center justify-between text-center border-b border-[#a6a6a930] pb-5">
+          <Box>
+            <Text className="text-sm font-semibold text-[#2b2b2b] mb-2">
+              {data?.port}
+            </Text>
+            <Text className="text-xs text-gray-500 text-start">
+              {data?.portChi}
+            </Text>
           </Box>
-          <Text>{product.name}</Text>
-          <Text size="xxSmall" className="text-gray pb-2">
-            <FinalPrice>{product}</FinalPrice>
+
+          <img src="assets/icons/icon-boat.png" />
+
+          <Box>
+            <Text className="text-sm font-semibold text-[#2b2b2b]">
+              {data?.destination}
+            </Text>
+            <Text className="text-xs text-gray-500 text-end">
+              {data?.destinationChi}
+            </Text>
+          </Box>
+        </Box>
+
+        {/* Line 2: Departure date and Price */}
+        <Box className="flex justify-between items-center py-3 px-4 text-sm">
+          <Text className="text-gray-500">
+            <span className="text-[#2b2b2b]">开航日: {data?.time}</span>
           </Text>
-        </div>
-      )}
-    </ProductPicker>
+          <Text className="text-[#ce1a1abd] font-medium">
+            {data?.price}
+          </Text>
+        </Box>
+      </Box>
+    </Box>
   );
 };

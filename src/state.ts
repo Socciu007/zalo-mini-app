@@ -10,6 +10,11 @@ import { Store } from "types/delivery";
 import { calcFinalPrice } from "utils/product";
 import { wait } from "utils/async";
 import categories from "../mock/categories.json";
+import { Category as FCategory } from "types/fargo/category";
+import { Booking } from "types/fargo/booking";
+import fargoCategories from "../mock/fargo/categories.json";
+import fargoBooking from "../mock/fargo/booking.json";
+
 
 export const userState = selector({
   key: "user",
@@ -22,6 +27,16 @@ export const userState = selector({
 export const categoriesState = selector<Category[]>({
   key: "categories",
   get: () => categories,
+});
+
+export const fargoCategoriesState = selector<FCategory[]>({
+  key: "fargoCategories",
+  get: () => fargoCategories,
+});
+
+export const fargoBookingState = selector<Booking[]>({
+  key: "fargoBooking",
+  get: () => fargoBooking,
 });
 
 export const productsState = selector<Product[]>({

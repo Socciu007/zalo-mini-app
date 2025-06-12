@@ -2,11 +2,16 @@ import React from "react";
 import { FC } from "react";
 import { Box, Text } from "zmp-ui";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { categoriesState, selectedCategoryIdState } from "state";
+import {
+  categoriesState,
+  selectedCategoryIdState,
+  fargoCategoriesState,
+} from "state";
 import { useNavigate } from "react-router";
 
 export const Categories: FC = () => {
-  const categories = useRecoilValue(categoriesState);
+  // const categories = useRecoilValue(categoriesState);
+  const fargoCategories = useRecoilValue(fargoCategoriesState);
   const navigate = useNavigate();
   const setSelectedCategoryId = useSetRecoilState(selectedCategoryIdState);
 
@@ -15,9 +20,11 @@ export const Categories: FC = () => {
     navigate("/category");
   };
 
+  console.log("test", fargoCategories);
+
   return (
-    <Box className="bg-white grid grid-cols-4 gap-4 p-4">
-      {categories.map((category, i) => (
+    <Box className="bg-white grid grid-cols-3 gap-4 p-4">
+      {fargoCategories.slice(0, 6).map((category, i) => (
         <div
           key={i}
           onClick={() => gotoCategory(category.id)}
@@ -25,7 +32,7 @@ export const Categories: FC = () => {
         >
           <img className="w-12 h-12" src={category.icon} />
           <Text size="xxSmall" className="text-gray">
-            {category.name}
+            {category.chi}
           </Text>
         </div>
       ))}
