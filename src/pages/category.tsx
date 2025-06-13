@@ -1,4 +1,4 @@
-import { ProductItem } from "components/product/item";
+import { BookingItem } from "components/booking/item";
 import React, { FC, Suspense } from "react";
 import { useRecoilValue } from "recoil";
 import {
@@ -30,7 +30,7 @@ const CategoryPicker: FC = () => {
 
 const CategoryProducts: FC<{ categoryId: string }> = ({ categoryId }) => {
   const productsByCategory = useRecoilValue(
-    productsByCategoryState(categoryId),
+    productsByCategoryState(categoryId)
   );
 
   if (productsByCategory.length === 0) {
@@ -45,7 +45,7 @@ const CategoryProducts: FC<{ categoryId: string }> = ({ categoryId }) => {
   return (
     <Box className="bg-background grid grid-cols-2 gap-4 p-4">
       {productsByCategory.map((product) => (
-        <ProductItem key={product.id} product={product} />
+        <BookingItem key={product.id} data={product} />
       ))}
     </Box>
   );

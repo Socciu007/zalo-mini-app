@@ -1,7 +1,7 @@
 import { FinalPrice } from "components/display/final-price";
 import { DisplaySelectedOptions } from "components/display/selected-options";
 import { ListRenderer } from "components/list-renderer";
-import { ProductPicker } from "components/product/picker";
+import { ProductPicker } from "components/booking/picker";
 import React, { FC, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { cartState } from "state";

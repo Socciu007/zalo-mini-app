@@ -7,20 +7,22 @@ import { CartIcon } from "./cart-icon";
 
 const tabs: Record<string, MenuItem> = {
   "/": {
-    label: "Trang chủ",
+    label: "首页",
     icon: <Icon icon="zi-home" />,
+    activeIcon: <img src="assets/icons/icon-fargo.png" alt="fargo" />,
   },
-  "/notification": {
-    label: "Thông báo",
-    icon: <Icon icon="zi-notif" />,
+  "/chatmsg": {
+    label: "小泛",
+    icon: <img src="assets/icons/icon-supporter1.png" alt="supporter" />,
+    activeIcon: <img src="assets/icons/icon-supporter.png" alt="supporter" />,
   },
-  "/cart": {
-    label: "Giỏ hàng",
-    icon: <CartIcon />,
-    activeIcon: <CartIcon active />,
-  },
+  // "/cart": {
+  //   label: "Giỏ hàng",
+  //   icon: <CartIcon />,
+  //   activeIcon: <CartIcon active />,
+  // },
   "/profile": {
-    label: "Cá nhân",
+    label: "我的",
     icon: <Icon icon="zi-user" />,
   },
 };
@@ -49,14 +51,18 @@ export const Navigation: FC = () => {
       onChange={navigate}
       className="z-50"
     >
-      {Object.keys(tabs).map((path: TabKeys) => (
-        <BottomNavigation.Item
-          key={path}
-          label={tabs[path].label}
-          icon={tabs[path].icon}
-          activeIcon={tabs[path].activeIcon}
-        />
-      ))}
+      {Object.keys(tabs).map((path: TabKeys) => {
+        const isRoot = path === "/";
+        const isActive = location.pathname === path;
+        return (
+          <BottomNavigation.Item
+            key={path}
+            label={isRoot ? (isActive ? "" : "首页") : tabs[path].label}
+            icon={tabs[path].icon}
+            activeIcon={tabs[path].activeIcon}
+          />
+        );
+      })}
     </BottomNavigation>
   );
 };

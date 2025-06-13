@@ -2,14 +2,14 @@ import React, { FC } from "react";
 import { Booking } from "types/fargo/booking";
 import { Box, Text } from "zmp-ui";
 
-export const ProductItem: FC<{ data: Booking }> = ({ data }) => {
+export const BookingItem: FC<{ data: Booking }> = ({ data }) => {
   return (
     <Box>
       <Box className="bg-white rounded-md" onClick={() => {}}>
         {/* Line 1: Origin -> Destination */}
         <Box className="flex p-4 items-center justify-between text-center border-b border-[#a6a6a930] pb-5">
-          <Box>
-            <Text className="text-sm font-semibold text-[#2b2b2b] mb-2">
+          <Box className="flex-1">
+            <Text className="text-sm font-semibold text-[#2b2b2b] mb-2 text-start">
               {data?.port}
             </Text>
             <Text className="text-xs text-gray-500 text-start">
@@ -19,8 +19,8 @@ export const ProductItem: FC<{ data: Booking }> = ({ data }) => {
 
           <img src="assets/icons/icon-boat.png" />
 
-          <Box>
-            <Text className="text-sm font-semibold text-[#2b2b2b]">
+          <Box className="flex-1">
+            <Text className="text-sm font-semibold text-[#2b2b2b] text-end">
               {data?.destination}
             </Text>
             <Text className="text-xs text-gray-500 text-end">

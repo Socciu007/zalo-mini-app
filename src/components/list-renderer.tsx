@@ -1,67 +1,51 @@
-import React, { ReactNode, useMemo, useState } from "react";
-import { Box, Button, Icon, Text } from "zmp-ui";
+import React, { ReactNode } from "react";
+import { Box, Icon, Text } from "zmp-ui";
 
 interface ListRendererProps<T> {
   title?: string;
-  limit?: number;
+  isMore?: boolean;
   items: T[];
   renderLeft: (item: T) => ReactNode;
   renderRight: (item: T) => ReactNode;
-  renderKey?: (item: T) => string;
   onClick?: (item: T) => void;
-  noDivider?: boolean;
 }
 
 export function ListRenderer<T>({
   title,
   items,
-  limit,
   renderLeft,
   renderRight,
-  renderKey,
   onClick,
-  noDivider,
+  isMore,
 }: ListRendererProps<T>) {
-  const [isCollapsed, setIsCollapsed] = useState(true);
-  const collapsedItems = useMemo(() => {
-    return items.slice(0, limit);
-  }, [items]);
-
   return (
-    <Box className="bg-background rounded-xl">
-      {title && <Text.Title className="p-4 pb-0">{title}</Text.Title>}
-      <Box>
-        {(isCollapsed ? collapsedItems : items).map((item, i, list) => (
+    <Box className="bg-background rounded-xl py-4">
+      <Box className="flex items-center justify-between px-4">
+        {title && <Text.Title className="text-xl">{title}</Text.Title>}
+        {isMore && (
+          <Text
+            className="text-[#767a7f] text-base py-2 px-0 h-fit w-fit"
+            onClick={() => {}}
+          >
+            全部订单
+            <Icon icon="zi-chevron-right" />
+          </Text>
+        )}
+      </Box>
+      <Box className="grid grid-cols-4 px-6 gap-4 pt-2">
+        {items?.map((item, i) => (
           <div
-            key={renderKey ? renderKey(item) : i}
+            key={i}
             onClick={() => onClick?.(item)}
-            className="flex space-x-4 p-4 last:pb-0"
+            className="flex flex-col flex-1 items-center"
           >
             {renderLeft(item)}
-            <Box className="flex-1 min-w-0 relative">
+            <Text className="text-center text-sm mt-1">
               {renderRight(item)}
-              {!noDivider && i < list.length - 1 && (
-                <hr className="absolute left-0 -right-4 -bottom-4 border-divider border-t-[0.5px]"></hr>
-              )}
-            </Box>
+            </Text>
           </div>
         ))}
       </Box>
-      {isCollapsed && collapsedItems.length < items.length ? (
-        <Box className="p-2">
-          <Button
-            onClick={() => setIsCollapsed(false)}
-            fullWidth
-            suffixIcon={<Icon icon="zi-chevron-down" />}
-            variant="tertiary"
-            type="neutral"
-          >
-            Xem thêm
-          </Button>
-        </Box>
-      ) : (
-        <Box className="w-full h-4"></Box>
-      )}
     </Box>
   );
 }

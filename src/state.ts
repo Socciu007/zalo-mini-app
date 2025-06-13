@@ -24,19 +24,21 @@ export const userState = selector({
   },
 });
 
-export const categoriesState = selector<Category[]>({
-  key: "categories",
-  get: () => categories,
-});
-
+// Get fargo categories
 export const fargoCategoriesState = selector<FCategory[]>({
   key: "fargoCategories",
   get: () => fargoCategories,
 });
 
+// Get fargo booking
 export const fargoBookingState = selector<Booking[]>({
   key: "fargoBooking",
   get: () => fargoBooking,
+});
+
+export const categoriesState = selector<Category[]>({
+  key: "categories",
+  get: () => categories,
 });
 
 export const productsState = selector<Product[]>({

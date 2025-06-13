@@ -10,13 +10,13 @@ export const Welcome: FC = () => {
   return (
     <>
       <img
-        src={picHeader}
+        src="https://www.dadaex.cn/assets/upload/wximg/homePage-1.png"
         className="w-full h-auto object-cover"
         alt="banner"
       />
-      <div className="absolute top-7 left-6 z-10">
-        <h2 className="text-white text-lg font-bold drop-shadow-md">Fargo</h2>
-      </div>
+      <Box className="absolute top-7 left-6 z-10">
+        <Text className="text-white text-lg font-bold drop-shadow-md">Fargo</Text>
+      </Box>
     </>
   );
 };

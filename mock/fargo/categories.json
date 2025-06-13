@@ -40,5 +40,8 @@
     "eng": "Contract",
     "vie": "Hợp đồng",
     "icon": "assets/icons/icon-wishlist.png"
+  },{
+    "id": "6",
+    "chi": "现舱推荐"
   }
 ]
