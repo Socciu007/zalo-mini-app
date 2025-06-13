@@ -128,7 +128,7 @@ const PersonalPay: FC = () => {
                 alt="card"
               />
             ),
-            title: "新订单",
+            title: "总金额",
           },
           {
             icon: (
@@ -138,7 +138,7 @@ const PersonalPay: FC = () => {
                 alt="loading"
               />
             ),
-            title: "已审",
+            title: "信用额度",
           },
           {
             icon: (

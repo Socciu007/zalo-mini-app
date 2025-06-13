@@ -27,13 +27,13 @@ export const userState = selector({
 // Get fargo categories
 export const fargoCategoriesState = selector<FCategory[]>({
   key: "fargoCategories",
-  get: () => fargoCategories,
+  get: () => fargoCategories as FCategory[],
 });
 
 // Get fargo booking
 export const fargoBookingState = selector<Booking[]>({
   key: "fargoBooking",
-  get: () => fargoBooking,
+  get: () => fargoBooking as Booking[],
 });
 
 export const categoriesState = selector<Category[]>({

@@ -67,7 +67,7 @@ const ChatMsgPageList: FC = () => {
 const ChatMsgPage: FC = () => {
   return (
     <Page className="relative flex-1 flex flex-col">
-      <Header title="Thông báo" showBackIcon={false} />
+      <Header title="小泛" showBackIcon={false} />
       <ChatMsgPageList />
     </Page>
   );

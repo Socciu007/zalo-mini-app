@@ -7,7 +7,7 @@ import "swiper/css/pagination";
 import "zmp-ui/zaui.css";
 import "./css/tailwind.css";
 import "./css/app.scss";
-
+import "./locale";
 // Import App Component
 import App from "./components/app";
 import appConfig from "../app-config.json";
