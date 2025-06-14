@@ -4,13 +4,15 @@ import { useRecoilValue } from "recoil";
 import { Box } from "zmp-ui";
 import { BookingItem } from "components/booking/item";
 import { fargoBookingState } from "state";
+import { useTranslation } from "react-i18next";
 
 export const BookingListContent: FC = () => {
+  const { t } = useTranslation();
   const fargoBooking = useRecoilValue(fargoBookingState);
 
   return (
     <Section
-      title="现舱推荐"
+      title={t("Recommend")}
       className="px-6 pt-4 pb-6"
       style={{ backgroundColor: "var(--zmp-background-color)" }}
     >
@@ -21,7 +23,7 @@ export const BookingListContent: FC = () => {
         <Box className="flex items-center justify-center text-sm text-gray-500">
           <Box className="flex-1 h-px bg-[#87767654] ms-5"></Box>
           <span className="px-4 text-center text-gray-500">
-            快去运价查询发现更多数据~
+            {t("Go to find more data")}
           </span>
           <Box className="flex-1 h-px bg-[#87767654] me-5"></Box>
         </Box>
@@ -31,9 +33,10 @@ export const BookingListContent: FC = () => {
 };
 
 export const BookingListFallback: FC = () => {
+  const { t } = useTranslation();
   return (
     <Section
-      title="现舱推荐"
+      title={t("Recommend")}
       className="px-6 pt-4 pb-6 h-full"
       style={{ backgroundColor: "var(--zmp-background-color)" }}
     >

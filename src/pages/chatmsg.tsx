@@ -1,7 +1,9 @@
 import React, { FC, useState } from "react";
 import { Box, Header, Page, Icon, Input } from "zmp-ui";
+import { useTranslation } from "react-i18next";
 
 const ChatMsgPageList: FC = () => {
+  const { t } = useTranslation();
   const [inputValue, setInputValue] = useState("");
   const [conversation, setConversation] = useState<any[]>([]);
 
@@ -27,10 +29,10 @@ const ChatMsgPageList: FC = () => {
       {/* Suggestions */}
       <Box className="px-4 pb-2 flex flex-wrap gap-2">
         <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-base cursor-pointer">
-          上海-新加坡报价是多少？
+          {t("Quote for Shanghai–Singapore?")}
         </span>
         <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-base cursor-pointer">
-          上海-曼谷 ONE船司本地费是多少？
+          {t("ONE local fee Shanghai–Bangkok?")}
         </span>
       </Box>
 
@@ -38,7 +40,7 @@ const ChatMsgPageList: FC = () => {
       <Box className="px-4 mb-2 gap-2">
         <Input
           className="flex-1 bg-gray-100 rounded-full px-2 text-base"
-          placeholder="有什么问题尽管问我"
+          placeholder={t("Ask me anything")}
           onChange={(e) => setInputValue(e.target.value)}
           prefix={
             <Box pl={1}>
@@ -65,9 +67,10 @@ const ChatMsgPageList: FC = () => {
 };
 
 const ChatMsgPage: FC = () => {
+  const { t } = useTranslation();
   return (
     <Page className="relative flex-1 flex flex-col">
-      <Header title="小泛" showBackIcon={false} />
+      <Header title={t("Support")} showBackIcon={false} />
       <ChatMsgPageList />
     </Page>
   );

@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { Box, Icon, Text } from "zmp-ui";
 
 interface ListRendererProps<T> {
@@ -18,16 +19,17 @@ export function ListRenderer<T>({
   onClick,
   isMore,
 }: ListRendererProps<T>) {
+  const { t } = useTranslation();
   return (
     <Box className="bg-background rounded-xl py-4">
       <Box className="flex items-center justify-between px-4">
-        {title && <Text.Title className="text-xl">{title}</Text.Title>}
+        {title && <Text.Title className="text-xl">{t(title)}</Text.Title>}
         {isMore && (
           <Text
             className="text-[#767a7f] text-base py-2 px-0 h-fit w-fit"
             onClick={() => {}}
           >
-            全部订单
+            {t("More")}
             <Icon icon="zi-chevron-right" />
           </Text>
         )}

@@ -8,19 +8,17 @@ import {
   fargoCategoriesState,
 } from "state";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 export const Categories: FC = () => {
-  // const categories = useRecoilValue(categoriesState);
+  const { t } = useTranslation();
   const fargoCategories = useRecoilValue(fargoCategoriesState);
   const navigate = useNavigate();
   const setSelectedCategoryId = useSetRecoilState(selectedCategoryIdState);
 
   const gotoCategory = (categoryId: string) => {
     setSelectedCategoryId(categoryId);
-    // navigate("/category");
   };
-
-  console.log("test", fargoCategories);
 
   return (
     <Box className="bg-white grid grid-cols-3 gap-4 p-4">
@@ -32,7 +30,7 @@ export const Categories: FC = () => {
         >
           <img className="w-12 h-12" src={category.icon} />
           <Text size="xxSmall" className="text-gray">
-            {category.chi}
+            {t(category.eng)}
           </Text>
         </div>
       ))}

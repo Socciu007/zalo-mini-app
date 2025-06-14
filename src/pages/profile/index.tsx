@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import { Box, Icon, Page, Text, Button } from "zmp-ui";
 import { ListRenderer } from "components/list-renderer";
 import { useToBeImplemented } from "hooks";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "components/locale";
 
 const HeaderProfile: FC = () => {
   return (
@@ -12,40 +14,44 @@ const HeaderProfile: FC = () => {
           background: "linear-gradient(to bottom, #A8B4FF 0%, #E6ECFF 100%)",
         }}
       />
+      <Box className="absolute top-10 left-5 w-full">
+        <LanguageSwitcher />
+      </Box>
     </Box>
   );
 };
 
 // 个人信息
 const Personal: FC = () => {
+  const { t } = useTranslation();
   const onClick = useToBeImplemented();
 
   return (
     <Box className="m-6 mt-2">
       <ListRenderer
-        title="我的订单"
+        title={t("My Orders")}
         onClick={onClick}
         isMore={true}
         items={[
           {
             icon: <img className="w-12 h-12" src="/assets/icons/icon-tag.png" alt="tag" />,
-            title: "新订单",
+            title: "New Order",
           },
           {
             icon: <img className="w-12 h-12" src="/assets/icons/icon-contact.png" alt="contact" />,
-            title: "已审",
+            title: "Approved",
           },
           {
             icon: <img className="w-12 h-12" src="assets/icons/icon-list1.png" alt="list1" />,
-            title: "订舱",
+            title: "Booking",
           },
           {
             icon: <img className="w-12 h-12" src="assets/icons/icon-list2.png" alt="list2" />,
-            title: "预配",
+            title: "Pre-shipment",
           },
         ]}
         renderLeft={(item) => item.icon}
-        renderRight={(item) => item.title}
+        renderRight={(item) => t(item.title)}
       />
     </Box>
   );
@@ -53,12 +59,13 @@ const Personal: FC = () => {
 
 // 企业管理
 const Company: FC = () => {
+  const { t } = useTranslation();
   const onClick = useToBeImplemented();
 
   return (
     <Box className="m-6">
       <ListRenderer
-        title="企业管理"
+        title={t("Enterprise Management")}
         onClick={onClick}
         items={[
           {
@@ -69,7 +76,7 @@ const Company: FC = () => {
                 alt="seal"
               />
             ),
-            title: "企业认证",
+            title: "Verify",
           },
           {
             icon: (
@@ -79,7 +86,7 @@ const Company: FC = () => {
                 alt="building"
               />
             ),
-            title: "企业管理",
+            title: "Manage",
           },
           {
             icon: (
@@ -89,7 +96,7 @@ const Company: FC = () => {
                 alt="hospital"
               />
             ),
-            title: "加入企业",
+            title: "Join",
           },
           {
             icon: (
@@ -99,11 +106,11 @@ const Company: FC = () => {
                 alt="group"
               />
             ),
-            title: "邀请加入",
+            title: "Invite",
           },
         ]}
         renderLeft={(item) => item.icon}
-        renderRight={(item) => item.title}
+        renderRight={(item) => t(item.title)}
       />
     </Box>
   );
@@ -111,12 +118,13 @@ const Company: FC = () => {
 
 // 个人支付
 const PersonalPay: FC = () => {
+  const { t } = useTranslation();
   const onClick = useToBeImplemented();
 
   return (
     <Box className="m-6">
       <ListRenderer
-        title="我的订单"
+        title={t("My Orders")}
         onClick={onClick}
         isMore={true}
         items={[
@@ -128,7 +136,7 @@ const PersonalPay: FC = () => {
                 alt="card"
               />
             ),
-            title: "总金额",
+            title: "Amount",
           },
           {
             icon: (
@@ -138,7 +146,7 @@ const PersonalPay: FC = () => {
                 alt="loading"
               />
             ),
-            title: "信用额度",
+            title: "Credit",
           },
           {
             icon: (
@@ -148,7 +156,7 @@ const PersonalPay: FC = () => {
                 alt="list3"
               />
             ),
-            title: "订舱",
+            title: "Unbilled",
           },
           {
             icon: (
@@ -158,11 +166,11 @@ const PersonalPay: FC = () => {
                 alt="completed"
               />
             ),
-            title: "预配",
+            title: "Billed",
           },
         ]}
         renderLeft={(item) => item.icon}
-        renderRight={(item) => item.title}
+        renderRight={(item) => t(item.title)}
       />
     </Box>
   );
@@ -170,12 +178,13 @@ const PersonalPay: FC = () => {
 
 // 其他功能
 const Other: FC = () => {
+  const { t } = useTranslation();
   const onClick = useToBeImplemented();
 
   return (
     <Box className="m-6">
       <ListRenderer
-        title="其他功能"
+        title={t("Other")}
         onClick={onClick}
         items={[
           {
@@ -186,7 +195,7 @@ const Other: FC = () => {
                 alt="news"
               />
             ),
-            title: "我的模板",
+            title: "Template",
           },
           {
             icon: (
@@ -196,7 +205,7 @@ const Other: FC = () => {
                 alt="wallet"
               />
             ),
-            title: "我的收藏",
+            title: "Collection",
           },
           {
             icon: (
@@ -206,7 +215,7 @@ const Other: FC = () => {
                 alt="list4"
               />
             ),
-            title: "电子合同",
+            title: "Contract",
           },
           {
             icon: (
@@ -216,7 +225,7 @@ const Other: FC = () => {
                 alt="setting"
               />
             ),
-            title: "合同注册",
+            title: "Register",
           },
           {
             icon: (
@@ -226,7 +235,7 @@ const Other: FC = () => {
                 alt="message"
               />
             ),
-            title: "微信推送",
+            title: "Wechat Push",
           },
           {
             icon: (
@@ -236,7 +245,7 @@ const Other: FC = () => {
                 alt="write"
               />
             ),
-            title: "修改密码",
+            title: "Change Password",
           },
           {
             icon: (
@@ -246,17 +255,18 @@ const Other: FC = () => {
                 alt="logout"
               />
             ),
-            title: "退出账号",
+            title: "Logout",
           },
         ]}
         renderLeft={(item) => item.icon}
-        renderRight={(item) => item.title}
+        renderRight={(item) => t(item.title)}
       />
     </Box>
   );
 };
 
 const ProfilePage: FC = () => {
+  const { t } = useTranslation();
   return (
     <Page
       className="relative flex-1 flex flex-col"
@@ -273,14 +283,14 @@ const ProfilePage: FC = () => {
                 <Icon icon="zi-user" className="text-black text-4xl" />
               </Box>
               <Text className="text-black text-xl font-bold drop-shadow-md leading-loose">
-                请点击登录
+                {t("Login")}
               </Text>
             </Box>
             <Button
               variant="secondary"
               className="text-[#0019FF] text-lg bg-white bg-opacity-30 py-2 px-0 h-fit w-fit"
             >
-              个人信息
+              {t("Profile")}
             </Button>
           </Box>
         </Box>

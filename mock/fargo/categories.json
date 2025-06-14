@@ -10,7 +10,7 @@
     "id": "1",
     "chi": "箱货信息",
     "eng": "Cargo",
-    "vie": "Hàng",
+    "vie": "Hàng hóa",
     "icon": "assets/icons/icon-container.png"
   },
   {
@@ -23,15 +23,15 @@
   {
     "id": "3",
     "chi": "我的收藏",
-    "eng": "Saved",
-    "vie": "Lưu",
+    "eng": "Collection",
+    "vie": "Bộ sưu tập",
     "icon": "assets/icons/icon-folder.png"
   },
   {
     "id": "4",
     "chi": "我的订单",
-    "eng": "Orders",
-    "vie": "Đơn",
+    "eng": "My Orders",
+    "vie": "Đơn hàng",
     "icon": "assets/icons/icon-list.png"
   },
   {
@@ -40,8 +40,5 @@
     "eng": "Contract",
     "vie": "Hợp đồng",
     "icon": "assets/icons/icon-wishlist.png"
-  },{
-    "id": "6",
-    "chi": "现舱推荐"
   }
 ]
