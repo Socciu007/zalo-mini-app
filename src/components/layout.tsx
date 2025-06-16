@@ -8,11 +8,12 @@ import CartPage from "pages/cart";
 import ChatMsgPage from "pages/chatmsg";
 import ProfilePage from "pages/profile/index";
 import SearchPage from "pages/search";
+import FreightPage from "pages/category/freight/index";
 import CheckoutResultPage from "pages/result";
 import { getSystemInfo } from "zmp-sdk";
 import { ScrollRestoration } from "./scroll-restoration";
 import { useHandlePayment } from "hooks";
-
+import DestinationPage from "pages/category/freight/destination";
 if (import.meta.env.DEV) {
   document.body.style.setProperty("--zaui-safe-area-inset-top", "24px");
 } else if (getSystemInfo().platform === "android") {
@@ -36,6 +37,8 @@ export const Layout: FC = () => {
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/chatmsg" element={<ChatMsgPage />}></Route>
           <Route path="/profile" element={<ProfilePage />}></Route>
+          <Route path="/freight" element={<FreightPage />}></Route>
+          <Route path="/freight/destination" element={<DestinationPage />}></Route>
           <Route path="/search" element={<SearchPage />}></Route>
           <Route path="/category" element={<CategoryPage />}></Route>
           <Route path="/cart" element={<CartPage />}></Route>

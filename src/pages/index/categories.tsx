@@ -3,7 +3,6 @@ import { FC } from "react";
 import { Box, Text } from "zmp-ui";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
-  categoriesState,
   selectedCategoryIdState,
   fargoCategoriesState,
 } from "state";
@@ -18,6 +17,12 @@ export const Categories: FC = () => {
 
   const gotoCategory = (categoryId: string) => {
     setSelectedCategoryId(categoryId);
+
+    if (categoryId === "0") {
+      navigate("/freight");
+    } else {
+      // navigate("/category");
+    }
   };
 
   return (

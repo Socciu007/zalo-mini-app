@@ -12,9 +12,10 @@ import { wait } from "utils/async";
 import categories from "../mock/categories.json";
 import { Category as FCategory } from "types/fargo/category";
 import { Booking } from "types/fargo/booking";
+import { Destination } from "types/fargo/destination";
 import fargoCategories from "../mock/fargo/categories.json";
 import fargoBooking from "../mock/fargo/booking.json";
-
+import fargoDestination from "../mock/fargo/destination.json";
 
 export const userState = selector({
   key: "user",
@@ -34,6 +35,12 @@ export const fargoCategoriesState = selector<FCategory[]>({
 export const fargoBookingState = selector<Booking[]>({
   key: "fargoBooking",
   get: () => fargoBooking as Booking[],
+});
+
+// Get fargo destination
+export const fargoDestinationState = selector<Destination[]>({
+  key: "fargoDestination",
+  get: () => fargoDestination as Destination[],
 });
 
 export const categoriesState = selector<Category[]>({
@@ -129,23 +136,30 @@ export const notificationsState = atom<Notification[]>({
   ],
 });
 
+// Keyword Search
 export const keywordState = atom({
   key: "keyword",
   default: "",
 });
 
-export const resultState = selector<Product[]>({
+// Search Destination
+export const resultState = selector<Destination[]>({
   key: "result",
   get: async ({ get }) => {
     const keyword = get(keywordState);
     if (!keyword.trim()) {
       return [];
     }
-    const products = get(productsState);
+    const destinations = get(fargoDestinationState);
     await wait(500);
-    return products.filter((product) =>
-      product.name.trim().toLowerCase().includes(keyword.trim().toLowerCase())
+    const result = destinations?.filter((destination) =>
+      destination?.des?.some((des) => {
+        console.log(des, keyword);
+        return des?.nameEng?.trim()?.toLowerCase()?.includes(keyword?.trim()?.toLowerCase());
+      })
     );
+    console.log("result", result);
+    return result;
   },
 });
 

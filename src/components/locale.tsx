@@ -10,6 +10,7 @@ const LanguageSwitcher = () => {
 
   return (
     <div className="flex gap-2">
+      {/* <img src="assets/icons/icon-translate.svg" alt="translate" /> */}
       <button onClick={() => changeLanguage('vi')}>🇻🇳</button>
       <button onClick={() => changeLanguage('en')}>🇺🇸</button>
       <button onClick={() => changeLanguage('zh')}>🇨🇳</button>
