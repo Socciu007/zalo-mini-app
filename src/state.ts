@@ -152,15 +152,23 @@ export const resultState = selector<Destination[]>({
     }
     const destinations = get(fargoDestinationState);
     await wait(500);
-    const result = destinations?.filter((destination) =>
-      destination?.des?.some((des) => {
-        console.log(des, keyword);
-        return des?.nameEng?.trim()?.toLowerCase()?.includes(keyword?.trim()?.toLowerCase());
-      })
-    );
-    console.log("result", result);
+    const result = destinations?.map((destination) => {
+      return {
+        ...destination,
+        des: destination?.des?.filter((des) => {
+          return des?.nameEng?.trim()?.toLowerCase()?.includes(keyword?.trim()?.toLowerCase());
+        }),
+      };
+    });
+
     return result;
   },
+});
+
+// Selected Destination
+export const selectedDestinationState = atom<string | null>({
+  key: "selectedDestination",
+  default: null,
 });
 
 export const storesState = atom<Store[]>({

@@ -6,6 +6,9 @@ import { Pagination } from "swiper";
 import { ListItem } from "../../../components/list-item";
 import { Divider } from "../../../components/divider";
 import { useNavigate } from "react-router-dom";
+import { selectedDestinationState } from "state";
+import { useRecoilValue } from "recoil";
+import origin from "../../../../mock/fargo/origin.json";
 
 export const Banner: FC = () => {
   return (
@@ -40,6 +43,9 @@ export const Banner: FC = () => {
 const SearchFreight: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const selectedDestination = useRecoilValue(selectedDestinationState);
+  console.log(origin);
+  
   return (
     <Box className="px-10">
       <Box className="border-b border-[#a6a6a930]">
@@ -48,13 +54,12 @@ const SearchFreight: FC = () => {
           <Box className="flex items-center">
             <Select
               closeOnSelect
-              className="border-none ps-2"
+              className="border-none ps-1"
               defaultValue="SHANGHAI"
             >
-              <Option title="SHANGHAI" value="SHANGHAI" />
-              <Option title="SHENZHEN" value="SHENZHEN" />
-              <Option title="GUANGZHOU" value="GUANGZHOU" />
-              <Option title="BEIJING" value="BEIJING" />
+              {origin.map((item) => (
+                <option title={item.title} value={item.value} />
+              ))}
             </Select>
             <Icon
               icon="zi-location-solid"
@@ -66,7 +71,7 @@ const SearchFreight: FC = () => {
       <Box className="border-b border-[#a6a6a930] py-4">
         <Box className="flex items-center px-4">
           <Text className="w-1/3 font-bold">{t("Destination")} :</Text>
-          <Text onClick={() => navigate("/freight/destination")}>{t("Please select a port")}</Text>
+          <Text className="ps-0.5" onClick={() => navigate("/freight/destination")}>{selectedDestination || t("Please select a port")}</Text>
         </Box>
       </Box>
       <Box className="py-4">
@@ -85,11 +90,15 @@ const HistoryFreight: FC = () => {
         <Text className="w-1/3">{t("History")}</Text>
       </Box>
       <Box className="flex flex-col gap-4 px-4">
-        <ListItem title={"SHANGHAI----SINGAPORE"} onClick={() => {}} />
+        <ListItem
+          title={"SHANGHAI----SINGAPORE"}
+          icon={"assets/icons/icon-boat2.png"}
+          onClick={() => {}}
+        />
         <Divider size={1} />
-        <ListItem title={"SHANGHAI----HOCHIMINH"} onClick={() => {}} />
+        <ListItem title={"SHANGHAI----HOCHIMINH"} icon={"assets/icons/icon-boat2.png"} onClick={() => {}} />
         <Divider size={1} />
-        <ListItem title={"SHANGHAI----SINGAPORE"} onClick={() => {}} />
+        <ListItem title={"SHANGHAI----SINGAPORE"} icon={"assets/icons/icon-boat2.png"} onClick={() => {}} />
         <Divider size={1} />
       </Box>
     </Box>
