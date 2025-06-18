@@ -125,6 +125,13 @@ body {
   text-align: center;
 }
 
-.zaui-input-affix-wrapper .zaui-input-suffix {
+.zaui-input-affix-wrapper .zaui-input-suffix .zaui-icon.zaui-select-icon {
   display: none;
+}
+
+.zaui-select-options {
+  height: 433px;
+  .zaui-select-option {
+    text-align: center;
+  }
 }

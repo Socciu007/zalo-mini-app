@@ -1,15 +1,6 @@
-import { atom, selector, selectorFamily } from "recoil";
+import { atom, selector } from "recoil";
 import { getLocation, getPhoneNumber, getUserInfo } from "zmp-sdk";
-import logo from "static/logo.png";
-import { Category } from "types/category";
-import { Product, Variant } from "types/product";
-import { Cart } from "types/cart";
-import { Notification } from "types/notification";
-import { calculateDistance } from "utils/location";
-import { Store } from "types/delivery";
-import { calcFinalPrice } from "utils/product";
 import { wait } from "utils/async";
-import categories from "../mock/categories.json";
 import { Category as FCategory } from "types/fargo/category";
 import { Booking } from "types/fargo/booking";
 import { Destination } from "types/fargo/destination";
@@ -41,99 +32,6 @@ export const fargoBookingState = selector<Booking[]>({
 export const fargoDestinationState = selector<Destination[]>({
   key: "fargoDestination",
   get: () => fargoDestination as Destination[],
-});
-
-export const categoriesState = selector<Category[]>({
-  key: "categories",
-  get: () => categories,
-});
-
-export const productsState = selector<Product[]>({
-  key: "products",
-  get: async () => {
-    await wait(2000);
-    const products = (await import("../mock/products.json")).default;
-    const variants = (await import("../mock/variants.json"))
-      .default as Variant[];
-    return products.map(
-      (product) =>
-        ({
-          ...product,
-          variants: variants.filter((variant) =>
-            product.variantId.includes(variant.id)
-          ),
-        } as Product)
-    );
-  },
-});
-
-export const recommendProductsState = selector<Product[]>({
-  key: "recommendProducts",
-  get: ({ get }) => {
-    const products = get(productsState);
-    return products.filter((p) => p.sale);
-  },
-});
-
-export const selectedCategoryIdState = atom({
-  key: "selectedCategoryId",
-  default: "coffee",
-});
-
-export const productsByCategoryState = selectorFamily<Product[], string>({
-  key: "productsByCategory",
-  get:
-    (categoryId) =>
-    ({ get }) => {
-      const allProducts = get(productsState);
-      return allProducts.filter((product) =>
-        product.categoryId.includes(categoryId)
-      );
-    },
-});
-
-export const cartState = atom<Cart>({
-  key: "cart",
-  default: [],
-});
-
-export const totalQuantityState = selector({
-  key: "totalQuantity",
-  get: ({ get }) => {
-    const cart = get(cartState);
-    return cart.reduce((total, item) => total + item.quantity, 0);
-  },
-});
-
-export const totalPriceState = selector({
-  key: "totalPrice",
-  get: ({ get }) => {
-    const cart = get(cartState);
-    return cart.reduce(
-      (total, item) =>
-        total + item.quantity * calcFinalPrice(item.product, item.options),
-      0
-    );
-  },
-});
-
-export const notificationsState = atom<Notification[]>({
-  key: "notifications",
-  default: [
-    {
-      id: 1,
-      image: logo,
-      title: "Chào bạn mới",
-      content:
-        "Cảm ơn đã sử dụng ZaUI Coffee, bạn có thể dùng ứng dụng này để tiết kiệm thời gian xây dựng",
-    },
-    {
-      id: 2,
-      image: logo,
-      title: "Giảm 50% lần đầu mua hàng",
-      content: "Nhập WELCOME để được giảm 50% giá trị đơn hàng đầu tiên order",
-    },
-  ],
 });
 
 // Keyword Search
@@ -171,95 +69,10 @@ export const selectedDestinationState = atom<string | null>({
   default: null,
 });
 
-export const storesState = atom<Store[]>({
-  key: "stores",
-  default: [
-    {
-      id: 1,
-      name: "VNG Campus Store",
-      address:
-        "Khu chế xuất Tân Thuận, Z06, Số 13, Tân Thuận Đông, Quận 7, Thành phố Hồ Chí Minh, Việt Nam",
-      lat: 10.741639,
-      long: 106.714632,
-    },
-    {
-      id: 2,
-      name: "The Independence Palace",
-      address:
-        "135 Nam Kỳ Khởi Nghĩa, Bến Thành, Quận 1, Thành phố Hồ Chí Minh, Việt Nam",
-      lat: 10.779159,
-      long: 106.695271,
-    },
-    {
-      id: 3,
-      name: "Saigon Notre-Dame Cathedral Basilica",
-      address:
-        "1 Công xã Paris, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh, Việt Nam",
-      lat: 10.779738,
-      long: 106.699092,
-    },
-    {
-      id: 4,
-      name: "Bình Quới Tourist Village",
-      address:
-        "1147 Bình Quới, phường 28, Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam",
-      lat: 10.831098,
-      long: 106.733128,
-    },
-    {
-      id: 5,
-      name: "Củ Chi Tunnels",
-      address: "Phú Hiệp, Củ Chi, Thành phố Hồ Chí Minh, Việt Nam",
-      lat: 11.051655,
-      long: 106.494249,
-    },
-  ],
-});
-
-export const nearbyStoresState = selector({
-  key: "nearbyStores",
-  get: ({ get }) => {
-    // Get the current location from the locationState atom
-    const location = get(locationState);
-
-    // Get the list of stores from the storesState atom
-    const stores = get(storesState);
-
-    // Calculate the distance of each store from the current location
-    if (location) {
-      const storesWithDistance = stores.map((store) => ({
-        ...store,
-        distance: calculateDistance(
-          location.latitude,
-          location.longitude,
-          store.lat,
-          store.long
-        ),
-      }));
-
-      // Sort the stores by distance from the current location
-      const nearbyStores = storesWithDistance.sort(
-        (a, b) => a.distance - b.distance
-      );
-
-      return nearbyStores;
-    }
-    return [];
-  },
-});
-
-export const selectedStoreIndexState = atom({
-  key: "selectedStoreIndex",
-  default: 0,
-});
-
-export const selectedStoreState = selector({
-  key: "selectedStore",
-  get: ({ get }) => {
-    const index = get(selectedStoreIndexState);
-    const stores = get(nearbyStoresState);
-    return stores[index];
-  },
+// Selected Origin
+export const selectedOriginState = atom<string | null>({
+  key: "selectedOrigin",
+  default: null,
 });
 
 export const selectedDeliveryTimeState = atom({

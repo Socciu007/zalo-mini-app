@@ -114,12 +114,11 @@ const DestinationPage: FC = () => {
                 el?.focus();
               }
             }}
-            clearable
+            clearable={true}
             defaultValue={keyword}
             onChange={(e) => handleChange(e?.target?.value)}
             className="rounded-full"
             placeholder={t("Chinese/English/Initial")}
-            // allowClear
           />
         </Box>
 

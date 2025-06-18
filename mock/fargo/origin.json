@@ -1,70 +1,87 @@
 [
   {
     "title": "上海",
-    "value": "SHANGHAI"
+    "value": "SHANGHAI",
+    "label": "SHANGHAI"
   },
   {
     "title": "深圳",
-    "value": "SHENZHEN"
+    "value": "SHENZHEN",
+    "label": "SHENZHEN"
   },
   {
     "title": "广州",
-    "value": "GUANGZHOU"
+    "value": "GUANGZHOU",
+    "label": "GUANGZHOU"
   },
   {
     "title": "香港",
-    "value": "XIANGGANG"
+    "value": "XIANGGANG",
+    "label": "XIANGGANG"
   },
   {
     "title": "珠海",
-    "value": "ZHUHAI"
+    "value": "ZHUHAI",
+    "label": "ZHUHAI"
   },
   {
     "title": "大连",
-    "value": "DALIAN"
+    "value": "DALIAN",
+    "label": "DALIAN"
   },
   {
     "title": "宁波",
-    "value": "NINGBO"
+    "value": "NINGBO",
+    "label": "NINGBO"
   },
   {
     "title": "青岛",
-    "value": "QINGDAO"
+    "value": "QINGDAO",
+    "label": "QINGDAO"
   },
   {
     "title": "天津",
-    "value": "TIANJIN"
+    "value": "TIANJIN",
+    "label": "TIANJIN"
   },
   {
     "title": "厦门",
-    "value": "XIAMEN"
+    "value": "XIAMEN",
+    "label": "XIAMEN"
   },
   {
     "title": "佛山",
-    "value": "FOSHAN"
+    "value": "FOSHAN",
+    "label": "FOSHAN"
   },
   {
     "title": "顺德",
-    "value": "SHUNDE"
+    "value": "SHUNDE",
+    "label": "SHUNDE"
   },
   {
     "title": "中山",
-    "value": "ZHONGSHAN"
+    "value": "ZHONGSHAN",
+    "label": "ZHONGSHAN"
   },
   {
     "title": "江门",
-    "value": "JIANGMEN"
+    "value": "JIANGMEN",
+    "label": "JIANGMEN"
   },
   {
     "title": "肇庆",
-    "value": "ZHAOQING"
+    "value": "ZHAOQING",
+    "label": "ZHAOQING"
   },
   {
     "title": "东莞",
-    "value": "DONGGUAN"
+    "value": "DONGGUAN",
+    "label": "DONGGUAN"
   },
   {
     "title": "HAI PHONG",
-    "value": "HAI PHONG"
+    "value": "HAI PHONG",
+    "label": "HAI PHONG"
   }
 ]
