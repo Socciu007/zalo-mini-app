@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Box, Header, Page, Text, Button, Select, Icon } from "zmp-ui";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,9 +7,14 @@ import { Pagination } from "swiper";
 import { ListItem } from "../../../components/list-item";
 import { Divider } from "../../../components/divider";
 import { useNavigate } from "react-router-dom";
-import { selectedDestinationState, selectedOriginState } from "state";
+import {
+  selectedDestinationState,
+  selectedOriginState,
+  freightSeaState,
+} from "state";
 import { useRecoilValue, useRecoilState } from "recoil";
 import origin from "../../../../mock/fargo/origin.json";
+import { debounce } from "lodash";
 
 export const Banner: FC = () => {
   return (
@@ -45,15 +50,21 @@ const SearchFreight: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const selectedDestination = useRecoilValue(selectedDestinationState);
-  const [selectedOrigin, setSelectedOrigin] = useRecoilState(selectedOriginState);
+  const [selectedOrigin, setSelectedOrigin] =
+    useRecoilState(selectedOriginState);
 
   // Handle Click Search
-  const handleClickSearch = () => {
+  const handleClickSearch = useCallback(() => {
     if (!selectedDestination || !selectedOrigin) {
       return;
     }
-    navigate("/freight/detail");
-  };
+    navigate(
+      `/freight/${encodeURIComponent(
+        `${selectedOrigin}-${selectedDestination}`
+      )}`
+    );
+  }, [selectedDestination, selectedOrigin]);
+
   return (
     <Box className="px-10">
       <Box className="border-b border-[#a6a6a930]">
@@ -105,6 +116,22 @@ const SearchFreight: FC = () => {
 const HistoryFreight: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [selectedOrigin, setSelectedOrigin] =
+    useRecoilState(selectedOriginState);
+  const [selectedDestination, setSelectedDestination] = useRecoilState(
+    selectedDestinationState
+  );
+
+  // console.log(freightSea);
+  const handleClickHistory = useCallback(
+    debounce((history: string) => {
+      const [origin, destination] = history.split("-");
+      setSelectedOrigin(origin);
+      setSelectedDestination(destination);
+      navigate(`/freight/${encodeURIComponent(history)}`);
+    }, 100),
+    []
+  );
   return (
     <Box>
       <Box className="flex items-center px-4 mb-3">
@@ -114,19 +141,19 @@ const HistoryFreight: FC = () => {
         <ListItem
           title={"SHANGHAI----SINGAPORE"}
           icon={"assets/icons/icon-boat2.png"}
-          onClick={() => navigate(`/freight/${encodeURIComponent("SHANGHAI-SINGAPORE")}`)}
+          onClick={() => handleClickHistory("SHANGHAI-SINGAPORE")}
         />
         <Divider size={1} />
         <ListItem
           title={"SHANGHAI----HOCHIMINH"}
           icon={"assets/icons/icon-boat2.png"}
-          onClick={() => {}}
+          onClick={() => handleClickHistory("SHANGHAI-HOCHIMINH")}
         />
         <Divider size={1} />
         <ListItem
           title={"SHANGHAI----SINGAPORE"}
           icon={"assets/icons/icon-boat2.png"}
-          onClick={() => {}}
+          onClick={() => handleClickHistory("SHANGHAI-SINGAPORE")}
         />
         <Divider size={1} />
       </Box>

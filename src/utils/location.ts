@@ -20,3 +20,8 @@ export function deg2rad(deg) {
 export function displayDistance(d) {
   return `${d.toFixed(1)} km`; // Return distance with 2 decimal places
 }
+
+export const goHome = () => {
+  window.history.pushState({}, "", "/");
+  window.dispatchEvent(new PopStateEvent("popstate")); // trigger Router
+};

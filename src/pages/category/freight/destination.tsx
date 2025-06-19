@@ -5,7 +5,6 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import { fargoDestinationState, keywordState, resultState, selectedDestinationState } from "state";
 import { debounce } from "lodash";
 import { ListItem } from "components/list-item";
-const { Search } = Input;
 
 const DestinationList: FC = () => {
   const { t } = useTranslation();
