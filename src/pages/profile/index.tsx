@@ -24,7 +24,7 @@ const HeaderProfile: FC = () => {
 // 个人信息
 const Personal: FC = () => {
   const { t } = useTranslation();
-  const onClick = useToBeImplemented();
+  const onClick = useToBeImplemented({ type: "success", text: "Chức năng dành cho các bên tích hợp phát triển..." });
 
   return (
     <Box className="m-6 mt-2">
@@ -60,7 +60,7 @@ const Personal: FC = () => {
 // 企业管理
 const Company: FC = () => {
   const { t } = useTranslation();
-  const onClick = useToBeImplemented();
+  const onClick = useToBeImplemented({ type: "success", text: "Chức năng dành cho các bên tích hợp phát triển..." });
 
   return (
     <Box className="m-6">
@@ -119,7 +119,7 @@ const Company: FC = () => {
 // 个人支付
 const PersonalPay: FC = () => {
   const { t } = useTranslation();
-  const onClick = useToBeImplemented();
+  const onClick = useToBeImplemented({ type: "success", text: "Chức năng dành cho các bên tích hợp phát triển..." });
 
   return (
     <Box className="m-6">
@@ -179,7 +179,7 @@ const PersonalPay: FC = () => {
 // 其他功能
 const Other: FC = () => {
   const { t } = useTranslation();
-  const onClick = useToBeImplemented();
+  const onClick = useToBeImplemented({ type: "success", text: "Chức năng dành cho các bên tích hợp phát triển..." });
 
   return (
     <Box className="m-6">
@@ -269,12 +269,12 @@ const ProfilePage: FC = () => {
   const { t } = useTranslation();
   return (
     <Page
-      className="relative flex-1 flex flex-col"
+      className="relative flex-1 flex flex-col overflow-hidden"
       style={{ backgroundColor: "var(--zmp-background-color)" }}
     >
       <HeaderProfile />
       {/* Profile List */}
-      <Box className="flex-1 overflow-auto">
+      <Box className="flex-1 overflow-y-auto custom-scrollbar">
         {/* Avatar Header */}
         <Box className="h-20 bg-[#E6ECFF] shadow-md shadow-[#f4f5f6]">
           <Box className="flex items-end justify-between border-t border-[#fff] px-6">

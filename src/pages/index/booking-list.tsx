@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { FC, Suspense } from "react";
 import { Section } from "components/section";
 import { useRecoilValue } from "recoil";

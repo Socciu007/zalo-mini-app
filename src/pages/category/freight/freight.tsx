@@ -1,18 +1,22 @@
 import React, { FC, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { Box, Header, Page } from "zmp-ui";
+import { Header, Page } from "zmp-ui";
 import { useRecoilValue } from "recoil";
 import { freightSeaState } from "state";
+import TabsComponent from "components/tabs";
 
 const FreightList: FC = () => {
   const freightSea = useRecoilValue(freightSeaState);
-  console.log('test', freightSea);
-  return <div>FreightList</div>;
-};
-
-const FreightFallback: FC = () => {
-  return <div>FreightFallback</div>;
+  const dateFreight = freightSea?.date?.map((item: any) => ({
+    label: item.time,
+    week: item.week,
+    price: 'XXX',
+    children: <div>FreightList</div>,
+    activeKey: item.time,
+  }));
+  console.log('test', dateFreight);
+  return <TabsComponent tabsData={dateFreight} />;
 };
 
 // Freight Page
@@ -22,7 +26,7 @@ const FreightDetailPage: FC = () => {
   // const freightSea = useRecoilValue(freightSeaState);
   // console.log(freightSea);
   return (
-    <Page className="flex flex-col">
+    <Page className="flex flex-col relative">
       <Header title={t(route || "")} />
       <FreightList />
     </Page>

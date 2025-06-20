@@ -59,5 +59,13 @@
   "Black Sea Line": "黑海线",
   "Caribbean Line": "加勒比海线",
   "Red Sea Line": "红海线",
-  "Searching...": "搜索中..."
+  "Searching...": "搜索中...",
+  "Calendar": "日历",
+  "MON": "周一",
+  "TUE": "周二",
+  "WED": "周三",
+  "THU": "周四",
+  "FRI": "周五",
+  "SAT": "周六",
+  "SUN": "周日"
 }

@@ -1,6 +1,8 @@
 // @ts-nocheck
+import origin from "../../../../mock/fargo/origin.json";
 import React, { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { Box, Header, Page, Text, Button, Select, Icon } from "zmp-ui";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
@@ -12,9 +14,9 @@ import {
   selectedOriginState,
   freightSeaState,
 } from "state";
-import { useRecoilValue, useRecoilState } from "recoil";
-import origin from "../../../../mock/fargo/origin.json";
+import { useToBeImplemented } from "hooks";
 import { debounce } from "lodash";
+import * as freightSeaService from "services/freight-sea";
 
 export const Banner: FC = () => {
   return (
@@ -50,14 +52,36 @@ const SearchFreight: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const selectedDestination = useRecoilValue(selectedDestinationState);
+  const [freightSea, setFreightSea] = useRecoilState(freightSeaState);
   const [selectedOrigin, setSelectedOrigin] =
     useRecoilState(selectedOriginState);
+  const notify = useToBeImplemented({
+    type: "error",
+    text: t("Please select origin or destination"),
+  });
 
-  // Handle Click Search
-  const handleClickSearch = useCallback(() => {
+  // Handle Click Search Freight
+  const handleClickSearch = useCallback(async () => {
     if (!selectedDestination || !selectedOrigin) {
+      notify();
       return;
     }
+    const response = await freightSeaService.getFreightSea(
+      selectedOrigin,
+      selectedDestination
+    );
+    setFreightSea({
+      data: response?.seaResult,
+      date:
+        response?.dateResult?.map((date: any) => ({
+          ...date,
+          label: date.time,
+        })) ||
+        response?.date?.map((date: any) => ({
+          ...date,
+          label: date.time,
+        })),
+    });
     navigate(
       `/freight/${encodeURIComponent(
         `${selectedOrigin}-${selectedDestination}`
@@ -116,18 +140,37 @@ const SearchFreight: FC = () => {
 const HistoryFreight: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [selectedOrigin, setSelectedOrigin] =
-    useRecoilState(selectedOriginState);
-  const [selectedDestination, setSelectedDestination] = useRecoilState(
-    selectedDestinationState
-  );
+  const [freightSea, setFreightSea] = useRecoilState(freightSeaState);
+  const notify = useToBeImplemented({
+    type: "error",
+    text: t("Please select origin or destination"),
+  });
 
-  // console.log(freightSea);
+  // Handle Click History Freight
   const handleClickHistory = useCallback(
-    debounce((history: string) => {
+    debounce(async (history: string) => {
       const [origin, destination] = history.split("-");
-      setSelectedOrigin(origin);
-      setSelectedDestination(destination);
+      if (!origin || !destination) {
+        notify();
+        return;
+      }
+      const response = await freightSeaService.getFreightSea(
+        origin,
+        destination
+      );
+      console.log("response", response);
+      setFreightSea({
+        data: response?.seaResult,
+        date:
+          response?.dateResult?.map((date: any) => ({
+            ...date,
+            label: date.time,
+          })) ||
+          response?.date?.map((date: any) => ({
+            ...date,
+            label: date.time,
+          })),
+      });
       navigate(`/freight/${encodeURIComponent(history)}`);
     }, 100),
     []

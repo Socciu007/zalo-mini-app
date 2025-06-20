@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useVirtualKeyboardVisible } from "hooks";
 import React, { FC, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -52,10 +53,10 @@ export const Navigation: FC = () => {
         const isActive = location.pathname === path;
         return (
           <BottomNavigation.Item
-            key={path}
             label={isRoot ? (isActive ? "" : t("Home")) : t(tabs[path].label)}
             icon={tabs[path].icon}
             activeIcon={tabs[path].activeIcon}
+            key={path}
           />
         );
       })}

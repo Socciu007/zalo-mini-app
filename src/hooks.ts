@@ -61,11 +61,18 @@ export const useHandlePayment = () => {
   }, []);
 };
 
-export function useToBeImplemented() {
+interface IToBeImplementedProps {
+  type?: "success" | "error" | "warning" | "info";
+  text?: string;
+}
+
+export function useToBeImplemented({ type, text }: IToBeImplementedProps) {
   const snackbar = useSnackbar();
   return () =>
     snackbar.openSnackbar({
-      type: "success",
-      text: "Chức năng dành cho các bên tích hợp phát triển...",
+      type: type || "success",
+      text: text || "Chức năng dành cho các bên tích hợp phát triển...",
+      position: "top",
+      duration: 1000
     });
 }

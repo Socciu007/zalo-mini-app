@@ -3,11 +3,11 @@ import { getLocation, getPhoneNumber, getUserInfo } from "zmp-sdk";
 import { wait } from "utils/async";
 import { Category as FCategory } from "types/fargo/category";
 import { Booking } from "types/fargo/booking";
+import { IFreightSea } from "types/fargo/freightSea";
 import { Destination } from "types/fargo/destination";
 import fargoCategories from "../mock/fargo/categories.json";
 import fargoBooking from "../mock/fargo/booking.json";
 import fargoDestination from "../mock/fargo/destination.json";
-import http from "services";
 
 export const userState = selector({
   key: "user",
@@ -77,30 +77,13 @@ export const selectedOriginState = atom<string | null>({
 });
 
 // Get all /client/freight/sea
-export const freightSeaState = selector({
+export const freightSeaState = atom<IFreightSea>({
   key: "freightSea",
-  get: async ({ get }) => {
-    const origin = get(selectedOriginState);
-    const destination = get(selectedDestinationState);
-    console.log('origin', origin);
-    console.log('destination', destination);
-
-    if (!origin || !destination) {
-      return [];
-    }
-
-    const response = await http.post("/client/freight/sea", {
-      "end_port": destination,
-      "page": "1",
-      "rank": "asc",
-      "size": "20gp",
-      "sort": null,
-      "start_port": origin,
-      "time": new Date().toISOString().split("T")[0],
-      "type": 2
-    });
-    console.log('response', response);
-    return response || [];
+  default: {
+    data: [],
+    date: [],
+    dateResult: [],
+    seaResult: [],
   },
 });
 
