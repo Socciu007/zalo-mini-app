@@ -103,7 +103,7 @@ const DestinationPage: FC = () => {
     []
   );
   return (
-    <Page className="flex flex-col">
+    <Page className="flex flex-col overflow-x-hidden custom-scrollbar">
       <Header title={t("Destination Search")} />
       <Box className="flex flex-col h-full">
         <Box className="p-4 transition-all ease-out flex-none">

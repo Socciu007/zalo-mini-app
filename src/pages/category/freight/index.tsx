@@ -208,7 +208,7 @@ const HistoryFreight: FC = () => {
 const FreightPage: FC = () => {
   const { t } = useTranslation();
   return (
-    <Page className="flex flex-col">
+    <Page className="flex flex-col overflow-x-hidden custom-scrollbar">
       <Header title={t("Freight")} />
       <Banner />
       <Box className="flex flex-col bg-white rounded-lg h-full">
