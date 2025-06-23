@@ -5,9 +5,12 @@ import { Category as FCategory } from "types/fargo/category";
 import { Booking } from "types/fargo/booking";
 import { IFreightSea } from "types/fargo/freightSea";
 import { Destination } from "types/fargo/destination";
+import { IUser, IUserAuth } from "types/fargo/userAuth";
 import fargoCategories from "../mock/fargo/categories.json";
 import fargoBooking from "../mock/fargo/booking.json";
 import fargoDestination from "../mock/fargo/destination.json";
+import zmp from "zmp-sdk";
+import { jwtDecode } from "jwt-decode";
 
 export const userState = selector({
   key: "user",
@@ -84,6 +87,34 @@ export const freightSeaState = atom<IFreightSea>({
     date: [],
     dateResult: [],
     seaResult: [],
+  },
+});
+
+// Trigger Login
+export const triggerLoginState = atom<number>({
+  key: "triggerLogin",
+  default: 0,
+});
+
+// Get User Auth
+export const userAuthState = selector<IUserAuth | null>({
+  key: 'userAuth',
+  get: async ({ get }) => {
+    const triggerLogin = get(triggerLoginState);
+    console.log("triggerLogin", triggerLogin);
+
+    try {
+      const token = await zmp.getStorage({ keys: ['Authorization'] });
+      if (!token?.Authorization) return null;
+
+      const user: IUser = jwtDecode(token?.Authorization);
+      if (!user) return null;
+
+      return { token: token?.Authorization, user } as IUserAuth;
+    } catch (error) {
+      console.warn('Get token error:', error);
+      return null;
+    }
   },
 });
 

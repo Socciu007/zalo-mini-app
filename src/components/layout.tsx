@@ -11,6 +11,8 @@ import ProfilePage from "pages/profile/index";
 import FreightPage from "pages/category/freight/index";
 import DestinationPage from "pages/category/freight/destination";
 import FreightDetailPage from "pages/category/freight/freight";
+import AuthLoginPage from "pages/login";
+import LoginPage from "pages/login/login";
 if (import.meta.env.DEV) {
   document.body.style.setProperty("--zaui-safe-area-inset-top", "24px");
 } else if (getSystemInfo().platform === "android") {
@@ -31,12 +33,14 @@ export const Layout: FC = () => {
       <ScrollRestoration />
       <Box className="flex-1 flex flex-col overflow-hidden">
         <Routes>
-          <Route path="/" element={<HomePage />}></Route>
-          <Route path="/chatmsg" element={<ChatMsgPage />}></Route>
-          <Route path="/profile" element={<ProfilePage />}></Route>
-          <Route path="/freight" element={<FreightPage />}></Route>
-          <Route path="/freight/destination" element={<DestinationPage />}></Route>
-          <Route path="/freight/:route" element={<FreightDetailPage />}></Route>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/auth" element={<AuthLoginPage />} />
+          <Route path="/auth/login" element={<LoginPage />} />
+          <Route path="/chatmsg" element={<ChatMsgPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/freight" element={<FreightPage />} />
+          <Route path="/freight/destination" element={<DestinationPage />} />
+          <Route path="/freight/:route" element={<FreightDetailPage />} />
         </Routes>
       </Box>
       <Navigation />

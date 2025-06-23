@@ -1,9 +1,12 @@
-import React, { FC } from "react";
-import { Box, Icon, Page, Text, Button } from "zmp-ui";
+import React, { FC, useEffect } from "react";
+import { Box, Icon, Page, Text, Button, useNavigate } from "zmp-ui";
 import { ListRenderer } from "components/list-renderer";
 import { useToBeImplemented } from "hooks";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "components/locale";
+import { triggerLoginState, userAuthState } from "state";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
+import zmp from "zmp-sdk";
 
 const HeaderProfile: FC = () => {
   return (
@@ -24,7 +27,10 @@ const HeaderProfile: FC = () => {
 // 个人信息
 const Personal: FC = () => {
   const { t } = useTranslation();
-  const onClick = useToBeImplemented({ type: "success", text: "Chức năng dành cho các bên tích hợp phát triển..." });
+  const onClick = useToBeImplemented({
+    type: "success",
+    text: "Chức năng dành cho các bên tích hợp phát triển...",
+  });
 
   return (
     <Box className="m-6 mt-2">
@@ -34,19 +40,43 @@ const Personal: FC = () => {
         isMore={true}
         items={[
           {
-            icon: <img className="w-12 h-12" src="/assets/icons/icon-tag.png" alt="tag" />,
+            icon: (
+              <img
+                className="w-12 h-12"
+                src="/assets/icons/icon-tag.png"
+                alt="tag"
+              />
+            ),
             title: "New Order",
           },
           {
-            icon: <img className="w-12 h-12" src="/assets/icons/icon-contact.png" alt="contact" />,
+            icon: (
+              <img
+                className="w-12 h-12"
+                src="/assets/icons/icon-contact.png"
+                alt="contact"
+              />
+            ),
             title: "Approved",
           },
           {
-            icon: <img className="w-12 h-12" src="assets/icons/icon-list1.png" alt="list1" />,
+            icon: (
+              <img
+                className="w-12 h-12"
+                src="assets/icons/icon-list1.png"
+                alt="list1"
+              />
+            ),
             title: "Booking",
           },
           {
-            icon: <img className="w-12 h-12" src="assets/icons/icon-list2.png" alt="list2" />,
+            icon: (
+              <img
+                className="w-12 h-12"
+                src="assets/icons/icon-list2.png"
+                alt="list2"
+              />
+            ),
             title: "Pre-shipment",
           },
         ]}
@@ -60,7 +90,10 @@ const Personal: FC = () => {
 // 企业管理
 const Company: FC = () => {
   const { t } = useTranslation();
-  const onClick = useToBeImplemented({ type: "success", text: "Chức năng dành cho các bên tích hợp phát triển..." });
+  const onClick = useToBeImplemented({
+    type: "success",
+    text: "Chức năng dành cho các bên tích hợp phát triển...",
+  });
 
   return (
     <Box className="m-6">
@@ -119,7 +152,10 @@ const Company: FC = () => {
 // 个人支付
 const PersonalPay: FC = () => {
   const { t } = useTranslation();
-  const onClick = useToBeImplemented({ type: "success", text: "Chức năng dành cho các bên tích hợp phát triển..." });
+  const onClick = useToBeImplemented({
+    type: "success",
+    text: "Chức năng dành cho các bên tích hợp phát triển...",
+  });
 
   return (
     <Box className="m-6">
@@ -179,13 +215,18 @@ const PersonalPay: FC = () => {
 // 其他功能
 const Other: FC = () => {
   const { t } = useTranslation();
-  const onClick = useToBeImplemented({ type: "success", text: "Chức năng dành cho các bên tích hợp phát triển..." });
+
+  const handleClick = (typeClick: string) => {
+    if (typeClick === "Logout") {
+      zmp.removeStorage({ keys: ["Authorization"] });
+    }
+  };
 
   return (
     <Box className="m-6">
       <ListRenderer
         title={t("Other")}
-        onClick={onClick}
+        onClick={(item) => handleClick(item.title)}
         items={[
           {
             icon: (
@@ -267,6 +308,17 @@ const Other: FC = () => {
 
 const ProfilePage: FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const userAuth = useRecoilValueLoadable(userAuthState);
+  const triggerLogin = useRecoilValue(triggerLoginState);
+  console.log("triggerLogin", triggerLogin);
+
+  useEffect(() => {
+    if (triggerLogin > 0) {
+      // TODO: Refetch userAuth
+    }
+  }, [triggerLogin]);
+
   return (
     <Page
       className="relative flex-1 flex flex-col overflow-hidden"
@@ -282,9 +334,23 @@ const ProfilePage: FC = () => {
               <Box className="w-16 h-16 rounded-full bg-[#f4f5f6] flex items-center justify-center">
                 <Icon icon="zi-user" className="text-black text-4xl" />
               </Box>
-              <Text className="text-black text-xl font-bold drop-shadow-md leading-loose">
-                {t("Login")}
-              </Text>
+              {userAuth?.contents ? (
+                <Box className="flex flex-col items-start">
+                  <Text className="text-black text-xl font-bold">
+                    {userAuth?.contents?.user?.username}
+                  </Text>
+                  <Text className="text-[#A9ADB2] text-[10px]">
+                    {userAuth?.contents?.user?.cName}
+                  </Text>
+                </Box>
+              ) : (
+                <Text
+                  onClick={() => navigate("/auth")}
+                  className="text-black text-xl font-bold drop-shadow-md leading-loose"
+                >
+                  {t("Click to login")}
+                </Text>
+              )}
             </Box>
             <Button
               variant="secondary"

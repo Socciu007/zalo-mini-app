@@ -12,7 +12,7 @@ export const getFreightSea = async (origin: string, destination: string) => {
       time: new Date().toISOString().split("T")[0],
       type: 2,
     });
-    return response;
+    return response.data;
   } catch (error) {
     return error;
   }

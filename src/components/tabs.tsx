@@ -5,7 +5,9 @@ import { Box, Text } from "zmp-ui";
 interface ITabsProps {
   label: any;
   week: any;
-  price: any;
+  price20gp: any;
+  price40gp: any;
+  price40hq: any;
   children: any;
   activeKey: number;
 }
@@ -40,7 +42,7 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData }) => {
                   : "text-#000"
               }`}
             >
-              {label(tab?.label, tab?.week, tab?.price?.price)}
+              {label(tab?.label, tab?.week, tab?.price20gp?.price)}
             </button>
           ))}
         </div>
@@ -60,114 +62,146 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData }) => {
       </div>
       {/* Tabs Content */}
       <div className="flex-1 overflow-y-auto custom-scrollbar px-6 mt-2 mb-14">
-        {tabsData?.map((tab, index) =>{
+        {tabsData?.map((tab, index) => {
+          console.log('tab', tab);
           return (
             <>
               {(activeKey === tab.activeKey || activeKey === index) && (
-                  <div className="bg-white px-4 py-2 my-3 rounded-md">
-                    <div className="grid grid-cols-12 justify-end items-center my-2">
-                      <div className="col-span-2">
-                        <div className="shipLogo">
-                          <img
-                            src={`https://www.dadaex.cn/assets/upload/carrierlogo/${tab}.png`}
-                            alt="carrier"
-                          />
-                        </div>
-                      </div>
-      
-                      <div className="col-span-10">
-                        <div className="grid grid-cols-12 justify-end items-center">
-                          <div className={`${checkShow ? "col-span-3" : "col-span-4"}`}>
-                            <div className="text-end">
-                              {tab?.price?.price < 88888 ? (
-                                "$888"
-                              ) : (
-                                <span className="text-end">
-                                  <img
-                                    src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
-                                    alt="pause"
-                                    style={{ width: "35px", height: "35px" }}
-                                    className="inline-block"
-                                  />
-                                </span>
-                              )}
-                            </div>
-                          </div>
-      
-                          <div className={`${checkShow ? "col-span-3" : "col-span-4"}`}>
-                            <div className="text-end">$888</div>
-                          </div>
-      
-                          <div className={`${checkShow ? "col-span-3" : "col-span-4"}`}>
-                            <div className="text-end">
-                              {tab?.price?.price < 88888 ? (
-                                "$888"
-                              ) : (
-                                <span className="text-end">
-                                  <img
-                                    src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
-                                    alt="pause"
-                                    style={{ width: "35px", height: "35px" }}
-                                    className="inline-block"
-                                  />
-                                </span>
-                              )}
-                            </div>
-                          </div>
-      
-                          {checkShow && (
-                            <div className="col-span-3 text-end">
-                              <img
-                                src={
-                                  true
-                                    ? "/assets/icons/icon-checked.png"
-                                    : "/assets/icons/icon-check.png"
-                                }
-                                alt="check"
-                                className="w-5 h-5 inline-block"
-                              />
-                            </div>
-                          )}
-                        </div>
+                <div className="bg-white px-4 py-2 my-3 rounded-md">
+                  <div className="grid grid-cols-12 justify-end items-center my-2">
+                    <div className="col-span-2">
+                      <div className="shipLogo">
+                        <img
+                          src={`https://www.dadaex.cn/assets/upload/carrierlogo/${tab}.png`}
+                          alt="carrier"
+                        />
                       </div>
                     </div>
-      
-                    <div className="grid grid-cols-12 gap-y-1 justify-end items-center">
-                      <div className={`${checkShow ? "col-span-6" : "col-span-8"}`}>
-                        <div className="text-truncate">
-                          <span>
-                            {tab?.price?.days === 1 ? `起运港码头:SHANGHAI` : `起运港:SHANGHAI`}
-                          </span>
+
+                    <div className="col-span-10">
+                      <div className="grid grid-cols-12 justify-end items-center">
+                        <div
+                          className={`${
+                            checkShow ? "col-span-3" : "col-span-4"
+                          }`}
+                        >
+                          <div className="text-end">
+                            {tab?.price20gp?.price < 88888 ? (
+                              "$888"
+                            ) : (
+                              <span className="text-end">
+                                <img
+                                  src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                                  alt="pause"
+                                  style={{ width: "35px", height: "35px" }}
+                                  className="inline-block"
+                                />
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      </div>
-      
-                      <div className={"col-span-4"}>
-                        <div className="text-end">
-                          <span>航线: JB</span>
+
+                        <div
+                          className={`${
+                            checkShow ? "col-span-3" : "col-span-4"
+                          }`}
+                        >
+                          {tab?.price40gp?.price < 88888 ? (
+                            <div className="text-end">$888</div>
+                          ) : (
+                            <span className="text-end">
+                              <img
+                                src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                                alt="pause"
+                                style={{ width: "35px", height: "35px" }}
+                                className="inline-block"
+                              />
+                            </span>
+                          )}
                         </div>
-                      </div>
-      
-                      <div className={`${checkShow ? "col-span-6" : "col-span-8"}`}>
-                        <div className="ortherLeft pt-2 text-truncate">
-                          <span>
-                            {tab?.price?.days === 1 ? `目的港码头:SINGAPORE` : `目的港:SINGAPORE`}
-                          </span>
+
+                        <div
+                          className={`${
+                            checkShow ? "col-span-3" : "col-span-4"
+                          }`}
+                        >
+                          <div className="text-end">
+                            {tab?.price40hq?.price < 88888 ? (
+                              "$888"
+                            ) : (
+                              <span className="text-end">
+                                <img
+                                  src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                                  alt="pause"
+                                  style={{ width: "35px", height: "35px" }}
+                                  className="inline-block"
+                                />
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      </div>
-      
-                      <div className="col-span-4">
-                        <div className="text-end">
-                          <span className="text-[#ca4234] bg-[#FFDBDB] px-1 py-0.5 rounded-t">
-                            {tab?.price?.days}天{tab?.price?.days === 1 ? "直达" : "中转"}
-                          </span>
-                        </div>
+
+                        {checkShow && (
+                          <div className="col-span-3 text-end">
+                            <img
+                              src={
+                                true
+                                  ? "/assets/icons/icon-checked.png"
+                                  : "/assets/icons/icon-check.png"
+                              }
+                              alt="check"
+                              className="w-5 h-5 inline-block"
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
-                )
-              }
+
+                  <div className="grid grid-cols-12 gap-y-1 justify-end items-center">
+                    <div
+                      className={`${checkShow ? "col-span-6" : "col-span-8"}`}
+                    >
+                      <div className="text-truncate">
+                        <span>
+                          {tab?.price20gp?.days === 1
+                            ? `起运港码头:SHANGHAI`
+                            : `起运港:SHANGHAI`}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className={"col-span-4"}>
+                      <div className="text-end">
+                        <span>航线: JB</span>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`${checkShow ? "col-span-6" : "col-span-8"}`}
+                    >
+                      <div className="ortherLeft pt-2 text-truncate">
+                        <span>
+                          {tab?.price20gp?.days === 1
+                            ? `目的港码头:SINGAPORE`
+                            : `目的港:SINGAPORE`}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="col-span-4">
+                      <div className="text-end">
+                        <span className="text-[#ca4234] bg-[#FFDBDB] px-1 py-0.5 rounded-t">
+                          {tab?.price20gp?.days}天
+                          {tab?.price20gp?.days === 1 ? "直达" : "中转"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </>
-        )})}
+          );})}
       </div>
 
       <div className="flex rounded-xl bg-[#000] text-[#E0E3E5] opacity-70 mx-6 h-14 fixed bottom-14 left-0 right-0 z-50">

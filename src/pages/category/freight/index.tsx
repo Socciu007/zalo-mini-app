@@ -55,38 +55,39 @@ const SearchFreight: FC = () => {
   const [freightSea, setFreightSea] = useRecoilState(freightSeaState);
   const [selectedOrigin, setSelectedOrigin] =
     useRecoilState(selectedOriginState);
-  const notify = useToBeImplemented({
-    type: "error",
+  const notifyWarning = useToBeImplemented({
+    type: "warning",
     text: t("Please select origin or destination"),
+  });
+  const notifyError = useToBeImplemented({
+    type: "error",
+    text: t("Freight not found"),
   });
 
   // Handle Click Search Freight
   const handleClickSearch = useCallback(async () => {
     if (!selectedDestination || !selectedOrigin) {
-      notify();
+      notifyWarning();
       return;
     }
-    const response = await freightSeaService.getFreightSea(
+    const res = await freightSeaService.getFreightSea(
       selectedOrigin,
       selectedDestination
     );
-    setFreightSea({
-      data: response?.seaResult,
-      date:
-        response?.dateResult?.map((date: any) => ({
-          ...date,
-          label: date.time,
-        })) ||
-        response?.date?.map((date: any) => ({
-          ...date,
-          label: date.time,
-        })),
-    });
-    navigate(
-      `/freight/${encodeURIComponent(
-        `${selectedOrigin}-${selectedDestination}`
-      )}`
-    );
+    if (res?.code === 0) {
+      setFreightSea({
+        data: res?.seaResult ? res?.seaResult : res?.data,
+        date: res?.dateResult ? res?.dateResult : res?.date,
+      });
+      navigate(
+        `/freight/${encodeURIComponent(
+          `${selectedOrigin}-${selectedDestination}`
+        )}`
+      );
+    } else {
+      notifyError();
+    }
+    return;
   }, [selectedDestination, selectedOrigin]);
 
   return (
@@ -141,9 +142,13 @@ const HistoryFreight: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [freightSea, setFreightSea] = useRecoilState(freightSeaState);
-  const notify = useToBeImplemented({
-    type: "error",
+  const notifyWarning = useToBeImplemented({
+    type: "warning",
     text: t("Please select origin or destination"),
+  });
+  const notifyError = useToBeImplemented({
+    type: "error",
+    text: t("Freight not found"),
   });
 
   // Handle Click History Freight
@@ -151,27 +156,19 @@ const HistoryFreight: FC = () => {
     debounce(async (history: string) => {
       const [origin, destination] = history.split("-");
       if (!origin || !destination) {
-        notify();
+        notifyWarning();
         return;
       }
-      const response = await freightSeaService.getFreightSea(
-        origin,
-        destination
-      );
-      console.log("response", response);
-      setFreightSea({
-        data: response?.seaResult,
-        date:
-          response?.dateResult?.map((date: any) => ({
-            ...date,
-            label: date.time,
-          })) ||
-          response?.date?.map((date: any) => ({
-            ...date,
-            label: date.time,
-          })),
-      });
-      navigate(`/freight/${encodeURIComponent(history)}`);
+      const res = await freightSeaService.getFreightSea(origin, destination);
+      if (res?.code === 0) {
+        setFreightSea({
+          data: res?.seaResult ? res?.seaResult : res?.data,
+          date: res?.dateResult ? res?.dateResult : res?.date,
+        });
+        navigate(`/freight/${encodeURIComponent(history)}`);
+      } else {
+        notifyError();
+      }
     }, 100),
     []
   );

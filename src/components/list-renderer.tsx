@@ -20,6 +20,7 @@ export function ListRenderer<T>({
   isMore,
 }: ListRendererProps<T>) {
   const { t } = useTranslation();
+
   return (
     <Box className="bg-background rounded-xl py-4">
       <Box className="flex items-center justify-between px-4">

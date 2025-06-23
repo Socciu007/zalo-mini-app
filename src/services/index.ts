@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { goHome } from 'utils/location'
+import zmp from 'zmp-sdk'
 
 // create instance with default config
 const http = axios.create({
@@ -12,12 +13,17 @@ const http = axios.create({
 
 // Request Interceptor
 http.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('Authorization') // or zmp.storage.local
-    if (token) {
-      config.headers.Authorization = token
+  async (config) => {
+    try {
+      const res = await zmp.getStorage({ keys: ['Authorization'] });
+      const token = res?.Authorization;
+      if (token) {
+        config.headers.Authorization = token;
+      }
+    } catch (err) {
+      console.warn('No token in storage:', err);
     }
-    return config
+    return config;
   },
   (error) => Promise.reject(error)
 )
@@ -36,7 +42,7 @@ http.interceptors.response.use(
       //   }, 1500)
       //   return Promise.reject(data?.warning)
       // }
-      return data
+      return response
     }
 
     return Promise.reject(data)

@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { MenuItem } from "types/menu";
 import { BottomNavigation, Icon } from "zmp-ui";
+import { userAuthState } from "state";
+import { useRecoilValue } from "recoil";
 
 const tabs: Record<string, MenuItem> = {
   "/": {
