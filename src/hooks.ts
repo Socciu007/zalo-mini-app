@@ -70,7 +70,7 @@ export function useToBeImplemented({ type, text }: IToBeImplementedProps) {
   const snackbar = useSnackbar();
   return () =>
     snackbar.openSnackbar({
-      type: type || "success",
+      type: type || "info",
       text: text || "Chức năng dành cho các bên tích hợp phát triển...",
       position: "top",
       duration: 1000

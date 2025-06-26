@@ -3,16 +3,16 @@ import { useTranslation } from "react-i18next";
 import { Box, Text } from "zmp-ui";
 
 interface ITabsProps {
-  label: any;
-  week: any;
-  price20gp: any;
-  price40gp: any;
-  price40hq: any;
-  children: any;
+  label?: any;
+  week?: any;
+  price20gp?: any;
+  price40gp?: any;
+  price40hq?: any;
+  children?: any;
   activeKey: number;
 }
 
-const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData }) => {
+const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData = [] }) => {
   const [activeKey, setActiveKey] = useState(0);
   const [checkShow, setCheckShow] = useState(false);
   const { t } = useTranslation();
@@ -63,11 +63,10 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData }) => {
       {/* Tabs Content */}
       <div className="flex-1 overflow-y-auto custom-scrollbar px-6 mt-2 mb-14">
         {tabsData?.map((tab, index) => {
-          console.log('tab', tab);
           return (
             <>
               {(activeKey === tab.activeKey || activeKey === index) && (
-                <div className="bg-white px-4 py-2 my-3 rounded-md">
+                <div key={index} className="bg-white px-4 py-2 my-3 rounded-md">
                   <div className="grid grid-cols-12 justify-end items-center my-2">
                     <div className="col-span-2">
                       <div className="shipLogo">
@@ -106,18 +105,20 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData }) => {
                             checkShow ? "col-span-3" : "col-span-4"
                           }`}
                         >
-                          {tab?.price40gp?.price < 88888 ? (
-                            <div className="text-end">$888</div>
-                          ) : (
-                            <span className="text-end">
-                              <img
-                                src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
-                                alt="pause"
-                                style={{ width: "35px", height: "35px" }}
-                                className="inline-block"
-                              />
-                            </span>
-                          )}
+                          <div className="text-end">
+                            {tab?.price40gp?.price < 88888 ? (
+                              <div className="text-end">$888</div>
+                            ) : (
+                              <span className="text-end">
+                                <img
+                                  src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                                  alt="pause"
+                                  style={{ width: "35px", height: "35px" }}
+                                  className="inline-block"
+                                />
+                              </span>
+                            )}
+                          </div>
                         </div>
 
                         <div
@@ -201,7 +202,8 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData }) => {
                 </div>
               )}
             </>
-          );})}
+          );
+        })}
       </div>
 
       <div className="flex rounded-xl bg-[#000] text-[#E0E3E5] opacity-70 mx-6 h-14 fixed bottom-14 left-0 right-0 z-50">

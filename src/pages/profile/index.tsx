@@ -1,11 +1,12 @@
-import React, { FC, useEffect } from "react";
-import { Box, Icon, Page, Text, Button, useNavigate } from "zmp-ui";
+import React, { FC, useEffect, useState } from "react";
+import { Box, Icon, Page, Text, Button, useNavigate, Modal } from "zmp-ui";
 import { ListRenderer } from "components/list-renderer";
 import { useToBeImplemented } from "hooks";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "components/locale";
 import { triggerLoginState, userAuthState } from "state";
-import { useRecoilValue, useRecoilValueLoadable } from "recoil";
+import { useRecoilValueLoadable, useSetRecoilState } from "recoil";
+import { IUserAuth } from "types/fargo/userAuth";
 import zmp from "zmp-sdk";
 
 const HeaderProfile: FC = () => {
@@ -213,12 +214,20 @@ const PersonalPay: FC = () => {
 };
 
 // 其他功能
-const Other: FC = () => {
+const Other: FC<{ userAuth: IUserAuth | null }> = ({ userAuth }) => {
   const { t } = useTranslation();
+  const setTriggerLogin = useSetRecoilState(triggerLoginState);
+  const navigate = useNavigate();
+  const [isShowModalLogout, setIsShowModalLogout] = useState(false);
 
   const handleClick = (typeClick: string) => {
     if (typeClick === "Logout") {
-      zmp.removeStorage({ keys: ["Authorization"] });
+      if (userAuth) {
+        zmp.removeStorage({ keys: ["Authorization"] });
+        setTriggerLogin((prev) => prev - 1);
+      } else {
+        setIsShowModalLogout(true);
+      }
     }
   };
 
@@ -302,6 +311,38 @@ const Other: FC = () => {
         renderLeft={(item) => item.icon}
         renderRight={(item) => t(item.title)}
       />
+
+      {/* Modal logout when user is not login */}
+      <Modal
+        visible={isShowModalLogout}
+        onClose={() => setIsShowModalLogout(false)}
+        description={t("Please log in first!")}
+        modalClassName="shadow-[0px_10px_24px_rgba(20,20,21,0.09)] z-50 opacity-100 modal-login"
+        actions={[
+          {
+            text: (
+              <Button
+                className="bg-[#E0E3E5] text-[#2E2E2E] rounded-[6px] justify-center"
+                variant="secondary"
+                onClick={() => setIsShowModalLogout(false)}
+              >
+                {t("Cancel")}
+              </Button>
+            ),
+          },
+          {
+            text: (
+              <Button
+                className="bg-[#3EBB6C] text-white rounded-[6px] justify-center"
+                variant="secondary"
+                onClick={() => navigate("/auth/login")}
+              >
+                {t("Login")}
+              </Button>
+            ),
+          },
+        ]}
+      />
     </Box>
   );
 };
@@ -310,14 +351,6 @@ const ProfilePage: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const userAuth = useRecoilValueLoadable(userAuthState);
-  const triggerLogin = useRecoilValue(triggerLoginState);
-  console.log("triggerLogin", triggerLogin);
-
-  useEffect(() => {
-    if (triggerLogin > 0) {
-      // TODO: Refetch userAuth
-    }
-  }, [triggerLogin]);
 
   return (
     <Page
@@ -363,7 +396,7 @@ const ProfilePage: FC = () => {
         <Personal />
         <Company />
         <PersonalPay />
-        <Other />
+        <Other userAuth={userAuth?.contents} />
       </Box>
     </Page>
   );

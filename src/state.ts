@@ -84,9 +84,7 @@ export const freightSeaState = atom<IFreightSea>({
   key: "freightSea",
   default: {
     data: [],
-    date: [],
-    dateResult: [],
-    seaResult: [],
+    date: []
   },
 });
 
@@ -100,8 +98,7 @@ export const triggerLoginState = atom<number>({
 export const userAuthState = selector<IUserAuth | null>({
   key: 'userAuth',
   get: async ({ get }) => {
-    const triggerLogin = get(triggerLoginState);
-    console.log("triggerLogin", triggerLogin);
+    get(triggerLoginState);
 
     try {
       const token = await zmp.getStorage({ keys: ['Authorization'] });

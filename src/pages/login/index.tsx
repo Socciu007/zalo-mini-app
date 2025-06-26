@@ -1,6 +1,16 @@
-import React, { FC } from "react";
+import { useToBeImplemented } from "hooks";
+import React, { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Box, Button, Checkbox, Header, Page, Text, useNavigate } from "zmp-ui";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Header,
+  Modal,
+  Page,
+  Text,
+  useNavigate,
+} from "zmp-ui";
 
 // WellCome FuanYuan
 export const WellComeFuanYuan: FC = () => {
@@ -21,6 +31,25 @@ export const WellComeFuanYuan: FC = () => {
 const AuthLoginPage: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [isAgree, setIsAgree] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(false);
+  const notifyWarning = useToBeImplemented({
+    text: t("Please accept the privacy policy first"),
+  });
+
+  // Handle navigate to login page
+  const handleNavigateToLoginPage = (type: 0 | 1) => {
+    if (!isAgree) {
+      notifyWarning();
+      return;
+    }
+    if (type === 0) {
+      setIsShowModal(true);
+    } else {
+      navigate("/auth/login");
+    }
+  };
+
   return (
     <Page
       className="relative flex-1 flex flex-col overflow-hidden"
@@ -33,6 +62,7 @@ const AuthLoginPage: FC = () => {
           <Box className="">
             <Checkbox
               value=""
+              onChange={() => setIsAgree(!isAgree)}
               children={
                 <Text className="text-base">
                   {t("I have read and agree to the")}{" "}
@@ -47,16 +77,44 @@ const AuthLoginPage: FC = () => {
               }
             />
           </Box>
-          <Button className="w-full">{t("Authorized Login")}</Button>
+          <Button
+            className="w-full"
+            onClick={() => handleNavigateToLoginPage(0)}
+          >
+            {t("Authorized Login")}
+          </Button>
           <Button
             className="w-full bg-[#C7E0FF]"
             variant="tertiary"
-            onClick={() => navigate("/auth/login")}
+            onClick={() => handleNavigateToLoginPage(1)}
           >
             {t("Phone Number Login")}
           </Button>
         </Box>
       </Box>
+
+      {/* Modal */}
+      <Modal
+        actions={[
+          {
+            text: (
+              <Button
+                className="bg-[#3EBB6C] text-white rounded-[6px] justify-center"
+                variant="secondary"
+                onClick={() => setIsShowModal(false)}
+              >
+                {t("Confirm")}
+              </Button>
+            ),
+          },
+        ]}
+        description={t(
+          "Phone number verification is required, please complete the operation on your phone."
+        )}
+        visible={isShowModal}
+        // onClose={() => setIsShowModal(false)}
+        modalClassName="shadow-[0px_10px_24px_rgba(20,20,21,0.09)] z-50 opacity-100 modal-login"
+      />
     </Page>
   );
 };

@@ -1,6 +1,4 @@
 export interface IFreightSea {
-  data: any[];
-  date: any[];
-  dateResult: any[];
-  seaResult: any[];
+  data: any[] | null;
+  date: any[] | null;
 }

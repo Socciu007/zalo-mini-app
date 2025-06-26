@@ -35,12 +35,11 @@ http.interceptors.response.use(
 
     if (status === 200) {
       // if (data?.warning) {
-      //   alert(data?.warning)
       //   // redirect login
       //   setTimeout(() => {
       //     goHome() // redirect to home
       //   }, 1500)
-      //   return Promise.reject(data?.warning)
+      //   return Promise.reject(data)
       // }
       return response
     }

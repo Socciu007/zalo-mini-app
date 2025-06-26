@@ -149,3 +149,17 @@ body {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
+
+.modal-login {
+  .zaui-modal-content-main {
+    text-align: center;
+    padding-bottom: 0;
+  }
+  .zaui-modal-content-actions {
+    justify-content: center;
+    padding: 40px 0;
+  }
+  .zaui-modal-content-actions::before {
+    display: none;
+  }
+}

@@ -16,6 +16,7 @@ import zmp from "zmp-sdk";
 import * as userService from "services/user";
 import { triggerLoginState } from "state";
 import { useSetRecoilState } from "recoil";
+import { isValidPhoneNumber } from "utils";
 
 interface UserLoginType {
   phone: string;
@@ -34,6 +35,7 @@ const LoginPage: FC = () => {
     code: "",
     password: "",
   });
+  // Notify
   const notifyWarning = useToBeImplemented({
     type: "warning",
     text: t("Please enter phone/username or password"),
@@ -46,7 +48,18 @@ const LoginPage: FC = () => {
     type: "success",
     text: t("Login successful"),
   });
-  console.log("setTriggerLogin", setTriggerLogin);
+  const notifyPhoneError = useToBeImplemented({
+    type: "error",
+    text: t("Invalid phone number format"),
+  });
+  const notifyPhoneError1 = useToBeImplemented({
+    type: "error",
+    text: t("Verification code is required"),
+  });
+  const notifyPhoneError2 = useToBeImplemented({
+    type: "error",
+    text: t("Enter the 4-digit code"),
+  });
 
   // Handle select type login
   const handleSelectTypeLogin = (type: "phone" | "account") => {
@@ -67,7 +80,47 @@ const LoginPage: FC = () => {
         return;
       }
 
+      // Login by account
       const res = await userService.login(userLogin);
+      if (res?.message == "success" || res?.message == "成功") {
+        notifySuccess();
+        zmp.setStorage({
+          data: {
+            Authorization: res?.token,
+          },
+          success: () => {
+            setTriggerLogin((prev) => prev + 1);
+            setUserLogin({ phone: "", code: "", password: "" });
+            setTypeLogin("phone");
+            navigate("/");
+          },
+          fail: () => {
+            notifyError();
+            setUserLogin({ phone: "", code: "", password: "" });
+          },
+        });
+      } else {
+        notifyError();
+        setUserLogin({ phone: "", code: "", password: "" });
+      }
+      return;
+    }
+    if (type === "phone") {
+      if (!isValidPhoneNumber(userLogin?.phone)) {
+        notifyPhoneError();
+        return;
+      }
+      if (userLogin?.code === "") {
+        notifyPhoneError1();
+        return;
+      }
+      if (userLogin?.code?.length !== 4) {
+        notifyPhoneError2();
+        return;
+      }
+
+      // Login by phone
+      const res = await userService.loginByPhone(userLogin);
       if (res?.message == "success" || res?.message == "成功") {
         notifySuccess();
         zmp.setStorage({
@@ -93,12 +146,26 @@ const LoginPage: FC = () => {
     }
   };
 
+  // Handle get code
+  const handleGetCode = async () => {
+    if (!isValidPhoneNumber(userLogin?.phone)) {
+      notifyPhoneError();
+      return;
+    }
+    const res = await userService.getCodeByPhone(userLogin?.phone);
+    if (res?.message == "success" || res?.message == "成功") {
+      notifySuccess();
+    } else {
+      notifyError();
+    }
+  };
+
   return (
     <Page
       className="relative flex-1 flex flex-col overflow-hidden"
       style={{ backgroundColor: "var(--zmp-background-color)" }}
     >
-      <Header title={t("Authorize Login")} />
+      <Header title={t("Login")} />
       <Box className="flex flex-col items-center justify-center mx-6">
         <WellComeFuanYuan />
         <Box className="mt-24 w-full flex flex-col items-center justify-center gap-4">
@@ -115,7 +182,7 @@ const LoginPage: FC = () => {
               }
               suffix={
                 typeLogin === "phone" ? (
-                  <Text className="text-[#A7AABB] w-[80px]">
+                  <Text className="text-[#A7AABB] w-[80px]" onClick={() => handleGetCode()}>
                     {t("Get code")}
                   </Text>
                 ) : (
