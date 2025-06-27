@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation } from "react-router";
 import { Box } from "zmp-ui";
 import { Navigation } from "./navigation";
 import { getSystemInfo } from "zmp-sdk";
 import { ScrollRestoration } from "./scroll-restoration";
-import { useHandlePayment } from "hooks";
+// import { useHandlePayment } from "hooks";
 import HomePage from "pages/index";
 import ChatMsgPage from "pages/chatmsg";
 import ProfilePage from "pages/profile/index";
@@ -26,7 +26,9 @@ if (import.meta.env.DEV) {
 }
 
 export const Layout: FC = () => {
-  useHandlePayment();
+  const location = useLocation();
+  console.log(location.pathname);
+  // useHandlePayment();
 
   return (
     <Box flex flexDirection="column" className="h-screen">
@@ -43,7 +45,7 @@ export const Layout: FC = () => {
           <Route path="/freight/:route" element={<FreightDetailPage />} />
         </Routes>
       </Box>
-      <Navigation />
+      {!location.pathname.includes("/freight/") && <Navigation />}
     </Box>
   );
 };

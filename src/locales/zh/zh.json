@@ -93,5 +93,8 @@
   "Phone number verification is required, please complete the operation on your phone.": "需要验证手机号,请到手机上进行操作",
   "Confirm": "确定",
   "Cancel": "取消",
-  "Please log in first!": "请先登录"
+  "Please log in first!": "请先登录",
+  "Filter": "筛选",
+  "Export": "数据导出",
+  "Cancel Export": "取消导出"
 }

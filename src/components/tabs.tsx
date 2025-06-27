@@ -64,14 +64,15 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData = [] }) => {
       <div className="flex-1 overflow-y-auto custom-scrollbar px-6 mt-2 mb-14">
         {tabsData?.map((tab, index) => {
           return (
-            <>
+            <div key={index}>
               {(activeKey === tab.activeKey || activeKey === index) && (
                 <div key={index} className="bg-white px-4 py-2 my-3 rounded-md">
                   <div className="grid grid-cols-12 justify-end items-center my-2">
                     <div className="col-span-2">
                       <div className="shipLogo">
                         <img
-                          src={`https://www.dadaex.cn/assets/upload/carrierlogo/${tab}.png`}
+                          className="w-[86px] h-[70px] object-contain"
+                          src={`https://www.dadaex.cn/assets/upload/carrierlogo/${tab?.price20gp?.carrier}.png`}
                           alt="carrier"
                         />
                       </div>
@@ -85,8 +86,10 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData = [] }) => {
                           }`}
                         >
                           <div className="text-end">
-                            {tab?.price20gp?.price < 88888 ? (
-                              "$888"
+                            {tab?.price20gp?.price ? (
+                              <div className="text-end">
+                                ${tab?.price20gp?.price}
+                              </div>
                             ) : (
                               <span className="text-end">
                                 <img
@@ -106,8 +109,10 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData = [] }) => {
                           }`}
                         >
                           <div className="text-end">
-                            {tab?.price40gp?.price < 88888 ? (
-                              <div className="text-end">$888</div>
+                            {tab?.price40gp?.price ? (
+                              <div className="text-end">
+                                ${tab?.price40gp?.price}
+                              </div>
                             ) : (
                               <span className="text-end">
                                 <img
@@ -127,8 +132,10 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData = [] }) => {
                           }`}
                         >
                           <div className="text-end">
-                            {tab?.price40hq?.price < 88888 ? (
-                              "$888"
+                            {tab?.price40hq?.price ? (
+                              <div className="text-end">
+                                ${tab?.price40hq?.price}
+                              </div>
                             ) : (
                               <span className="text-end">
                                 <img
@@ -201,12 +208,12 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData = [] }) => {
                   </div>
                 </div>
               )}
-            </>
+            </div>
           );
         })}
       </div>
 
-      <div className="flex rounded-xl bg-[#000] text-[#E0E3E5] opacity-70 mx-6 h-14 fixed bottom-14 left-0 right-0 z-50">
+      <div className="flex rounded-xl bg-[#000] text-[#E0E3E5] opacity-70 mx-6 h-14 fixed bottom-4 left-0 right-0 z-50">
         {/* 筛选按钮 */}
         <div
           className="flex-1 flex justify-center items-center border-r border-white gap-2 my-3"
@@ -217,7 +224,7 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData = [] }) => {
             alt="filter"
             className="w-5 h-5 mb-1"
           />
-          <span>筛选</span>
+          <span>{t("Filter")}</span>
         </div>
 
         {/* 导出数据 */}
@@ -231,7 +238,7 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData = [] }) => {
               alt="export"
               className="w-5 h-5 mb-1"
             />
-            <span>数据导出</span>
+            <span>{t("Export")}</span>
           </div>
         ) : (
           <div
@@ -243,7 +250,7 @@ const TabsComponent: FC<{ tabsData: ITabsProps[] }> = ({ tabsData = [] }) => {
               alt="cancel-export"
               className="w-5 h-5 mb-1 opacity-70"
             />
-            <span>取消导出</span>
+            <span>{t("Cancel Export")}</span>
           </div>
         )}
       </div>
