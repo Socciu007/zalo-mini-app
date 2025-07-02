@@ -386,6 +386,7 @@ const ProfilePage: FC = () => {
               )}
             </Box>
             <Button
+              onClick={() => navigate("/profile/edit")}
               variant="secondary"
               className="text-[#0019FF] text-lg bg-white bg-opacity-30 py-2 px-0 h-fit w-fit"
             >

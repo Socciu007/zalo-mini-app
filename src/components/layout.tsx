@@ -11,6 +11,7 @@ import ProfilePage from "pages/profile/index";
 import FreightPage from "pages/category/freight/index";
 import DestinationPage from "pages/category/freight/destination";
 import FreightDetailPage from "pages/category/freight/freight";
+import EditProfile from "pages/profile/edit";
 import AuthLoginPage from "pages/login";
 import LoginPage from "pages/login/login";
 if (import.meta.env.DEV) {
@@ -40,6 +41,7 @@ export const Layout: FC = () => {
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/chatmsg" element={<ChatMsgPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/freight" element={<FreightPage />} />
           <Route path="/freight/destination" element={<DestinationPage />} />
           <Route path="/freight/:route" element={<FreightDetailPage />} />

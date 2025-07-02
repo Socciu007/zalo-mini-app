@@ -96,5 +96,12 @@
   "Please log in first!": "请先登录",
   "Filter": "筛选",
   "Export": "数据导出",
-  "Cancel Export": "取消导出"
+  "Cancel Export": "取消导出",
+  "Conditions": "条件筛选",
+  "Clear": "清空",
+  "Fastest": "最快",
+  "Direct": "直达",
+  "Carrier": "船公司筛选",
+  "Reset": "重置",
+  "Edit Profile": "编辑资料"
 }
