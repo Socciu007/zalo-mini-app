@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Box, Sheet, Text } from "zmp-ui";
+import { Box, Calendar, Icon, Sheet, Text, Button } from "zmp-ui";
 
 interface ITabsProps {
   // label?: any;
@@ -18,6 +18,8 @@ const TabsComponent: FC<{ tabsData: ITabsProps }> = ({ tabsData }) => {
   const [activeKey, setActiveKey] = useState(0);
   const [checkShow, setCheckShow] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
+  const [isCalendar, setIsCalendar] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const { t } = useTranslation();
   console.log("tabsData", tabsData);
 
@@ -30,6 +32,13 @@ const TabsComponent: FC<{ tabsData: ITabsProps }> = ({ tabsData }) => {
       </Box>
     );
   };
+
+  // Handle date change
+  const handleDateChange = (date: Date) => {
+    console.log("date", date);
+    setSelectedDate(date);
+  };
+
   return (
     <Box className="relative flex flex-col flex-1 overflow-hidden">
       {/* Tabs Header */}
@@ -53,7 +62,7 @@ const TabsComponent: FC<{ tabsData: ITabsProps }> = ({ tabsData }) => {
         </div>
         {/* Calendar Button */}
         <div
-          onClick={() => {}}
+          onClick={() => setIsCalendar(true)}
           className="flex py-1 gap-1 flex-col items-center justify-center w-60 cursor-pointer border-s ps-2 border-[#A9ADB2]"
         >
           <img
@@ -66,7 +75,7 @@ const TabsComponent: FC<{ tabsData: ITabsProps }> = ({ tabsData }) => {
         </div>
       </div>
       {/* Tabs Content */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar px-6 mt-2 mb-14">
+      <div className={`flex-1 overflow-y-auto custom-scrollbar px-6 mt-2 mb-14 ${isCalendar ? "opacity-100" : ""}`}>
         {tabsData?.date?.map((tab, index) => {
           return (
             <div key={index}>
@@ -337,6 +346,40 @@ const TabsComponent: FC<{ tabsData: ITabsProps }> = ({ tabsData }) => {
           </div>
         </Box>
       </Sheet>
+
+      {/* Calendar */}
+      {isCalendar && (
+        <Box className="fixed bottom-0 left-0 right-0 z-50 bg-white py-5 px-2 text-xl rounded-t-2xl">
+          <Calendar
+            locale={t("en")}
+            className=""
+            headerRender={(title) => {
+              return (
+                <Box className="relative">
+                  <Text className="text-2xl flex-1 text-center">
+                    {t("Select Date")}
+                  </Text>
+                  <Box
+                    onClick={() => setIsCalendar(false)}
+                    className="absolute right-4 top-1"
+                  >
+                    <Icon icon="zi-close" className="w-5 h-5" />
+                  </Box>
+                  <Text className="text-xl font-bold text-center py-2">
+                    {title}
+                  </Text>
+                </Box>
+              );
+            }}
+            onSelect={handleDateChange}
+            value={selectedDate}
+          />
+          <Box className="flex flex-col justify-between mt-6">
+            <Text className="text-xl text-center py-2">{selectedDate?.toLocaleDateString()?.split('/')?.join('-')}</Text>
+            <Button className="text-2xl py-2 w-full">{t("Confirm")}</Button>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };

@@ -2,15 +2,14 @@ import { atom, selector } from "recoil";
 import { getLocation, getPhoneNumber, getUserInfo } from "zmp-sdk";
 import { wait } from "utils/async";
 import { Category as FCategory } from "types/fargo/category";
-import { Booking } from "types/fargo/booking";
 import { IFreightSea } from "types/fargo/freightSea";
 import { Destination } from "types/fargo/destination";
-import { IUser, IUserAuth } from "types/fargo/userAuth";
+import { IUser, IUserAuth, IInfoUser } from "types/fargo/userAuth";
 import fargoCategories from "../mock/fargo/categories.json";
-import fargoBooking from "../mock/fargo/booking.json";
 import fargoDestination from "../mock/fargo/destination.json";
 import zmp from "zmp-sdk";
 import { jwtDecode } from "jwt-decode";
+import { getUserInfoApp } from "services/user";
 
 export const userState = selector({
   key: "user",
@@ -24,12 +23,6 @@ export const userState = selector({
 export const fargoCategoriesState = selector<FCategory[]>({
   key: "fargoCategories",
   get: () => fargoCategories as FCategory[],
-});
-
-// Get fargo booking
-export const fargoBookingState = selector<Booking[]>({
-  key: "fargoBooking",
-  get: () => fargoBooking as Booking[],
 });
 
 // Get fargo destination
@@ -110,6 +103,24 @@ export const userAuthState = selector<IUserAuth | null>({
       return { token: token?.Authorization, user } as IUserAuth;
     } catch (error) {
       console.warn('Get token error:', error);
+      return null;
+    }
+  },
+});
+
+// Get user info
+export const userInfoState = selector<IInfoUser | null>({
+  key: "userInfo",
+  get: async ({ get }) => {
+    const userAuth = get(userAuthState);
+    console.log('userAuth', userAuth);
+    if (!userAuth) return null;
+
+    const res = await getUserInfoApp(userAuth?.user?.userId || 0);
+    console.log('res', res);
+    if (res.message === "success") {
+      return res.user;
+    } else {
       return null;
     }
   },

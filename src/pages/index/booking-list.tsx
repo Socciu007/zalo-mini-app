@@ -4,13 +4,11 @@ import { Section } from "components/section";
 import { useRecoilValue } from "recoil";
 import { Box } from "zmp-ui";
 import { BookingItem } from "components/booking/item";
-import { fargoBookingState } from "state";
 import { useTranslation } from "react-i18next";
 import * as fargoSeaService from "services/freight-sea";
 
 export const BookingListContent: FC = () => {
   const { t } = useTranslation();
-  const fargoBooking = useRecoilValue(fargoBookingState);
   const [fargoList, setFargoList] = useState<any[]>([]);
 
   const fetchFargoList = async () => {

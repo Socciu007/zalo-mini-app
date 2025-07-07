@@ -20,6 +20,16 @@ export const loginByPhone = async (data: { phone: string; code: string }) => {
   }
 };
 
+// Get user info
+export const getUserInfoApp = async (id: number) => {
+  try {
+    const response = await http.get(`/user/${id}`);
+    return response.data;
+  } catch (error: any) {
+    return false;
+  }
+};
+
 // Get code by phone
 export const getCodeByPhone = async (phone: string) => {
   try {

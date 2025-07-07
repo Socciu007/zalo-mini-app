@@ -103,5 +103,17 @@
   "Direct": "直达",
   "Carrier": "船公司筛选",
   "Reset": "重置",
-  "Edit Profile": "编辑资料"
+  "Edit Profile": "编辑资料",
+  "Email": "邮箱",
+  "Phone": "手机",
+  "Address": "地址",
+  "Wechat": "微信",
+  "QQ": "QQ",
+  "Company": "公司名称",
+  "Username": "用户名",
+  "Please enter": "请输入",
+  "Modify": "修改",
+  "Submit": "提交",
+  "Select Date": "选择日期",
+  "en": "zh"
 }

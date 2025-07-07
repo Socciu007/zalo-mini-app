@@ -4,7 +4,8 @@ import zmp from 'zmp-sdk'
 
 // create instance with default config
 const http = axios.create({
-  baseURL: 'https://www.dadaex.cn/api',
+  // baseURL: 'https://www.dadaex.cn/api',
+  baseURL: 'https://hl3.dadaex.cn/api',
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json'
