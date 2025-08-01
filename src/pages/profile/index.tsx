@@ -91,16 +91,37 @@ const Personal: FC = () => {
 // 企业管理
 const Company: FC = () => {
   const { t } = useTranslation();
-  const onClick = useToBeImplemented({
-    type: "success",
-    text: "Chức năng dành cho các bên tích hợp phát triển...",
-  });
+  const navigate = useNavigate();
+  const [isShowModalCompany, setIsShowModalCompany] = useState(false);
+
+  const userAuth = useRecoilValueLoadable(userAuthState);
+  console.log("userAuth", userAuth?.contents?.user?.isAdmin);
+
+  // Handle click item 
+  const handleClick = (typeClick: string) => {
+    if (typeClick === "Manage" || typeClick === "Join" || typeClick === "Invite") {
+      if (userAuth?.contents?.user?.isAdmin) {
+        navigate("/profile/verify");
+      } else {
+        setIsShowModalCompany(true);
+      }
+    }
+  };
+
+  //Handle login when user is not login
+  const handleLogin = () => {
+    if (userAuth?.contents) {
+      setIsShowModalCompany(false);
+    } else {
+      navigate("/auth/login");
+    }
+  };
 
   return (
     <Box className="m-6">
       <ListRenderer
         title={t("Enterprise Management")}
-        onClick={onClick}
+        onClick={(item) => handleClick(item?.title)}
         items={[
           {
             icon: (
@@ -145,6 +166,38 @@ const Company: FC = () => {
         ]}
         renderLeft={(item) => item.icon}
         renderRight={(item) => t(item.title)}
+      />
+
+      {/* Modal logout when user is not login */}
+      <Modal
+        visible={isShowModalCompany}
+        onClose={() => setIsShowModalCompany(false)}
+        description={t("Please log in first!")}
+        modalClassName="shadow-[0px_10px_24px_rgba(20,20,21,0.09)] z-50 opacity-100 modal-login"
+        actions={[
+          {
+            text: (
+              <Button
+                className="bg-[#E0E3E5] text-[#2E2E2E] rounded-[6px] justify-center"
+                variant="secondary"
+                onClick={() => setIsShowModalCompany(false)}
+              >
+                {t("Cancel")}
+              </Button>
+            ),
+          },
+          {
+            text: (
+              <Button
+                className="bg-[#3EBB6C] text-white rounded-[6px] justify-center"
+                variant="secondary"
+                onClick={handleLogin}
+              >
+                {t("Login")}
+              </Button>
+            ),
+          },
+        ]}
       />
     </Box>
   );
