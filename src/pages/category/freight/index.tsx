@@ -74,10 +74,14 @@ const SearchFreight: FC = () => {
       selectedOrigin,
       selectedDestination
     );
+    console.log('res', res);
     if (res?.code === 0 || res?.dateResult) {
       setFreightSea({
         data: res?.data || res?.seaResult,
         date: res?.date || res?.dateResult,
+        surcharge: res?.surcharge,
+        surchargeSpecial: res?.surchargeSpecial,
+        carrier: res?.carrier,
       });
       navigate(
         `/freight/${encodeURIComponent(
@@ -162,8 +166,11 @@ const HistoryFreight: FC = () => {
       const res = await freightSeaService.getFreightSea(origin, destination);
       if (res?.code === 0 || res?.dateResult) {
         setFreightSea({
-          data: res?.data || res?.seaResult,
+          data: res?.data || null,
           date: res?.date || res?.dateResult,
+          surcharge: res?.surcharge,
+          surchargeSpecial: res?.surchargeSpecial,
+          carrier: res?.carrier,
         });
         navigate(`/freight/${encodeURIComponent(history)}`);
       } else {

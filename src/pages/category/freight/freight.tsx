@@ -8,16 +8,6 @@ import TabsComponent from "components/tabs";
 
 const FreightList: FC = () => {
   const freightSea = useRecoilValue(freightSeaState);
-  console.log("freightSea", freightSea);
-  // const dateFreight = freightSea?.date?.map((item: any) => ({
-  //   label: item?.time,
-  //   week: item?.week,
-  //   price20gp: item?.["20gp"] || null,
-  //   price40gp: item?.["40gp"] || null,
-  //   price40hq: item?.["40hq"] || null,
-  //   children: <div>FreightList</div>,
-  //   activeKey: item?.time,
-  // }));
   return <TabsComponent tabsData={freightSea} />;
 };
 

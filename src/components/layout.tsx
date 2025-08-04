@@ -28,8 +28,6 @@ if (import.meta.env.DEV) {
 
 export const Layout: FC = () => {
   const location = useLocation();
-  console.log(location.pathname);
-  // useHandlePayment();
 
   return (
     <Box flex flexDirection="column" className="h-screen">

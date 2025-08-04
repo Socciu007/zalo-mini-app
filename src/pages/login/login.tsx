@@ -17,6 +17,7 @@ import * as userService from "services/user";
 import { triggerLoginState } from "state";
 import { useSetRecoilState } from "recoil";
 import { isValidPhoneNumber } from "utils";
+import { getExpiryDate } from "utils/date";
 
 interface UserLoginType {
   phone: string;
@@ -84,9 +85,11 @@ const LoginPage: FC = () => {
       const res = await userService.login(userLogin);
       if (res?.message == "success" || res?.message == "成功") {
         notifySuccess();
+        const expiryDate = getExpiryDate();
         zmp.setStorage({
           data: {
             Authorization: res?.token,
+            expiryDate: expiryDate,
           },
           success: () => {
             setTriggerLogin((prev) => prev + 1);
@@ -123,9 +126,11 @@ const LoginPage: FC = () => {
       const res = await userService.loginByPhone(userLogin);
       if (res?.message == "success" || res?.message == "成功") {
         notifySuccess();
+        const expiryDate = getExpiryDate();
         zmp.setStorage({
           data: {
             Authorization: res?.token,
+            expiryDate: expiryDate,
           },
           success: () => {
             setTriggerLogin((prev) => prev + 1);
@@ -182,7 +187,10 @@ const LoginPage: FC = () => {
               }
               suffix={
                 typeLogin === "phone" ? (
-                  <Text className="text-[#A7AABB] w-[80px]" onClick={() => handleGetCode()}>
+                  <Text
+                    className="text-[#A7AABB] w-[80px]"
+                    onClick={() => handleGetCode()}
+                  >
                     {t("Get code")}
                   </Text>
                 ) : (

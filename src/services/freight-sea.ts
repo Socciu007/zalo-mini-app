@@ -3,15 +3,16 @@ import http from "services";
 // Get detail freight sea with origin and destination
 export const getFreightSea = async (origin: string, destination: string) => {
   try {
+    const date = new Date();
+    date.setDate(date.getDate() + 3);
     const response = await http.post("/client/freight/sea", {
-      end_port: destination,
-      page: "1",
-      rank: "asc",
-      size: "20gp",
-      sort: null,
       start_port: origin,
-      time: new Date().toISOString().split("T")[0],
-      type: 2,
+      end_port: destination,
+      page: 1,
+      rank: "asc",
+      sizeset: "20GP/40GP/40HQ",
+      size: "20gpSell",
+      time: date.toISOString().split("T")[0]
     });
     return response.data;
   } catch (error: any) {

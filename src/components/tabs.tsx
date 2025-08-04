@@ -1,25 +1,16 @@
 import React, { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Box, Calendar, Icon, Sheet, Text, Button } from "zmp-ui";
+import { IFreightSea } from "types/fargo/freightSea";
 
-interface ITabsProps {
-  // label?: any;
-  // week?: any;
-  // price20gp?: any;
-  // price40gp?: any;
-  // price40hq?: any;
-  // children?: any;
-  // activeKey: number;
-  data: any[];
-  date: any[];
-}
-
-const TabsComponent: FC<{ tabsData: ITabsProps }> = ({ tabsData }) => {
+const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
   const [activeKey, setActiveKey] = useState(0);
   const [checkShow, setCheckShow] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
   const [isCalendar, setIsCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedCarrier, setSelectedCarrier] = useState<string[]>([]);
+  const [selectedCondition, setSelectedCondition] = useState<string>('');
   const { t } = useTranslation();
   console.log("tabsData", tabsData);
 
@@ -37,6 +28,15 @@ const TabsComponent: FC<{ tabsData: ITabsProps }> = ({ tabsData }) => {
   const handleDateChange = (date: Date) => {
     console.log("date", date);
     setSelectedDate(date);
+  };
+
+  // Handle carrier click
+  const handleCarrierClick = (carrier: string) => {
+    if (selectedCarrier?.find((item) => item === carrier)) {
+      setSelectedCarrier(selectedCarrier.filter((item) => item !== carrier));
+    } else {
+      setSelectedCarrier([...selectedCarrier, carrier]);
+    }
   };
 
   return (
@@ -75,152 +75,149 @@ const TabsComponent: FC<{ tabsData: ITabsProps }> = ({ tabsData }) => {
         </div>
       </div>
       {/* Tabs Content */}
-      <div className={`flex-1 overflow-y-auto custom-scrollbar px-6 mt-2 mb-14 ${isCalendar ? "opacity-100" : ""}`}>
-        {tabsData?.date?.map((tab, index) => {
+      <div
+        className={`flex-1 overflow-y-auto custom-scrollbar px-6 mt-2 mb-14 ${
+          isCalendar ? "opacity-100" : ""
+        }`}
+      >
+        {tabsData && tabsData?.data?.map((tab, index) => {
           return (
             <div key={index}>
-              {(activeKey === tab?.time || activeKey === index) && (
-                <div key={index} className="bg-white px-4 py-2 my-3 rounded-md">
-                  <div className="grid grid-cols-12 justify-end items-center my-2">
-                    <div className="col-span-2">
-                      <div className="shipLogo">
-                        <img
-                          className="w-[86px] h-[70px] object-contain"
-                          src={`https://www.dadaex.cn/assets/upload/carrierlogo/${tab?.["20gp"]?.carrier}.png`}
-                          alt="carrier"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="col-span-10">
-                      <div className="grid grid-cols-12 justify-end items-center">
-                        <div
-                          className={`${
-                            checkShow ? "col-span-3" : "col-span-4"
-                          }`}
-                        >
-                          <div className="text-end">
-                            {tab?.["20gp"]?.price ? (
-                              <div className="text-end">
-                                ${tab?.["20gp"]?.price}
-                              </div>
-                            ) : (
-                              <span className="text-end">
-                                <img
-                                  src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
-                                  alt="pause"
-                                  style={{ width: "35px", height: "35px" }}
-                                  className="inline-block"
-                                />
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        <div
-                          className={`${
-                            checkShow ? "col-span-3" : "col-span-4"
-                          }`}
-                        >
-                          <div className="text-end">
-                            {tab?.["40gp"]?.price ? (
-                              <div className="text-end">
-                                ${tab?.["40gp"]?.price}
-                              </div>
-                            ) : (
-                              <span className="text-end">
-                                <img
-                                  src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
-                                  alt="pause"
-                                  style={{ width: "35px", height: "35px" }}
-                                  className="inline-block"
-                                />
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        <div
-                          className={`${
-                            checkShow ? "col-span-3" : "col-span-4"
-                          }`}
-                        >
-                          <div className="text-end">
-                            {tab?.["40hq"]?.price ? (
-                              <div className="text-end">
-                                ${tab?.["40hq"]?.price}
-                              </div>
-                            ) : (
-                              <span className="text-end">
-                                <img
-                                  src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
-                                  alt="pause"
-                                  style={{ width: "35px", height: "35px" }}
-                                  className="inline-block"
-                                />
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        {checkShow && (
-                          <div className="col-span-3 text-end">
-                            <img
-                              src={
-                                true
-                                  ? "/assets/icons/icon-checked.png"
-                                  : "/assets/icons/icon-check.png"
-                              }
-                              alt="check"
-                              className="w-5 h-5 inline-block"
-                            />
-                          </div>
-                        )}
-                      </div>
+              {(selectedCarrier?.find((item) => item === tab?.carrier)) && (
+              <div key={index} className="bg-white px-4 py-2 my-3 rounded-md">
+                <div className="grid grid-cols-12 justify-end items-center my-2">
+                  <div className="col-span-2">
+                    <div className="shipLogo">
+                      <img
+                        className="w-[86px] h-[70px] object-contain"
+                        src={`https://www.dadaex.cn/assets/upload/carrierlogo/${tab?.carrier}.png`}
+                        alt="carrier"
+                      />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-12 gap-y-1 justify-end items-center">
-                    <div
-                      className={`${checkShow ? "col-span-6" : "col-span-8"}`}
-                    >
-                      <div className="text-truncate">
-                        <span>
-                          {tab?.price20gp?.days === 1
-                            ? `起运港码头:SHANGHAI`
-                            : `起运港:SHANGHAI`}
-                        </span>
+                  {/* Price */}
+                  <div className="col-span-10">
+                    <div className="grid grid-cols-12 justify-end items-center">
+                      <div
+                        className={`${checkShow ? "col-span-3" : "col-span-4"}`}
+                      >
+                        <div className="text-end">
+                          {parseInt(tab?.sell_20gp?.split(".")[0], 10) <
+                          80000 ? (
+                            <div className="text-end">
+                              ${parseInt(tab?.sell_20gp?.split(".")[0], 10)}
+                            </div>
+                          ) : (
+                            <span className="text-end">
+                              <img
+                                src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                                alt="pause"
+                                style={{ width: "35px", height: "35px" }}
+                                className="inline-block"
+                              />
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
 
-                    <div className={"col-span-4"}>
-                      <div className="text-end">
-                        <span>航线: JB</span>
+                      <div
+                        className={`${checkShow ? "col-span-3" : "col-span-4"}`}
+                      >
+                        <div className="text-end">
+                          {parseInt(tab?.sell_40gp?.split(".")[0], 10) <
+                          80000 ? (
+                            <div className="text-end">
+                              ${parseInt(tab?.sell_40gp?.split(".")[0], 10)}
+                            </div>
+                          ) : (
+                            <span className="text-end">
+                              <img
+                                src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                                alt="pause"
+                                style={{ width: "35px", height: "35px" }}
+                                className="inline-block"
+                              />
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
 
-                    <div
-                      className={`${checkShow ? "col-span-6" : "col-span-8"}`}
-                    >
-                      <div className="ortherLeft pt-2 text-truncate">
-                        <span>
-                          {tab?.price20gp?.days === 1
-                            ? `目的港码头:SINGAPORE`
-                            : `目的港:SINGAPORE`}
-                        </span>
+                      <div
+                        className={`${checkShow ? "col-span-3" : "col-span-4"}`}
+                      >
+                        <div className="text-end">
+                          {parseInt(tab?.sell_40hq?.split(".")[0], 10) <
+                          80000 ? (
+                            <div className="text-end">
+                              ${parseInt(tab?.sell_40hq?.split(".")[0], 10)}
+                            </div>
+                          ) : (
+                            <span className="text-end">
+                              <img
+                                src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                                alt="pause"
+                                style={{ width: "35px", height: "35px" }}
+                                className="inline-block"
+                              />
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="col-span-4">
-                      <div className="text-end">
-                        <span className="text-[#ca4234] bg-[#FFDBDB] px-1 py-0.5 rounded-t">
-                          {tab?.price20gp?.days}天
-                          {tab?.price20gp?.days === 1 ? "直达" : "中转"}
-                        </span>
-                      </div>
+                      {checkShow && (
+                        <div className="col-span-3 text-end">
+                          <img
+                            src={
+                              true
+                                ? "/assets/icons/icon-checked.png"
+                                : "/assets/icons/icon-check.png"
+                            }
+                            alt="check"
+                            className="w-5 h-5 inline-block"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
+
+                <div className="grid grid-cols-12 gap-y-1 justify-end items-center">
+                  <div className={`${checkShow ? "col-span-6" : "col-span-8"}`}>
+                    <div className="text-truncate">
+                      <span>
+                        {tab?.anchport
+                          ? `${t("Origin Terminal")}: ${tab?.anchport}`
+                          : `${t("Origin Port")}: ${tab?.start_port}`}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className={"col-span-4"}>
+                    <div className="text-end">
+                      <span>
+                        {t("Route")}: {tab?.route_code}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className={`${checkShow ? "col-span-6" : "col-span-8"}`}>
+                    <div className="ortherLeft pt-2 text-truncate">
+                      <span>{`${t("Destination Port")}: ${
+                        tab?.end_port
+                      }`}</span>
+                    </div>
+                  </div>
+
+                  <div className="col-span-4">
+                    <div className="text-end">
+                      <span className="text-[#ca4234] bg-[#FFDBDB] px-1 py-0.5 rounded-t">
+                        {tab?.voyage} {t("days")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
               )}
             </div>
           );
@@ -272,60 +269,54 @@ const TabsComponent: FC<{ tabsData: ITabsProps }> = ({ tabsData }) => {
       {/* Filter */}
       <Sheet visible={isFilter}>
         <Box className="px-6 pt-4">
-          {/* 条件筛选 */}
+          {/* Conditions */}
           <div class="mb-6">
             <div class="flex justify-between items-center mb-2">
               <span class="text-2xl font-bold">{t("Conditions")}</span>
               <button
-                onclick="clearSection('condition')"
+                onClick={() => setSelectedCondition('')}
                 class="text-[#002B6B] text-xl"
               >
                 {t("Clear")}
               </button>
             </div>
             <div id="condition" class="flex gap-4">
-              <button class="bg-[#EBEDEF] text-xl px-8 py-4 rounded-md text-[#180C31]">
+              <button onClick={() => setSelectedCondition('fastest')} class={`text-xl px-8 py-4 rounded-md text-[#180C31] ${selectedCondition === 'fastest' ? "bg-[#00378A] text-white" : "bg-[#EBEDEF]"}`}>
                 {t("Fastest")}
               </button>
-              <button class="bg-[#EBEDEF] text-xl px-8 py-4 rounded-md text-[#180C31]">
+              <button onClick={() => setSelectedCondition('direct')} class={`text-xl px-8 py-4 rounded-md text-[#180C31] ${selectedCondition === 'direct' ? "bg-[#00378A] text-white" : "bg-[#EBEDEF]"}`}>
                 {t("Direct")}
               </button>
             </div>
           </div>
 
-          {/* 船公司筛选 */}
+          {/* Carrier */}
           <div class="mb-10">
             <div class="flex justify-between items-center mb-2">
               <span class="font-bold text-2xl">{t("Carrier")}</span>
               <button
-                onclick="clearSection('company')"
+                onClick={() => setSelectedCarrier([])}
                 class="text-[#002B6B] text-xl"
               >
                 {t("Clear")}
               </button>
             </div>
             <div id="company" class="grid grid-cols-3 gap-y-5 gap-x-3">
-              <button class="bg-[#EBEDEF] text-xl px-8 py-4 rounded-md text-[#180C31]">
-                MSC
-              </button>
-              <button class="bg-[#EBEDEF] text-xl px-8 py-4 rounded-md text-[#180C31]">
-                RCL
-              </button>
-              <button class="bg-[#EBEDEF] text-xl px-8 py-4 rounded-md text-[#180C31]">
-                SITC
-              </button>
-              <button class="bg-[#EBEDEF] text-xl px-8 py-4 rounded-md text-[#180C31]">
-                IAL
-              </button>
-              <button class="bg-[#EBEDEF] text-xl px-8 py-4 rounded-md text-[#180C31]">
-                ONE
-              </button>
-              <button class="bg-[#EBEDEF] text-xl px-8 py-4 rounded-md text-[#180C31]">
-                YML
-              </button>
-              <button class="bg-[#EBEDEF] text-xl px-8 py-4 rounded-md text-[#180C31]">
-                KMTC
-              </button>
+              {tabsData?.carrier?.map((item: any) => {
+                return (
+                <button
+                  key={item}
+                  onClick={() => handleCarrierClick(item)}
+                  class={`text-xl px-8 py-4 rounded-md text-[#180C31] ${
+                    selectedCarrier?.find((carrier) => carrier === item)
+                      ? "bg-[#00378A] text-white"
+                      : "bg-[#EBEDEF]"
+                  }`}
+                >
+                    {item}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -375,7 +366,9 @@ const TabsComponent: FC<{ tabsData: ITabsProps }> = ({ tabsData }) => {
             value={selectedDate}
           />
           <Box className="flex flex-col justify-between mt-6">
-            <Text className="text-xl text-center py-2">{selectedDate?.toLocaleDateString()?.split('/')?.join('-')}</Text>
+            <Text className="text-xl text-center py-2">
+              {selectedDate?.toLocaleDateString()?.split("/")?.join("-")}
+            </Text>
             <Button className="text-2xl py-2 w-full">{t("Confirm")}</Button>
           </Box>
         </Box>

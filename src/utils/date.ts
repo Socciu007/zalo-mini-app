@@ -41,3 +41,9 @@ export function displayDate(date: Date, hint?: boolean) {
   }
   return `${day}/${month}/${year}`;
 }
+
+export const getExpiryDate = (days: number = 3): string => {
+  const date = new Date();
+  date.setDate(date.getDate() + days);
+  return date.toISOString().split('T')[0];
+};

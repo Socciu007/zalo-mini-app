@@ -115,5 +115,11 @@
   "Modify": "修改",
   "Submit": "提交",
   "Select Date": "选择日期",
-  "en": "zh"
+  "en": "zh",
+  "Origin Port": "起运港",
+  "Origin Terminal": "起运港码头",
+  "Destination Port": "目的港",
+  "Route": "航线",
+  "Voyage": "航程",
+  "days": "天直达"
 }

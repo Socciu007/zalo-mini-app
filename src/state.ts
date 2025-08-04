@@ -77,7 +77,10 @@ export const freightSeaState = atom<IFreightSea>({
   key: "freightSea",
   default: {
     data: [],
-    date: []
+    date: [],
+    surcharge: [],
+    surchargeSpecial: [],
+    carrier: []
   },
 });
 
