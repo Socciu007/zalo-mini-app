@@ -10,9 +10,9 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
   const [isCalendar, setIsCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedCarrier, setSelectedCarrier] = useState<string[]>([]);
-  const [selectedCondition, setSelectedCondition] = useState<string>('');
+  const [selectedCondition, setSelectedCondition] = useState<string>("");
+  const [selectedPrice, setSelectedPrice] = useState<number[]>([]);
   const { t } = useTranslation();
-  console.log("tabsData", tabsData);
 
   const label = (label: string, week: string, price: string) => {
     return (
@@ -36,6 +36,15 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
       setSelectedCarrier(selectedCarrier.filter((item) => item !== carrier));
     } else {
       setSelectedCarrier([...selectedCarrier, carrier]);
+    }
+  };
+
+  // Handle price click
+  const handlePriceClick = (id: number) => {
+    if (selectedPrice?.find((item) => item === id)) {
+      setSelectedPrice(selectedPrice.filter((item) => item !== id));
+    } else {
+      setSelectedPrice([...selectedPrice, id]);
     }
   };
 
@@ -77,151 +86,176 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
       {/* Tabs Content */}
       <div
         className={`flex-1 overflow-y-auto custom-scrollbar px-6 mt-2 mb-14 ${
-          isCalendar ? "opacity-100" : ""
+          isCalendar ? "opacity-50" : ""
         }`}
       >
-        {tabsData && tabsData?.data?.map((tab, index) => {
-          return (
-            <div key={index}>
-              {(selectedCarrier?.find((item) => item === tab?.carrier)) && (
-              <div key={index} className="bg-white px-4 py-2 my-3 rounded-md">
-                <div className="grid grid-cols-12 justify-end items-center my-2">
-                  <div className="col-span-2">
-                    <div className="shipLogo">
-                      <img
-                        className="w-[86px] h-[70px] object-contain"
-                        src={`https://www.dadaex.cn/assets/upload/carrierlogo/${tab?.carrier}.png`}
-                        alt="carrier"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Price */}
-                  <div className="col-span-10">
-                    <div className="grid grid-cols-12 justify-end items-center">
-                      <div
-                        className={`${checkShow ? "col-span-3" : "col-span-4"}`}
-                      >
-                        <div className="text-end">
-                          {parseInt(tab?.sell_20gp?.split(".")[0], 10) <
-                          80000 ? (
-                            <div className="text-end">
-                              ${parseInt(tab?.sell_20gp?.split(".")[0], 10)}
-                            </div>
-                          ) : (
-                            <span className="text-end">
-                              <img
-                                src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
-                                alt="pause"
-                                style={{ width: "35px", height: "35px" }}
-                                className="inline-block"
-                              />
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      <div
-                        className={`${checkShow ? "col-span-3" : "col-span-4"}`}
-                      >
-                        <div className="text-end">
-                          {parseInt(tab?.sell_40gp?.split(".")[0], 10) <
-                          80000 ? (
-                            <div className="text-end">
-                              ${parseInt(tab?.sell_40gp?.split(".")[0], 10)}
-                            </div>
-                          ) : (
-                            <span className="text-end">
-                              <img
-                                src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
-                                alt="pause"
-                                style={{ width: "35px", height: "35px" }}
-                                className="inline-block"
-                              />
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      <div
-                        className={`${checkShow ? "col-span-3" : "col-span-4"}`}
-                      >
-                        <div className="text-end">
-                          {parseInt(tab?.sell_40hq?.split(".")[0], 10) <
-                          80000 ? (
-                            <div className="text-end">
-                              ${parseInt(tab?.sell_40hq?.split(".")[0], 10)}
-                            </div>
-                          ) : (
-                            <span className="text-end">
-                              <img
-                                src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
-                                alt="pause"
-                                style={{ width: "35px", height: "35px" }}
-                                className="inline-block"
-                              />
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      {checkShow && (
-                        <div className="col-span-3 text-end">
+        {tabsData &&
+          !!tabsData?.data?.length &&
+          (selectedCondition === "fastest"
+            ? [...tabsData?.data]?.sort((a, b) => a?.voyage - b?.voyage)
+            : tabsData?.data
+          )?.map((tab, index) => {
+            console.log("tab", tab);
+            return (
+              <div key={index}>
+                {(selectedCarrier?.find((item) => item === tab?.carrier) ||
+                  !selectedCarrier?.length) && (
+                  <div
+                    key={index}
+                    className="bg-white px-4 py-2 my-3 rounded-md"
+                  >
+                    <div className="grid grid-cols-12 justify-end items-center my-2">
+                      <div className="col-span-2">
+                        <div className="shipLogo">
                           <img
-                            src={
-                              true
-                                ? "/assets/icons/icon-checked.png"
-                                : "/assets/icons/icon-check.png"
-                            }
-                            alt="check"
-                            className="w-5 h-5 inline-block"
+                            className="w-[86px] h-[70px] object-contain"
+                            src={`https://www.dadaex.cn/assets/upload/carrierlogo/${tab?.carrier}.png`}
+                            alt="carrier"
                           />
                         </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
+                      </div>
 
-                <div className="grid grid-cols-12 gap-y-1 justify-end items-center">
-                  <div className={`${checkShow ? "col-span-6" : "col-span-8"}`}>
-                    <div className="text-truncate">
-                      <span>
-                        {tab?.anchport
-                          ? `${t("Origin Terminal")}: ${tab?.anchport}`
-                          : `${t("Origin Port")}: ${tab?.start_port}`}
-                      </span>
-                    </div>
-                  </div>
+                      {/* Price */}
+                      <div className="col-span-10">
+                        <div className="grid grid-cols-12 justify-end items-center">
+                          <div
+                            className={`${
+                              checkShow ? "col-span-3" : "col-span-4"
+                            }`}
+                          >
+                            <div className="text-end">
+                              {parseInt(tab?.sell_20gp?.split(".")[0], 10) <
+                              80000 ? (
+                                <div className="text-end">
+                                  ${parseInt(tab?.sell_20gp?.split(".")[0], 10)}
+                                </div>
+                              ) : (
+                                <span className="text-end">
+                                  <img
+                                    src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                                    alt="pause"
+                                    style={{ width: "35px", height: "35px" }}
+                                    className="inline-block"
+                                  />
+                                </span>
+                              )}
+                            </div>
+                          </div>
 
-                  <div className={"col-span-4"}>
-                    <div className="text-end">
-                      <span>
-                        {t("Route")}: {tab?.route_code}
-                      </span>
-                    </div>
-                  </div>
+                          <div
+                            className={`${
+                              checkShow ? "col-span-3" : "col-span-4"
+                            }`}
+                          >
+                            <div className="text-end">
+                              {parseInt(tab?.sell_40gp?.split(".")[0], 10) <
+                              80000 ? (
+                                <div className="text-end">
+                                  ${parseInt(tab?.sell_40gp?.split(".")[0], 10)}
+                                </div>
+                              ) : (
+                                <span className="text-end">
+                                  <img
+                                    src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                                    alt="pause"
+                                    style={{ width: "35px", height: "35px" }}
+                                    className="inline-block"
+                                  />
+                                </span>
+                              )}
+                            </div>
+                          </div>
 
-                  <div className={`${checkShow ? "col-span-6" : "col-span-8"}`}>
-                    <div className="ortherLeft pt-2 text-truncate">
-                      <span>{`${t("Destination Port")}: ${
-                        tab?.end_port
-                      }`}</span>
-                    </div>
-                  </div>
+                          <div
+                            className={`${
+                              checkShow ? "col-span-3" : "col-span-4"
+                            }`}
+                          >
+                            <div className="text-end">
+                              {parseInt(tab?.sell_40hq?.split(".")[0], 10) <
+                              80000 ? (
+                                <div className="text-end">
+                                  ${parseInt(tab?.sell_40hq?.split(".")[0], 10)}
+                                </div>
+                              ) : (
+                                <span className="text-end">
+                                  <img
+                                    src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                                    alt="pause"
+                                    style={{ width: "35px", height: "35px" }}
+                                    className="inline-block"
+                                  />
+                                </span>
+                              )}
+                            </div>
+                          </div>
 
-                  <div className="col-span-4">
-                    <div className="text-end">
-                      <span className="text-[#ca4234] bg-[#FFDBDB] px-1 py-0.5 rounded-t">
-                        {tab?.voyage} {t("days")}
-                      </span>
+                          {checkShow && (
+                            <div
+                              className="col-span-3 text-end"
+                              onClick={() => handlePriceClick(tab?.id)}
+                            >
+                              <img
+                                src={
+                                  selectedPrice?.find(
+                                    (item) => item === tab?.id
+                                  )
+                                    ? "/assets/icons/icon-checked.png"
+                                    : "/assets/icons/icon-check.png"
+                                }
+                                alt="check"
+                                className="w-5 h-5 inline-block"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-12 gap-y-1 justify-end items-center">
+                      <div
+                        className={`${checkShow ? "col-span-6" : "col-span-8"}`}
+                      >
+                        <div className="text-truncate">
+                          <span>
+                            {tab?.anchport
+                              ? `${t("Origin Terminal")}: ${tab?.anchport}`
+                              : `${t("Origin Port")}: ${tab?.start_port}`}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className={"col-span-4"}>
+                        <div className="text-end">
+                          <span>
+                            {t("Route")}: {tab?.route_code}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div
+                        className={`${checkShow ? "col-span-6" : "col-span-8"}`}
+                      >
+                        <div className="ortherLeft pt-2 text-truncate">
+                          <span>{`${t("Destination Port")}: ${
+                            tab?.end_port
+                          }`}</span>
+                        </div>
+                      </div>
+
+                      <div className="col-span-4">
+                        <div className="text-end">
+                          <span className="text-[#ca4234] bg-[#FFDBDB] px-1 py-0.5 rounded-t">
+                            {tab?.voyage} {t("days")}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
-              )}
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
 
       <div className="flex rounded-xl bg-[#000] text-[#E0E3E5] opacity-70 mx-6 h-14 fixed bottom-4 left-0 right-0 z-50">
@@ -274,17 +308,31 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
             <div class="flex justify-between items-center mb-2">
               <span class="text-2xl font-bold">{t("Conditions")}</span>
               <button
-                onClick={() => setSelectedCondition('')}
+                onClick={() => setSelectedCondition("")}
                 class="text-[#002B6B] text-xl"
               >
                 {t("Clear")}
               </button>
             </div>
             <div id="condition" class="flex gap-4">
-              <button onClick={() => setSelectedCondition('fastest')} class={`text-xl px-8 py-4 rounded-md text-[#180C31] ${selectedCondition === 'fastest' ? "bg-[#00378A] text-white" : "bg-[#EBEDEF]"}`}>
+              <button
+                onClick={() => setSelectedCondition("fastest")}
+                class={`text-xl px-8 py-4 rounded-md text-[#180C31] ${
+                  selectedCondition === "fastest"
+                    ? "bg-[#00378A] text-white"
+                    : "bg-[#EBEDEF]"
+                }`}
+              >
                 {t("Fastest")}
               </button>
-              <button onClick={() => setSelectedCondition('direct')} class={`text-xl px-8 py-4 rounded-md text-[#180C31] ${selectedCondition === 'direct' ? "bg-[#00378A] text-white" : "bg-[#EBEDEF]"}`}>
+              <button
+                onClick={() => setSelectedCondition("direct")}
+                class={`text-xl px-8 py-4 rounded-md text-[#180C31] ${
+                  selectedCondition === "direct"
+                    ? "bg-[#00378A] text-white"
+                    : "bg-[#EBEDEF]"
+                }`}
+              >
                 {t("Direct")}
               </button>
             </div>
@@ -304,15 +352,15 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
             <div id="company" class="grid grid-cols-3 gap-y-5 gap-x-3">
               {tabsData?.carrier?.map((item: any) => {
                 return (
-                <button
-                  key={item}
-                  onClick={() => handleCarrierClick(item)}
-                  class={`text-xl px-8 py-4 rounded-md text-[#180C31] ${
-                    selectedCarrier?.find((carrier) => carrier === item)
-                      ? "bg-[#00378A] text-white"
-                      : "bg-[#EBEDEF]"
-                  }`}
-                >
+                  <button
+                    key={item}
+                    onClick={() => handleCarrierClick(item)}
+                    class={`text-xl px-2 py-4 rounded-md text-[#180C31] ${
+                      selectedCarrier?.find((carrier) => carrier === item)
+                        ? "bg-[#00378A] text-white"
+                        : "bg-[#EBEDEF]"
+                    }`}
+                  >
                     {item}
                   </button>
                 );
@@ -364,6 +412,11 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
             }}
             onSelect={handleDateChange}
             value={selectedDate}
+            disabledDate={(date) => {
+              return (
+                date < new Date(new Date().setDate(new Date().getDate() + 2))
+              );
+            }}
           />
           <Box className="flex flex-col justify-between mt-6">
             <Text className="text-xl text-center py-2">

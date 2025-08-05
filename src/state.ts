@@ -72,6 +72,12 @@ export const selectedOriginState = atom<string | null>({
   default: 'SHANGHAI',
 });
 
+// Save history search freight
+export const historySearchFreightState = atom<any[]>({
+  key: "historySearchFreight",
+  default: [],
+});
+
 // Get all /client/freight/sea
 export const freightSeaState = atom<IFreightSea>({
   key: "freightSea",

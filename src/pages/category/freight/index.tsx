@@ -2,7 +2,7 @@
 import origin from "../../../../mock/fargo/origin.json";
 import React, { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { Box, Header, Page, Text, Button, Select, Icon } from "zmp-ui";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
@@ -13,6 +13,7 @@ import {
   selectedDestinationState,
   selectedOriginState,
   freightSeaState,
+  historySearchFreightState,
 } from "state";
 import { useToBeImplemented } from "hooks";
 import { debounce } from "lodash";
@@ -55,6 +56,7 @@ const SearchFreight: FC = () => {
   const [freightSea, setFreightSea] = useRecoilState(freightSeaState);
   const [selectedOrigin, setSelectedOrigin] =
     useRecoilState(selectedOriginState);
+  const setHistorySearchFreight = useSetRecoilState(historySearchFreightState);
   const notifyWarning = useToBeImplemented({
     type: "warning",
     text: t("Please select origin or destination"),
@@ -70,11 +72,35 @@ const SearchFreight: FC = () => {
       notifyWarning();
       return;
     }
+
+    // Save history search freight
+    const newSearch = {
+      origin: selectedOrigin,
+      destination: selectedDestination,
+      timestamp: new Date().toISOString(),
+    };
+    setHistorySearchFreight((prev) => {
+      const updated = [
+        newSearch,
+        ...prev.filter(
+          (item) =>
+            item.origin !== selectedOrigin ||
+            item.destination !== selectedDestination
+        ),
+      ];
+      const limited = updated.slice(0, 10);
+      localStorage.setItem("freightSearchHistory", JSON.stringify(limited));
+      return limited;
+    });
+
+    // Get freight sea
+    const date = new Date();
+    date.setDate(date.getDate() + 3);
     const res = await freightSeaService.getFreightSea(
       selectedOrigin,
-      selectedDestination
+      selectedDestination,
+      date.toISOString().split("T")[0]
     );
-    console.log('res', res);
     if (res?.code === 0 || res?.dateResult) {
       setFreightSea({
         data: res?.data || res?.seaResult,
@@ -146,6 +172,7 @@ const HistoryFreight: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [freightSea, setFreightSea] = useRecoilState(freightSeaState);
+  const historySearchFreight = useRecoilValue(historySearchFreightState);
   const notifyWarning = useToBeImplemented({
     type: "warning",
     text: t("Please select origin or destination"),
@@ -163,7 +190,9 @@ const HistoryFreight: FC = () => {
         notifyWarning();
         return;
       }
-      const res = await freightSeaService.getFreightSea(origin, destination);
+      const date = new Date();
+      date.setDate(date.getDate() + 3);
+      const res = await freightSeaService.getFreightSea(origin, destination, date.toISOString().split("T")[0]);
       if (res?.code === 0 || res?.dateResult) {
         setFreightSea({
           data: res?.data || null,
@@ -185,24 +214,16 @@ const HistoryFreight: FC = () => {
         <Text className="w-1/3">{t("History")}</Text>
       </Box>
       <Box className="flex flex-col gap-4 px-4">
-        <ListItem
-          title={"SHANGHAI----SINGAPORE"}
-          icon={"assets/icons/icon-boat2.png"}
-          onClick={() => handleClickHistory("SHANGHAI-SINGAPORE")}
-        />
-        <Divider size={1} />
-        <ListItem
-          title={"SHANGHAI----HOCHIMINH"}
-          icon={"assets/icons/icon-boat2.png"}
-          onClick={() => handleClickHistory("SHANGHAI-HOCHIMINH")}
-        />
-        <Divider size={1} />
-        <ListItem
-          title={"SHANGHAI----SINGAPORE"}
-          icon={"assets/icons/icon-boat2.png"}
-          onClick={() => handleClickHistory("SHANGHAI-SINGAPORE")}
-        />
-        <Divider size={1} />
+        {historySearchFreight?.map((item) => (
+          <>
+            <ListItem
+              title={`${item.origin}----${item.destination}`}
+              icon={"assets/icons/icon-boat2.png"}
+              onClick={() => handleClickHistory(`${item.origin}-${item.destination}`)}
+            />
+            <Divider size={1} />
+          </>
+        ))}
       </Box>
     </Box>
   );

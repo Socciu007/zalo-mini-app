@@ -13,12 +13,16 @@ export const BookingItem: FC<{ data: Booking }> = ({ data }) => {
 
   // Handle Click freight sea list
   const handleClickBooking = async (origin: string, destination: string) => {
-    const res = await freightSeaService.getFreightSea(origin, destination);
-    console.log("res", res);
+    const date = new Date();
+    date.setDate(date.getDate() + 3);
+    const res = await freightSeaService.getFreightSea(origin, destination, date.toISOString().split("T")[0]);
     if (res?.code === 0 || res?.dateResult) {
       setFreightSea({
-        data: res?.data || res?.seaResult,
+        data: res?.data || null,
         date: res?.date || res?.dateResult,
+        surcharge: res?.surcharge,
+        surchargeSpecial: res?.surchargeSpecial,
+        carrier: res?.carrier,
       });
       navigate(`/freight/${encodeURIComponent(`${origin}-${destination}`)}`);
     }
