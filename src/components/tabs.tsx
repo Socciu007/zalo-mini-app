@@ -124,10 +124,19 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
                             }`}
                           >
                             <div className="text-end">
-                              {parseInt(tab?.sell_20gp?.split(".")[0], 10) <
-                              80000 ? (
+                              {parseInt(
+                                typeof tab?.sell_20gp === "string"
+                                  ? tab?.sell_20gp?.split(".")[0]
+                                  : tab?.sell_20gp,
+                                10
+                              ) < 80000 ? (
                                 <div className="text-end">
-                                  ${parseInt(tab?.sell_20gp?.split(".")[0], 10)}
+                                  ${parseInt(
+                                    typeof tab?.sell_20gp === "string"
+                                      ? tab?.sell_20gp?.split(".")[0]
+                                      : tab?.sell_20gp,
+                                    10
+                                  )}
                                 </div>
                               ) : (
                                 <span className="text-end">
@@ -148,10 +157,19 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
                             }`}
                           >
                             <div className="text-end">
-                              {parseInt(tab?.sell_40gp?.split(".")[0], 10) <
-                              80000 ? (
+                              {parseInt(
+                                typeof tab?.sell_40gp === "string"
+                                  ? tab?.sell_40gp?.split(".")[0]
+                                  : tab?.sell_40gp,
+                                10
+                              ) < 80000 ? (
                                 <div className="text-end">
-                                  ${parseInt(tab?.sell_40gp?.split(".")[0], 10)}
+                                  ${parseInt(
+                                    typeof tab?.sell_40gp === "string"
+                                      ? tab?.sell_40gp?.split(".")[0]
+                                      : tab?.sell_40gp,
+                                    10
+                                  )}
                                 </div>
                               ) : (
                                 <span className="text-end">
@@ -172,10 +190,19 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
                             }`}
                           >
                             <div className="text-end">
-                              {parseInt(tab?.sell_40hq?.split(".")[0], 10) <
-                              80000 ? (
+                              {parseInt(
+                                typeof tab?.sell_40hq === "string"
+                                  ? tab?.sell_40hq?.split(".")[0]
+                                  : tab?.sell_40hq,
+                                10
+                              ) < 80000 ? (
                                 <div className="text-end">
-                                  ${parseInt(tab?.sell_40hq?.split(".")[0], 10)}
+                                  ${parseInt(
+                                    typeof tab?.sell_40hq === "string"
+                                      ? tab?.sell_40hq?.split(".")[0]
+                                      : tab?.sell_40hq,
+                                    10
+                                  )}
                                 </div>
                               ) : (
                                 <span className="text-end">
