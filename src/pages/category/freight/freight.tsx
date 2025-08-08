@@ -1,4 +1,4 @@
-import React, { FC, Suspense } from "react";
+import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { Header, Page } from "zmp-ui";
@@ -12,7 +12,7 @@ const FreightList: FC = () => {
 };
 
 // Freight Page
-const FreightDetailPage: FC = () => {
+const FreightPage: FC = () => {
   const { t } = useTranslation();
   const { route } = useParams();
 
@@ -24,4 +24,4 @@ const FreightDetailPage: FC = () => {
   );
 };
 
-export default FreightDetailPage;
+export default FreightPage;

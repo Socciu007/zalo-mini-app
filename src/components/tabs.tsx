@@ -1,9 +1,12 @@
 import React, { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Box, Calendar, Icon, Sheet, Text, Button } from "zmp-ui";
+import { Box, Calendar, Icon, Sheet, Text, Button, useNavigate } from "zmp-ui";
 import { IFreightSea } from "types/fargo/freightSea";
+import { useSetRecoilState } from "recoil";
+import { freightIndexState } from "state";
 
 const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
+  const setFreightIndex = useSetRecoilState(freightIndexState);
   const [activeKey, setActiveKey] = useState(0);
   const [checkShow, setCheckShow] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
@@ -12,6 +15,7 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
   const [selectedCarrier, setSelectedCarrier] = useState<string[]>([]);
   const [selectedCondition, setSelectedCondition] = useState<string>("");
   const [selectedPrice, setSelectedPrice] = useState<number[]>([]);
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const label = (label: string, week: string, price: string) => {
@@ -46,6 +50,13 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
     } else {
       setSelectedPrice([...selectedPrice, id]);
     }
+  };
+  console.log("tabsData", tabsData);
+
+  // Handle freight detail
+  const handleFreightDetail = (index: number) => {
+    setFreightIndex(index);
+    navigate(`/freight/detail`);
   };
 
   return (
@@ -103,6 +114,7 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
                   <div
                     key={index}
                     className="bg-white px-4 py-2 my-3 rounded-md"
+                    onClick={() => handleFreightDetail(index)}
                   >
                     <div className="grid grid-cols-12 justify-end items-center my-2">
                       <div className="col-span-2">
@@ -131,7 +143,8 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
                                 10
                               ) < 80000 ? (
                                 <div className="text-end">
-                                  ${parseInt(
+                                  $
+                                  {parseInt(
                                     typeof tab?.sell_20gp === "string"
                                       ? tab?.sell_20gp?.split(".")[0]
                                       : tab?.sell_20gp,
@@ -164,7 +177,8 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
                                 10
                               ) < 80000 ? (
                                 <div className="text-end">
-                                  ${parseInt(
+                                  $
+                                  {parseInt(
                                     typeof tab?.sell_40gp === "string"
                                       ? tab?.sell_40gp?.split(".")[0]
                                       : tab?.sell_40gp,
@@ -197,7 +211,8 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
                                 10
                               ) < 80000 ? (
                                 <div className="text-end">
-                                  ${parseInt(
+                                  $
+                                  {parseInt(
                                     typeof tab?.sell_40hq === "string"
                                       ? tab?.sell_40hq?.split(".")[0]
                                       : tab?.sell_40hq,

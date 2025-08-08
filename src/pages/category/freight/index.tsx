@@ -230,7 +230,7 @@ const HistoryFreight: FC = () => {
 };
 
 // Freight Page
-const FreightPage: FC = () => {
+const SearchFreightPage: FC = () => {
   const { t } = useTranslation();
   return (
     <Page className="flex flex-col overflow-x-hidden custom-scrollbar">
@@ -244,4 +244,4 @@ const FreightPage: FC = () => {
   );
 };
 
-export default FreightPage;
+export default SearchFreightPage;

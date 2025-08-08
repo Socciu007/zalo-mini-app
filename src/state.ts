@@ -90,6 +90,12 @@ export const freightSeaState = atom<IFreightSea>({
   },
 });
 
+// Set index freight detail
+export const freightIndexState = atom<number | null>({
+  key: "freightIndex",
+  default: null,
+});
+
 // Trigger Login
 export const triggerLoginState = atom<number>({
   key: "triggerLogin",
