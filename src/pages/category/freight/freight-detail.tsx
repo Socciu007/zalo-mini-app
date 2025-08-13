@@ -7,29 +7,33 @@ import { Page, Header, Box, Text } from "zmp-ui";
 const InfoGeneral: FC<{ freightDetail: any }> = ({ freightDetail }) => {
   const { t } = useTranslation();
   return (
-    <Box className="flex flex-col px-6 mt-6 bg-white">
-      <Box className="flex justify-between mt-2">
-        <Text>
+    <Box className="flex flex-col px-6 pb-6 mt-6 bg-white">
+      <Box className="flex justify-between my-2">
+        <Text className="text-xs">
           {t("Sailing Date")}: {freightDetail?.sailing_date}
         </Text>
-        <Text>
+        <Text className="text-xs">
           {t("Route")}: {freightDetail?.route_code}
         </Text>
-        <Text>
-          {t("Deadline")}: {freightDetail?.overTime}
+        <Text className="text-xs">
+          {freightDetail?.overTime
+            ? t("Deadline") + ": " + freightDetail?.overTime
+            : t("Effective Date") + ": " + freightDetail?.startTime}
         </Text>
       </Box>
-      <Box className="flex justify-center items-center">
-        <Text>{freightDetail?.start_port}</Text>
-        <Box>
+      <Box className="flex justify-center items-center gap-6">
+        <Text className="h-full pt-[40px] text-xl">
+          {freightDetail?.start_port}
+        </Text>
+        <Box className="flex flex-col items-center gap-1">
           <img
-            className="w-[86px] h-[70px] object-contain"
+            className="w-[50px] object-contain"
             src={`https://www.dadaex.cn/assets/upload/carrierlogo/${freightDetail?.carrier}.png`}
             alt="carrier"
           />
           <img
-            className="w-[86px] h-[70px] object-contain"
-            src={"assets/icons/line.png"}
+            className="w-[114px] object-contain"
+            src={"/assets/icons/line.png"}
             alt="line"
           />
           <Text>
@@ -41,7 +45,9 @@ const InfoGeneral: FC<{ freightDetail: any }> = ({ freightDetail }) => {
               : freightDetail?.transport}
           </Text>
         </Box>
-        <Text>{freightDetail?.end_port}</Text>
+        <Text className="h-full pt-[40px] text-xl">
+          {freightDetail?.end_port}
+        </Text>
       </Box>
     </Box>
   );
@@ -73,6 +79,18 @@ const FreightDetailPage: FC = () => {
       <InfoGeneral
         freightDetail={{
           ...freight?.data?.[freightIndex || 0],
+          surcharge:
+            freight?.surcharge?.[freight?.data?.[freightIndex || 0]?.carrier],
+          surchargeSpecial:
+            freight?.surchargeSpecial?.[
+              freight?.data?.[freightIndex || 0]?.carrier
+            ],
+        }}
+      />
+
+      {/* Info Price */}
+      <InfoPrice
+        freightDetail={{
           surcharge:
             freight?.surcharge?.[freight?.data?.[freightIndex || 0]?.carrier],
           surchargeSpecial:
