@@ -119,7 +119,17 @@
   "Origin Port": "起运港",
   "Origin Terminal": "起运港码头",
   "Destination Port": "目的港",
+  "Destination Terminal": "目的港码头",
   "Route": "航线",
   "Voyage": "航程",
-  "days": "天直达"
+  "ETD & ETA": "开航与预计到达时间",
+  "Vessel": "航次",
+  "days": "天直达",
+  "Schedule": "船期表",
+  "More Quotes": "更多报价",
+  "Surcharge": "费用清单",
+  "Remark": "备注",
+  "Sailing Date": "开航日",
+  "Deadline": "截止日期",
+  "Effective Date": "生效日期"
 }

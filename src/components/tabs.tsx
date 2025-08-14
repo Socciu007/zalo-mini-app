@@ -279,9 +279,15 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
                         className={`${checkShow ? "col-span-6" : "col-span-8"}`}
                       >
                         <div className="ortherLeft pt-2 text-truncate">
-                          <span>{`${t("Destination Port")}: ${
-                            tab?.end_port
-                          }`}</span>
+                          <span>
+                            {`${
+                              tab?.end_area
+                                ? t("Destination Terminal")
+                                : t("Destination Port")
+                            }: ${
+                              tab?.end_area ? tab?.end_area : tab?.end_port
+                            }`}
+                          </span>
                         </div>
                       </div>
 
