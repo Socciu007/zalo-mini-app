@@ -47,3 +47,23 @@ export const getExpiryDate = (days: number = 3): string => {
   date.setDate(date.getDate() + days);
   return date.toISOString().split('T')[0];
 };
+
+export const timeUtil = (data: string, voyage: number): string => {
+  const dateParts = data.split("-");
+  if (dateParts.length !== 3) return "Invalid date";
+
+  // Format MM-DD-YYYY to avoid error when using new Date
+  const formattedDate = `${dateParts[1]}-${dateParts[2]}-${dateParts[0]}`;
+  const baseDate = new Date(formattedDate);
+
+  if (isNaN(baseDate.getTime())) return "Invalid date";
+
+  const resultTime = baseDate.getTime() + voyage * 24 * 60 * 60 * 1000;
+  const resultDate = new Date(resultTime);
+
+  const year = resultDate.getFullYear();
+  const month = String(resultDate.getMonth() + 1).padStart(2, '0');
+  const day = String(resultDate.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};

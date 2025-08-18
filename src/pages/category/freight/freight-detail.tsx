@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { useRecoilValue } from "recoil";
 import { freightIndexState, freightSeaState } from "state";
 import { Page, Header, Box, Text, Button } from "zmp-ui";
+import { getScheduleFreightSea } from "services/freight-sea";
+import { timeUtil } from "utils/date";
 
 const InfoGeneral: FC<{ freightDetail: any }> = ({ freightDetail }) => {
   const { t } = useTranslation();
@@ -57,11 +59,34 @@ const InfoGeneral: FC<{ freightDetail: any }> = ({ freightDetail }) => {
 const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<string>("costList");
+  const [schedule, setSchedule] = useState<any>([]);
+
+  // Handle change tab
+  const handleChangeTab = async (tab: string) => {
+    if (tab === "costList") {
+      setActiveTab(tab);
+    } else if (tab === "schedule") {
+      const response = await getScheduleFreightSea({
+        scid: freightDetail?.carrier_id,
+        code: freightDetail?.route_code,
+        startPortId: freightDetail?.start_port_id,
+        schedule: freightDetail?.schedule,
+      });
+      setSchedule(response?.contact?.map((item: any) => ({
+        ...item,
+        endTime: timeUtil(item?.etd, freightDetail?.voyage),
+      })));
+      setActiveTab(tab);
+    } else if (tab === "moreQuotes") {
+      setActiveTab(tab);
+    }
+  };
+
   return (
     <Box className="flex flex-col px-6 mt-6 bg-white pb-28">
       <Box className="w-full flex justify-between mt-6">
         <div
-          onClick={() => setActiveTab("costList")}
+          onClick={async () => await handleChangeTab("costList")}
           className={`rounded-[8px] flex-1 flex justify-center items-center px-2 py-4 h-12 text-base ${
             activeTab === "costList"
               ? "bg-[#4859C0] text-[#fff]"
@@ -71,7 +96,7 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
           {t("Surcharge")}
         </div>
         <div
-          onClick={() => setActiveTab("schedule")}
+          onClick={async () => await handleChangeTab("schedule")}
           className={`rounded-[8px] flex-1 flex justify-center items-center px-2 py-4 h-12 text-base ${
             activeTab === "schedule"
               ? "bg-[#4859C0] text-[#fff]"
@@ -81,7 +106,7 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
           {t("Schedule")}
         </div>
         <div
-          onClick={() => setActiveTab("moreQuotes")}
+          onClick={async () => await handleChangeTab("moreQuotes")}
           className={`rounded-[8px] flex-1 flex justify-center items-center px-2 py-4 h-12 text-base ${
             activeTab === "moreQuotes"
               ? "bg-[#4859C0] text-[#fff]"
@@ -175,35 +200,30 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
       )}
 
       {activeTab === "schedule" && (
-        <div className="schedule">
-          {/* Tiêu đề bảng */}
-          <div
-            className="scheduleTit"
-            style={{ fontWeight: "bold", padding: "8px 0" }}
-          >
-            <div className="row" style={{ display: "flex", gap: 16 }}>
-              <div style={{ flex: 4 }}>{t("Vessel")}</div>
-              <div style={{ flex: 2 }}>{t("Voyage")}</div>
-              <div style={{ flex: 6 }}>{t("ETD & ETA")}</div>
+        <div className="my-6">
+          <div className="bg-[#e6e9ff] rounded-[16px] py-6">
+            <div className="px-4 flex justify-between text-base text-[#19214f]">
+              <div className="flex-[4]">{t("Vessel")}</div>
+              <div className="flex-[2]">{t("Voyage")}</div>
+              <div className="flex-[6.1]">{t("ETD & ETA")}</div>
             </div>
           </div>
 
           {/* Danh sách các lịch trình */}
-          {/* {dataSource.map((item, index) => (
+          {schedule.map((item: any, index: number) => (
             <div
-              className="scheduleItem"
               key={index}
-              style={{ padding: "8px 0", borderBottom: "1px solid #eee" }}
+              className="py-4 border-b border-[#eee]"
             >
-              <div className="row" style={{ display: "flex", gap: 16 }}>
-                <div style={{ flex: 4 }}>{item.shipName}</div>
-                <div style={{ flex: 2 }}>{item.voyage}</div>
-                <div style={{ flex: 6 }}>
-                  {item.etd} ~ {item.endTime}
+              <div className="flex justify-between text-sm text-[#19214fcc] gap-2 w-full">
+                <div className="flex-[4]">{item?.shipName}</div>
+                <div className="flex-[1]">{item?.voyage}</div>
+                <div className="flex-[6]">
+                  {item?.etd}~{item?.endTime}
                 </div>
               </div>
             </div>
-          ))} */}
+          ))}
         </div>
       )}
     </Box>

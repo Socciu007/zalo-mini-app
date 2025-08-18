@@ -27,3 +27,13 @@ export const getListFreightSea = async () => {
     return { message: error.message, status: "ERROR" };
   }
 };
+
+// Get schedule freight sea
+export const getScheduleFreightSea = async (query: any) => {
+  try {
+    const response = await http.get(`/client/schedule/query?scid=${query?.scid}&code=${query.code}&start_port_id=${query.startPortId}&schedule=${query.schedule}`);
+    return response.data;
+  } catch (error: any) {
+    return { message: error.message, status: "ERROR" };
+  }
+};
