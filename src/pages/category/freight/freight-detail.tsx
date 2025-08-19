@@ -4,7 +4,10 @@ import { useTranslation } from "react-i18next";
 import { useRecoilValue } from "recoil";
 import { freightIndexState, freightSeaState } from "state";
 import { Page, Header, Box, Text, Button } from "zmp-ui";
-import { getScheduleFreightSea } from "services/freight-sea";
+import {
+  getMoreQuotesFreightSea,
+  getScheduleFreightSea,
+} from "services/freight-sea";
 import { timeUtil } from "utils/date";
 
 const InfoGeneral: FC<{ freightDetail: any }> = ({ freightDetail }) => {
@@ -60,6 +63,8 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<string>("costList");
   const [schedule, setSchedule] = useState<any>([]);
+  const [moreQuotes, setMoreQuotes] = useState<any>([]);
+  const [moreQuotesTab, setMoreQuotesTab] = useState<number>(0);
 
   // Handle change tab
   const handleChangeTab = async (tab: string) => {
@@ -72,18 +77,55 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
         startPortId: freightDetail?.start_port_id,
         schedule: freightDetail?.schedule,
       });
-      setSchedule(response?.contact?.map((item: any) => ({
-        ...item,
-        endTime: timeUtil(item?.etd, freightDetail?.voyage),
-      })));
+      setSchedule(
+        response?.contact?.map((item: any) => ({
+          ...item,
+          etd: item?.etd ? item?.etd : item?.tetd,
+          endTime: timeUtil(
+            item?.etd ? item?.etd : item?.tetd,
+            freightDetail?.voyage
+          ),
+        }))
+      );
       setActiveTab(tab);
     } else if (tab === "moreQuotes") {
+      const response = await getMoreQuotesFreightSea({
+        startPortId: freightDetail?.start_port_id,
+        endPortId: freightDetail?.end_port_id,
+        transferPortId: freightDetail?.entrepot_id,
+        scid: freightDetail?.carrier_id,
+        routeId: freightDetail?.routeId,
+        sailingDay: freightDetail?.sailing_date,
+        firstSupply: freightDetail?.supplier,
+      });
+      console.log("response", response);
+      const convertedGroups = {};
+      response?.groups?.forEach((group: any[], index: number) => {
+        const key = `Week ${index + 1}`;
+        convertedGroups[key] = group;
+      });
+      console.log("convertedGroups", convertedGroups);
+      setMoreQuotes({
+        tab: {
+          ...convertedGroups,
+          ...response?.scheduleGroups,
+        },
+      });
+
       setActiveTab(tab);
     }
   };
 
+  // Handle more quotes
+  const handleMoreQuotes = (index: number) => {
+    setMoreQuotesTab(index);
+  };
+
+  console.log("moreQuotes", Object.keys(moreQuotes?.tab)?.[moreQuotesTab]);
+
   return (
     <Box className="flex flex-col px-6 mt-6 bg-white pb-28">
+      {/* Tab main */}
       <Box className="w-full flex justify-between mt-6">
         <div
           onClick={async () => await handleChangeTab("costList")}
@@ -210,11 +252,8 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
           </div>
 
           {/* Danh sách các lịch trình */}
-          {schedule.map((item: any, index: number) => (
-            <div
-              key={index}
-              className="py-4 border-b border-[#eee]"
-            >
+          {schedule?.map((item: any, index: number) => (
+            <div key={index} className="py-4 border-b border-[#eee]">
               <div className="flex justify-between text-sm text-[#19214fcc] gap-2 w-full">
                 <div className="flex-[4]">{item?.shipName}</div>
                 <div className="flex-[1]">{item?.voyage}</div>
@@ -224,6 +263,37 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {activeTab === "moreQuotes" && (
+        <div className="my-6">
+          <div className="flex space-x-1 overflow-x-auto custom-scrollbar mr-3">
+            {Object.keys(moreQuotes?.tab).map((key: any, index: number) => (
+              <div
+                key={index}
+                onClick={() => handleMoreQuotes(index)}
+                className={`min-w-[80px] text-center px-2 pt-1 pb-4 text-base ${
+                  moreQuotesTab === index
+                    ? "text-[#006af5fa] border-b-2 border-[#006af5fa]"
+                    : "text-[#000]"
+                }`}
+              >
+                <Text className="text-base font-bold">{t(key)}</Text>
+              </div>
+            ))}
+          </div>
+
+          {Object.keys(moreQuotes?.tab)?.map((key: any, index: number) => {
+            return (
+              <div key={index}>
+                {key}
+                {moreQuotes?.tab?.[key]?.map((item: any, index: number) => (
+                  <div key={index}>{item?.shipName}</div>
+                ))}
+              </div>
+            );
+          })}
         </div>
       )}
     </Box>

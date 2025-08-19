@@ -37,3 +37,14 @@ export const getScheduleFreightSea = async (query: any) => {
     return { message: error.message, status: "ERROR" };
   }
 };
+
+// Get more quotes freight sea
+export const getMoreQuotesFreightSea = async (query: any) => {
+  try {
+    const response = await http.get(`/client/freight/sea/getFuturePrice?startPortId=${query?.startPortId}&endPortId=${query?.endPortId}&transferPortId=${query?.transferPortId}&scid=${query?.scid}&routeId=${query?.routeId}&sailingDay=${query?.sailingDay}&firstSupply=${query?.firstSupply}`, 
+);
+    return response.data;
+  } catch (error: any) {
+    return { message: error.message, status: "ERROR" };
+  }
+};
