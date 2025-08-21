@@ -63,7 +63,7 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<string>("costList");
   const [schedule, setSchedule] = useState<any>([]);
-  const [moreQuotes, setMoreQuotes] = useState<any>([]);
+  const [moreQuotes, setMoreQuotes] = useState<any>({});
   const [moreQuotesTab, setMoreQuotesTab] = useState<number>(0);
 
   // Handle change tab
@@ -98,13 +98,11 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
         sailingDay: freightDetail?.sailing_date,
         firstSupply: freightDetail?.supplier,
       });
-      console.log("response", response);
       const convertedGroups = {};
       response?.groups?.forEach((group: any[], index: number) => {
         const key = `Week ${index + 1}`;
         convertedGroups[key] = group;
       });
-      console.log("convertedGroups", convertedGroups);
       setMoreQuotes({
         tab: {
           ...convertedGroups,
@@ -120,8 +118,6 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
   const handleMoreQuotes = (index: number) => {
     setMoreQuotesTab(index);
   };
-
-  console.log("moreQuotes", Object.keys(moreQuotes?.tab)?.[moreQuotesTab]);
 
   return (
     <Box className="flex flex-col px-6 mt-6 bg-white pb-28">
@@ -284,16 +280,13 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
             ))}
           </div>
 
-          {Object.keys(moreQuotes?.tab)?.map((key: any, index: number) => {
-            return (
-              <div key={index}>
-                {key}
-                {moreQuotes?.tab?.[key]?.map((item: any, index: number) => (
-                  <div key={index}>{item?.shipName}</div>
-                ))}
-              </div>
-            );
-          })}
+          {moreQuotes && moreQuotes?.tab &&
+            moreQuotes?.tab?.[
+              Object?.keys(moreQuotes?.tab)?.[moreQuotesTab]
+            ]?.map((quote: any, index: number) => {
+              console.log("quote", quote);
+              return <div key={index}>"test"</div>;
+            })}
         </div>
       )}
     </Box>
