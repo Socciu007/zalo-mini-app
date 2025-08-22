@@ -215,14 +215,14 @@ const HistoryFreight: FC = () => {
       </Box>
       <Box className="flex flex-col gap-4 px-4">
         {historySearchFreight?.map((item) => (
-          <>
+          <div key={`${item.origin}----${item.destination}`}>
             <ListItem
               title={`${item.origin}----${item.destination}`}
               icon={"assets/icons/icon-boat2.png"}
               onClick={() => handleClickHistory(`${item.origin}-${item.destination}`)}
             />
             <Divider size={1} />
-          </>
+          </div>
         ))}
       </Box>
     </Box>

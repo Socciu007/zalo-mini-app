@@ -51,7 +51,6 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
       setSelectedPrice([...selectedPrice, id]);
     }
   };
-  console.log("tabsData", tabsData);
 
   // Handle freight detail
   const handleFreightDetail = (index: number) => {

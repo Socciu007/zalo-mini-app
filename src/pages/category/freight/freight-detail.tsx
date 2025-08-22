@@ -1,9 +1,9 @@
 import PriceCollapse from "components/freight/price-collapse";
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useRecoilValue } from "recoil";
 import { freightIndexState, freightSeaState } from "state";
-import { Page, Header, Box, Text, Button } from "zmp-ui";
+import { Page, Header, Box, Text } from "zmp-ui";
 import {
   getMoreQuotesFreightSea,
   getScheduleFreightSea,
@@ -65,6 +65,23 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
   const [schedule, setSchedule] = useState<any>([]);
   const [moreQuotes, setMoreQuotes] = useState<any>({});
   const [moreQuotesTab, setMoreQuotesTab] = useState<number>(0);
+  const [unitPrice, setUnitPrice] = useState<any>({
+    "20gp": 1,
+    "40gp": 0,
+    "40hq": 0,
+  });
+  const [currencyCNY, setCurrencyCNY] = useState<number>(
+    freightDetail?.surcharge?.reduce(
+      (acc: number, item: any) =>
+        acc +
+        (item?.price_unit
+          ? item?.price_unit
+          : (item?.price_20 || 0) * unitPrice?.["20gp"] +
+            (item?.price_40 || 0) * unitPrice?.["40gp"] +
+            (item?.price_40hq || 0) * unitPrice?.["40hq"]),
+      0
+    )
+  );
 
   // Handle change tab
   const handleChangeTab = async (tab: string) => {
@@ -119,6 +136,32 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
     setMoreQuotesTab(index);
   };
 
+  // Handle currency CNY
+  useEffect(() => {
+    setCurrencyCNY(
+      freightDetail?.surcharge?.reduce(
+        (acc: number, item: any) =>
+          acc +
+          (item?.price_unit
+            ? item?.price_unit
+            : (item?.price_20 || 0) * unitPrice?.["20gp"] +
+              (item?.price_40 || 0) * unitPrice?.["40gp"] +
+              (item?.price_40hq || 0) * unitPrice?.["40hq"]),
+        0
+      )
+    );
+  }, [unitPrice]);
+
+  // Handle add num
+  const handleAddNum = (key: string) => {
+    setUnitPrice({ ...unitPrice, [key]: unitPrice[key] + 1 });
+  };
+
+  // Handle reduce num
+  const handleReduceNum = (key: string) => {
+    setUnitPrice({ ...unitPrice, [key]: unitPrice[key] - 1 });
+  };
+
   return (
     <Box className="flex flex-col px-6 mt-6 bg-white pb-28">
       {/* Tab main */}
@@ -158,73 +201,150 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
       {activeTab === "costList" && (
         <Box className="mt-6">
           <PriceCollapse
-            price_20={freightDetail?.price_20}
-            price_40={freightDetail?.price_40}
-            price_40hq={freightDetail?.price_40hq}
-            addNum={() => {}}
-            reduceNum={() => {}}
+            price_20={unitPrice?.["20gp"]}
+            price_40={unitPrice?.["40gp"]}
+            price_40hq={unitPrice?.["40hq"]}
+            addNum={handleAddNum}
+            reduceNum={handleReduceNum}
           />
 
           <Box className="mt-6 text-base flex items-center justify-between bg-[#4859c01a] rounded-[8px] p-4">
             <Text className="text-[#19214F]">{t("Surcharge")}</Text>
-            <Text className="text-[#8b261c]">${"23"}</Text>
-            <Text className="text-[#8b261c]">￥{"230"}</Text>
+            <Text className="text-[#8b261c]">
+              $
+              {parseInt(
+                typeof freightDetail?.sell_20gp === "string"
+                  ? freightDetail?.sell_20gp?.split(".")[0]
+                  : freightDetail?.sell_20gp,
+                10
+              ) *
+                unitPrice?.["20gp"] +
+                parseInt(
+                  typeof freightDetail?.sell_40gp === "string"
+                    ? freightDetail?.sell_40gp?.split(".")[0]
+                    : freightDetail?.sell_40gp,
+                  10
+                ) *
+                  unitPrice?.["40gp"] +
+                parseInt(
+                  typeof freightDetail?.sell_40hq === "string"
+                    ? freightDetail?.sell_40hq?.split(".")[0]
+                    : freightDetail?.sell_40hq,
+                  10
+                ) *
+                  unitPrice?.["40hq"]}
+            </Text>
+            <Text className="text-[#8b261c]">￥{currencyCNY}</Text>
           </Box>
 
-          {freightDetail?.surcharge?.map((item: any) => (
-            <Box className="mt-6 text-base flex items-start py-2 flex-col border-b border-[#E0E3E5] gap-2">
-              <Text className="text-[#19214fcc]">
-                {item.SurchargeName}
-                {item.SurchargeNameEn ? "(" + item.SurchargeNameEn + ")" : ""}
+          <Box className="mt-6 text-base flex items-start py-2 flex-col border-b border-[#E0E3E5] gap-2">
+            <Text className="text-[#19214fcc]">海运费(OceanFreight)</Text>
+            <Box className="flex px-1 items-center justify-between w-full">
+              <Text className="text-[#19214f99]">
+                {parseInt(
+                  typeof freightDetail?.sell_20gp === "string"
+                    ? freightDetail?.sell_20gp?.split(".")[0]
+                    : freightDetail?.sell_20gp,
+                  10
+                )}
+                /
+                {parseInt(
+                  typeof freightDetail?.sell_40gp === "string"
+                    ? freightDetail?.sell_40gp?.split(".")[0]
+                    : freightDetail?.sell_40gp,
+                  10
+                )}
+                /
+                {parseInt(
+                  typeof freightDetail?.sell_40hq === "string"
+                    ? freightDetail?.sell_40hq?.split(".")[0]
+                    : freightDetail?.sell_40hq,
+                  10
+                )}
               </Text>
-              {item?.price_20 ||
-              item?.price_40 ||
-              item?.price_40hq ||
-              item?.price_unit ? (
-                <Box className="flex px-1 items-center justify-between w-full">
-                  {!item?.price_unit ? (
-                    <Text className="text-[#19214f99]">
-                      {item?.price_20 ? item?.price_20 : 0}/
-                      {item?.price_40 ? item?.price_40 : 0}/
-                      {item?.price_40hq ? item?.price_40hq : 0}
-                    </Text>
-                  ) : (
-                    <Text className="text-[#19214f99]">
-                      {item?.price_unit || 0}
-                    </Text>
-                  )}
-                  <Text className="text-[#19214fcc]">
-                    {item?.CurrencyName}:
-                    {item?.price_unit
-                      ? item?.price_unit
-                      : (item?.price_20 || 0) * 1 +
-                        (item?.price_40 || 0) * 0 +
-                        (item?.price_40hq || 0) * 0}
-                  </Text>
-                </Box>
-              ) : (
-                <Box className="flex px-1 items-center justify-between w-full">
-                  <Text
-                    className={`${
-                      item?.remark?.includes("不")
-                        ? "text-[#F56C6C]"
-                        : "text-[#67C23A]"
-                    } font-bold`}
-                  >
-                    {item?.remark?.includes("不") ? "✗" : "✓"}
-                  </Text>
-                  <Text className="text-[#19214fcc]">
-                    {item?.CurrencyName}:
-                    {item?.price_unit
-                      ? item?.price_unit
-                      : (item?.price_20 || 0) * 1 +
-                        (item?.price_40 || 0) * 0 +
-                        (item?.price_40hq || 0) * 0}
-                  </Text>
-                </Box>
-              )}
+              <Text className="text-[#19214fcc]">
+                USD:{" "}
+                {parseInt(
+                  typeof freightDetail?.sell_20gp === "string"
+                    ? freightDetail?.sell_20gp?.split(".")[0]
+                    : freightDetail?.sell_20gp,
+                  10
+                ) *
+                  unitPrice?.["20gp"] +
+                  parseInt(
+                    typeof freightDetail?.sell_40gp === "string"
+                      ? freightDetail?.sell_40gp?.split(".")[0]
+                      : freightDetail?.sell_40gp,
+                    10
+                  ) *
+                    unitPrice?.["40gp"] +
+                  parseInt(
+                    typeof freightDetail?.sell_40hq === "string"
+                      ? freightDetail?.sell_40hq?.split(".")[0]
+                      : freightDetail?.sell_40hq,
+                    10
+                  ) *
+                    unitPrice?.["40hq"]}
+              </Text>
             </Box>
-          ))}
+          </Box>
+
+          {freightDetail?.surcharge?.map((item: any) => {
+            return (
+              <Box key={item?.id} className="mt-6 text-base flex items-start py-2 flex-col border-b border-[#E0E3E5] gap-2">
+                <Text className="text-[#19214fcc]">
+                  {item.SurchargeName}
+                  {item.SurchargeNameEn ? "(" + item.SurchargeNameEn + ")" : ""}
+                </Text>
+                {item?.price_20 ||
+                item?.price_40 ||
+                item?.price_40hq ||
+                item?.price_unit ? (
+                  <Box className="flex px-1 items-center justify-between w-full">
+                    {!item?.price_unit ? (
+                      <Text className="text-[#19214f99]">
+                        {item?.price_20 ? item?.price_20 : 0}/
+                        {item?.price_40 ? item?.price_40 : 0}/
+                        {item?.price_40hq ? item?.price_40hq : 0}
+                      </Text>
+                    ) : (
+                      <Text className="text-[#19214f99]">
+                        {item?.price_unit || 0}
+                      </Text>
+                    )}
+                    <Text className="text-[#19214fcc]">
+                      {item?.CurrencyName}:
+                      {item?.price_unit
+                        ? item?.price_unit
+                        : (item?.price_20 || 0) * unitPrice?.["20gp"] +
+                          (item?.price_40 || 0) * unitPrice?.["40gp"] +
+                          (item?.price_40hq || 0) * unitPrice?.["40hq"]}
+                    </Text>
+                  </Box>
+                ) : (
+                  <Box className="flex px-1 items-center justify-between w-full">
+                    <Text
+                      className={`${
+                        item?.remark?.includes("不")
+                          ? "text-[#F56C6C]"
+                          : "text-[#67C23A]"
+                      } font-bold`}
+                    >
+                      {item?.remark?.includes("不") ? "✗" : "✓"}
+                    </Text>
+                    <Text className="text-[#19214fcc]">
+                      {item?.CurrencyName}:
+                      {item?.price_unit
+                        ? item?.price_unit
+                        : (item?.price_20 || 0) * 1 +
+                          (item?.price_40 || 0) * 0 +
+                          (item?.price_40hq || 0) * 0}
+                    </Text>
+                  </Box>
+                )}
+              </Box>
+            );
+          })}
 
           <Box className="mt-6 text-base flex items-start py-2 pb-8 flex-col border-b border-[#E0E3E5] gap-2">
             <Text className="text-[#ca4234] text-base">{t("Remark")}:</Text>
@@ -264,7 +384,7 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
 
       {activeTab === "moreQuotes" && (
         <div className="my-6">
-          <div className="flex space-x-1 overflow-x-auto custom-scrollbar mr-3">
+          <div className="flex space-x-1 overflow-x-auto custom-scrollbar mr-3 overflow-hidden">
             {Object.keys(moreQuotes?.tab).map((key: any, index: number) => (
               <div
                 key={index}
@@ -280,12 +400,149 @@ const InfoPrice: FC<{ freightDetail: any }> = ({ freightDetail }) => {
             ))}
           </div>
 
-          {moreQuotes && moreQuotes?.tab &&
+          {moreQuotes &&
+            moreQuotes?.tab &&
             moreQuotes?.tab?.[
               Object?.keys(moreQuotes?.tab)?.[moreQuotesTab]
             ]?.map((quote: any, index: number) => {
-              console.log("quote", quote);
-              return <div key={index}>"test"</div>;
+              return (
+                <Box
+                  key={index}
+                  className="relative mt-6 text-base flex items-start py-2 px-4 flex-col gap-2 shadow-[0_8px_16px_rgba(50,50,50,0.2)] rounded-[16px]"
+                >
+                  <Box className="flex items-center my-2 justify-around w-full">
+                    <Box className="flex items-center gap-2 text-[#303761] text-xl">
+                      {parseInt(
+                        typeof quote?.sell_20gp === "string"
+                          ? quote?.sell_20gp?.split(".")[0]
+                          : quote?.sell_20gp,
+                        10
+                      ) < 80000 ? (
+                        <div className="text-end">
+                          $
+                          {parseInt(
+                            typeof quote?.sell_20gp === "string"
+                              ? quote?.sell_20gp?.split(".")[0]
+                              : quote?.sell_20gp,
+                            10
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-end">
+                          <img
+                            src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                            alt="pause"
+                            style={{ width: "35px", height: "35px" }}
+                            className="inline-block"
+                          />
+                        </span>
+                      )}
+                    </Box>
+                    <Box className="flex items-center gap-2 text-[#303761] text-xl">
+                      {parseInt(
+                        typeof quote?.sell_40gp === "string"
+                          ? quote?.sell_40gp?.split(".")[0]
+                          : quote?.sell_40gp,
+                        10
+                      ) < 80000 ? (
+                        <div className="text-end">
+                          $
+                          {parseInt(
+                            typeof quote?.sell_40gp === "string"
+                              ? quote?.sell_40gp?.split(".")[0]
+                              : quote?.sell_40gp,
+                            10
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-end">
+                          <img
+                            src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                            alt="pause"
+                            style={{ width: "35px", height: "35px" }}
+                            className="inline-block"
+                          />
+                        </span>
+                      )}
+                    </Box>
+                    <Box className="flex items-center gap-2 text-[#303761] text-xl">
+                      {parseInt(
+                        typeof quote?.sell_40hq === "string"
+                          ? quote?.sell_40hq?.split(".")[0]
+                          : quote?.sell_40hq,
+                        10
+                      ) < 80000 ? (
+                        <div className="text-end">
+                          $
+                          {parseInt(
+                            typeof quote?.sell_40hq === "string"
+                              ? quote?.sell_40hq?.split(".")[0]
+                              : quote?.sell_40hq,
+                            10
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-end">
+                          <img
+                            src="http://www.dadaex.cn/assets/upload/wximg/ting.png"
+                            alt="pause"
+                            style={{ width: "35px", height: "35px" }}
+                            className="inline-block"
+                          />
+                        </span>
+                      )}
+                    </Box>
+                  </Box>
+                  <Box className="flex items-center justify-between w-full text-[#30376199]">
+                    <Text>
+                      {quote?.anchport
+                        ? "起运港码头:" + quote?.anchport
+                        : "起运港:" + quote?.start_port}
+                    </Text>
+                    <Text>
+                      {quote?.end_area
+                        ? "目的港码头:" + quote?.end_area
+                        : "目的港:" + quote?.end_port}
+                    </Text>
+                  </Box>
+                  <Box className="flex items-center justify-between w-full text-[#30376199]">
+                    <Text>
+                      中转港:
+                      {quote?.transport ? quote?.transport : quote?.end_port}
+                    </Text>
+                    <Text>开航日: {quote?.sailing_date}</Text>
+                  </Box>
+                  <Box className="flex items-center justify-between w-full text-[#30376199]">
+                    <Text>
+                      {quote?.overTime
+                        ? "截止日期: " + quote?.overTime
+                        : "生效日期: " + quote?.startTime}
+                    </Text>
+                    <Text>
+                      航线: {quote?.route_code ? quote?.route_code : "-"}
+                    </Text>
+                  </Box>
+                  <Box className="flex items-center justify-between w-full text-[#30376199]">
+                    <Text>航程: {quote?.voyage ? quote?.voyage : "-"}天</Text>
+                    <Text>船期: {quote?.schedule ? quote?.schedule : "-"}</Text>
+                  </Box>
+                  <Box className="flex items-center justify-between w-full text-[#30376199]">
+                    <Text>
+                      备注:
+                      {quote?.remark
+                        ? quote?.remark
+                        : quote?.remark_op
+                        ? quote?.remark_op
+                        : "-"}
+                    </Text>
+                  </Box>
+                  {quote?.cheapestPrice && (
+                    <Text className="absolute left-2 top-2 -translate-x-[40%] -rotate-45 h-8 leading-8 px-10 text-[12px] font-semibold text-white bg-[#ca4234] rounded-[2px] shadow-[0_4px_10px_rgba(0,0,0,0.15)]">
+                      {t("cheap")}
+                    </Text>
+                  )}
+                </Box>
+              );
             })}
         </div>
       )}
@@ -298,8 +555,6 @@ const FreightDetailPage: FC = () => {
   const { t } = useTranslation();
   const freightIndex = useRecoilValue(freightIndexState);
   const freight = useRecoilValue(freightSeaState);
-  console.log("freightIndex", freightIndex);
-  console.log("freight", freight);
 
   return (
     <Page className="flex flex-col overflow-x-hidden custom-scrollbar">
