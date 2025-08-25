@@ -14,6 +14,8 @@ export const Categories: FC = () => {
   const handleToCategory = (categoryId: string) => {
     if (categoryId === "0") {
       navigate("/freight");
+    } else if (categoryId === "2") {
+      navigate("/express");
     } else {
       // navigate("/category");
     }

@@ -12,6 +12,7 @@ import SearchFreightPage from "pages/category/freight/index";
 import DestinationPage from "pages/category/freight/destination";
 import FreightPage from "pages/category/freight/freight";
 import FreightDetailPage from "pages/category/freight/freight-detail";
+import ExpressPage from "pages/category/express";
 import EditProfile from "pages/profile/edit";
 import AuthLoginPage from "pages/login";
 import LoginPage from "pages/login/login";
@@ -45,6 +46,7 @@ export const Layout: FC = () => {
           <Route path="/freight/destination" element={<DestinationPage />} />
           <Route path="/freight/:route" element={<FreightPage />} />
           <Route path="/freight/detail" element={<FreightDetailPage />} />
+          <Route path="/express" element={<ExpressPage />} />
         </Routes>
       </Box>
       {!location.pathname.includes("/freight/") && <Navigation />}
