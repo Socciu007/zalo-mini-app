@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "noEmit": true,
-    "target": "es6",
+    "target": "ES2018",
     "module": "esnext",
     "noImplicitAny": false,
     "preserveConstEnums": true,
@@ -11,7 +11,11 @@
       "es5",
       "es6",
       "es7",
-      "es2017"
+      "es2018",
+      "es2019",
+      "es2020",
+      "es2021",
+      "es2022"
     ],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -34,14 +38,8 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "baseUrl": "src",
-    "types": [
-      "vite/client"
-    ]
+    "types": ["vite/client"]
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "src"
-  ]
+  "exclude": ["node_modules", "dist"],
+  "include": ["src"]
 }

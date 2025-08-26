@@ -1,10 +1,11 @@
 {
-  "name": "zaui-coffee",
+  "name": "Fargo",
   "private": true,
-  "version": "1.1.0",
-  "description": "ZaUI Coffee",
+  "version": "1.0.0",
+  "description": "Fargo App",
   "repository": "",
   "license": "UNLICENSED",
+  "type": "commonjs",
   "browserslist": [
     "Android >= 5",
     "IOS >= 9.3",
@@ -16,8 +17,10 @@
   ],
   "scripts": {
     "start": "zmp start",
+    "build": "vite build --target esnext",
     "deploy": "zmp deploy",
-    "build:css": "postcss src/css/tailwind.css -o src/css/styles.css"
+    "build:css": "postcss src/css/tailwind.css -o src/css/styles.css",
+    "postinstall": "npx update-browserslist-db@latest --yes"
   },
   "dependencies": {
     "@react-spring/web": "^9.6.1",
@@ -39,15 +42,20 @@
     "zmp-ui": "^1.11.10"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.3",
+    "@babel/plugin-transform-async-generator-functions": "^7.28.0",
+    "@babel/preset-env": "^7.28.3",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/react-router-dom": "^5.3.3",
     "autoprefixer": "^10.4.13",
+    "core-js": "^3.45.1",
     "cross-env": "^7.0.3",
     "postcss": "^8.4.21",
     "postcss-aspect-ratio-polyfill": "^2.0.0",
     "postcss-cli": "^8.3.1",
     "postcss-preset-env": "^6.7.0",
+    "regenerator-runtime": "^0.14.1",
     "sass": "^1.58.3",
     "tailwindcss": "^3.4.10",
     "vite": "^2.9.18",

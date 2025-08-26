@@ -9,11 +9,11 @@
     "hideIOSSafeAreaBottom": false,
     "actionBarHidden": true
   },
-  "listCSS": [],
+  "listCSS": [],  
   "listSyncJS": [],
   "listAsyncJS": [],
   "template": {
-    "name": "zaui-fargo",
+    "name": "zaui-coffee",
     "primaryColor": "#006af5",
     "prefixCurrencySymbol": false,
     "currencySymbol": "đ",
