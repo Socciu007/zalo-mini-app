@@ -1,22 +1,12 @@
 {
   "compilerOptions": {
     "noEmit": true,
-    "target": "ES2018",
+    "target": "es2018",
     "module": "esnext",
     "noImplicitAny": false,
     "preserveConstEnums": true,
     "jsx": "react",
-    "lib": [
-      "dom",
-      "es5",
-      "es6",
-      "es7",
-      "es2018",
-      "es2019",
-      "es2020",
-      "es2021",
-      "es2022"
-    ],
+    "lib": ["dom", "es5", "es6", "es7", "es2018"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "allowJs": true,
