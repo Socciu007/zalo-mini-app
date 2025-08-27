@@ -17,6 +17,7 @@
   "scripts": {
     "start": "zmp start",
     "build": "vite build --target esnext",
+    "predeploy": "vite build && node update-app-config.cjs",
     "deploy": "zmp deploy",
     "build:css": "postcss src/css/tailwind.css -o src/css/styles.css",
     "postinstall": "npx update-browserslist-db@latest --yes"

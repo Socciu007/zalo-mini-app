@@ -1,23 +1,18 @@
+// vite.config.js
 import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
 import react from "@vitejs/plugin-react";
+import tsconfigPaths from "vite-tsconfig-paths";
 
-// https://vitejs.dev/config/
-export default () => {
-  return defineConfig({
-    base: "./",
-    plugins: [tsconfigPaths(), react()],
-    build: {
-      target: "esnext",
-      outDir: "dist",
-      rollupOptions: {
-        output: {
-          entryFileNames: "assets/[name].[hash].js",
-          chunkFileNames: "assets/[name].[hash].js",
-          assetFileNames: "assets/[name].[hash].[ext]"
-        }
+export default defineConfig({
+  plugins: [react(), tsconfigPaths()],
+  base: "./",
+  build: {
+    manifest: true,
+    rollupOptions: {
+      output: {
+        entryFileNames: "assets/[name].[hash].module.js",
+        chunkFileNames: "assets/[name].[hash].module.js",
       },
-      chunkSizeWarningLimit: 1000
-    }
-  });
-};
+    },
+  },
+});
