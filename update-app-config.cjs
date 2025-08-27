@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const cwd = process.cwd();
-const distDir = path.join(cwd, 'dist');        // đổi nếu bạn build ra nơi khác
+const distDir = path.join(cwd, 'www');        // đổi nếu bạn build ra nơi khác
 const appCfgPath = path.join(cwd, 'app-config.json');
 
 function readJSON(p) {
