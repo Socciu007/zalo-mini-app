@@ -6,18 +6,18 @@ import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { Box, Header, Page, Text, Button, Select, Icon } from "zmp-ui";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
-import { ListItem } from "../../../components/list-item";
-import { Divider } from "../../../components/divider";
+import { ListItem } from "@/components/list-item";
+import { Divider } from "@/components/divider";
 import { useNavigate } from "react-router-dom";
 import {
   selectedDestinationState,
   selectedOriginState,
   freightSeaState,
   historySearchFreightState,
-} from "state";
-import { useToBeImplemented } from "hooks";
+} from "@/state";
+import { useToBeImplemented } from "@/hooks";
 import { debounce } from "lodash";
-import * as freightSeaService from "services/freight-sea";
+import * as freightSeaService from "@/services/freight-sea";
 
 export const Banner: FC = () => {
   return (

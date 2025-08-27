@@ -5,17 +5,17 @@ import { Navigation } from "./navigation";
 import { getSystemInfo } from "zmp-sdk";
 import { ScrollRestoration } from "./scroll-restoration";
 // import { useHandlePayment } from "hooks";
-import HomePage from "pages/index";
-import ChatMsgPage from "pages/chatmsg";
-import ProfilePage from "pages/profile/index";
-import SearchFreightPage from "pages/category/freight/index";
-import DestinationPage from "pages/category/freight/destination";
-import FreightPage from "pages/category/freight/freight";
-import FreightDetailPage from "pages/category/freight/freight-detail";
-import ExpressPage from "pages/category/express";
-import EditProfile from "pages/profile/edit";
-import AuthLoginPage from "pages/login";
-import LoginPage from "pages/login/login";
+import HomePage from "@/pages/index";
+import ChatMsgPage from "@/pages/chatmsg";
+import ProfilePage from "@/pages/profile/index";
+import SearchFreightPage from "@/pages/category/freight/index";
+import DestinationPage from "@/pages/category/freight/destination";
+import FreightPage from "@/pages/category/freight/freight";
+import FreightDetailPage from "@/pages/category/freight/freight-detail";
+import ExpressPage from "@/pages/category/express";
+import EditProfile from "@/pages/profile/edit";
+import AuthLoginPage from "@/pages/login";
+import LoginPage from "@/pages/login/login";
 if (import.meta.env.DEV) {
   document.body.style.setProperty("--zaui-safe-area-inset-top", "24px");
 } else if (getSystemInfo().platform === "android") {

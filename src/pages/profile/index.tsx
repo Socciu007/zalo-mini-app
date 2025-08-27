@@ -1,12 +1,12 @@
 import React, { FC, useEffect, useState } from "react";
 import { Box, Icon, Page, Text, Button, useNavigate, Modal } from "zmp-ui";
-import { ListRenderer } from "components/list-renderer";
-import { useToBeImplemented } from "hooks";
+import { ListRenderer } from "@/components/list-renderer";
+import { useToBeImplemented } from "@/hooks";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "components/locale";
-import { triggerLoginState, userAuthState } from "state";
+import LanguageSwitcher from "@/components/locale";
+import { triggerLoginState, userAuthState } from "@/state";
 import { useRecoilValueLoadable, useSetRecoilState } from "recoil";
-import { IUserAuth } from "types/fargo/userAuth";
+import { IUserAuth } from "@/types/fargo/userAuth";
 import zmp from "zmp-sdk";
 
 const HeaderProfile: FC = () => {

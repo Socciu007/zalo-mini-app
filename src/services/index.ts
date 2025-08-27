@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { goHome } from 'utils/location'
+import { goHome } from '@/utils/location'
 import zmp from 'zmp-sdk'
 
 // create instance with default config

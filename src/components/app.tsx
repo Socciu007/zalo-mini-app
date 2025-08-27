@@ -1,9 +1,9 @@
 import React from "react";
 import { App, ZMPRouter, SnackbarProvider } from "zmp-ui";
 import { RecoilRoot } from "recoil";
-import { getConfig } from "utils/config";
-import { Layout } from "./layout";
-import { ConfigProvider } from "./config-provider";
+import { getConfig } from "@/utils/config";
+import { Layout } from "@/components/layout";
+import { ConfigProvider } from "@/components/config-provider";
 
 const MyApp = () => {
   return (
@@ -15,11 +15,9 @@ const MyApp = () => {
         }}
       >
         <App>
-          <SnackbarProvider>
-            <ZMPRouter>
-              <Layout />
-            </ZMPRouter>
-          </SnackbarProvider>
+          <ZMPRouter>
+            <Layout />
+          </ZMPRouter>
         </App>
       </ConfigProvider>
     </RecoilRoot>

@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { useVirtualKeyboardVisible } from "hooks";
+import { useVirtualKeyboardVisible } from "@/hooks";
 import React, { FC, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
-import { MenuItem } from "types/menu";
+import { MenuItem } from "@/types/menu";
 import { BottomNavigation, Icon } from "zmp-ui";
-import { userAuthState } from "state";
+import { userAuthState } from "@/state";
 import { useRecoilValue } from "recoil";
 
 const tabs: Record<string, MenuItem> = {

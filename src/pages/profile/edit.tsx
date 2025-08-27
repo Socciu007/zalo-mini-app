@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useRecoilValueLoadable } from "recoil";
-import { userInfoState } from "state";
+import { userInfoState } from "@/state";
 import { Page, Header, Box, Input, Button } from "zmp-ui";
 
 const EditProfile: FC = () => {

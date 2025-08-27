@@ -11,13 +11,13 @@ import {
   useNavigate,
 } from "zmp-ui";
 import { WellComeFuanYuan } from "./index";
-import { useToBeImplemented } from "hooks";
+import { useToBeImplemented } from "@/hooks";
 import zmp from "zmp-sdk";
-import * as userService from "services/user";
-import { triggerLoginState } from "state";
+import * as userService from "@/services/user";
+import { triggerLoginState } from "@/state";
 import { useSetRecoilState } from "recoil";
-import { isValidPhoneNumber } from "utils";
-import { getExpiryDate } from "utils/date";
+import { isValidPhoneNumber } from "@/utils";
+import { getExpiryDate } from "@/utils/date";
 
 interface UserLoginType {
   phone: string;

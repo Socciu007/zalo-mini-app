@@ -1,4 +1,4 @@
-import http from "services";
+import http from "@/services";
 
 // Get detail freight sea with origin and destination
 export const getFreightSea = async (origin: string, destination: string, date: string) => {

@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Booking } from "types/fargo/booking";
+import { Booking } from "@/types/fargo/booking";
 import { Box, Text, useNavigate } from "zmp-ui";
-import * as freightSeaService from "services/freight-sea";
+import * as freightSeaService from "@/services/freight-sea";
 import { useSetRecoilState } from "recoil";
-import { freightSeaState } from "state";
+import { freightSeaState } from "@/state";
 
 export const BookingItem: FC<{ data: Booking }> = ({ data }) => {
   const { t } = useTranslation();

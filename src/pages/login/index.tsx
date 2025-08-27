@@ -1,4 +1,4 @@
-import { useToBeImplemented } from "hooks";
+import { useToBeImplemented } from "@/hooks";
 import React, { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {

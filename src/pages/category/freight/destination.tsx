@@ -2,9 +2,9 @@ import React, { FC, useCallback, Suspense } from "react";
 import { Page, Header, Box, Input, Text, useNavigate } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { fargoDestinationState, keywordState, resultState, selectedDestinationState } from "state";
+import { fargoDestinationState, keywordState, resultState, selectedDestinationState } from "@/state";
 import { debounce } from "lodash";
-import { ListItem } from "components/list-item";
+import { ListItem } from "@/components/list-item";
 
 const DestinationList: FC = () => {
   const { t } = useTranslation();

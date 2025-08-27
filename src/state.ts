@@ -1,15 +1,15 @@
 import { atom, selector } from "recoil";
 import { getLocation, getPhoneNumber, getUserInfo } from "zmp-sdk";
-import { wait } from "utils/async";
-import { Category as FCategory } from "types/fargo/category";
-import { IFreightSea } from "types/fargo/freightSea";
-import { Destination } from "types/fargo/destination";
-import { IUser, IUserAuth, IInfoUser } from "types/fargo/userAuth";
+import { wait } from "@/utils/async";
+import { Category as FCategory } from "@/types/fargo/category";
+import { IFreightSea } from "@/types/fargo/freightSea";
+import { Destination } from "@/types/fargo/destination";
+import { IUser, IUserAuth, IInfoUser } from "@/types/fargo/userAuth";
 import fargoCategories from "../mock/fargo/categories.json";
 import fargoDestination from "../mock/fargo/destination.json";
 import zmp from "zmp-sdk";
 import { jwtDecode } from "jwt-decode";
-import { getUserInfoApp } from "services/user";
+import { getUserInfoApp } from "@/services/user";
 
 export const userState = selector({
   key: "user",

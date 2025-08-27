@@ -1,9 +1,9 @@
 import React, { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Box, Calendar, Icon, Sheet, Text, Button, useNavigate } from "zmp-ui";
-import { IFreightSea } from "types/fargo/freightSea";
+import { IFreightSea } from "@/types/fargo/freightSea";
 import { useSetRecoilState } from "recoil";
-import { freightIndexState } from "state";
+import { freightIndexState } from "@/state";
 
 const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
   const setFreightIndex = useSetRecoilState(freightIndexState);
@@ -351,20 +351,20 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
       <Sheet visible={isFilter}>
         <Box className="px-6 pt-4">
           {/* Conditions */}
-          <div class="mb-6">
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-2xl font-bold">{t("Conditions")}</span>
+          <div className="mb-6">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-2xl font-bold">{t("Conditions")}</span>
               <button
                 onClick={() => setSelectedCondition("")}
-                class="text-[#002B6B] text-xl"
+                className="text-[#002B6B] text-xl"
               >
                 {t("Clear")}
               </button>
             </div>
-            <div id="condition" class="flex gap-4">
+            <div id="condition" className="flex gap-4">
               <button
                 onClick={() => setSelectedCondition("fastest")}
-                class={`text-xl px-8 py-4 rounded-md text-[#180C31] ${
+                className={`text-xl px-8 py-4 rounded-md text-[#180C31] ${
                   selectedCondition === "fastest"
                     ? "bg-[#00378A] text-white"
                     : "bg-[#EBEDEF]"
@@ -374,7 +374,7 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
               </button>
               <button
                 onClick={() => setSelectedCondition("direct")}
-                class={`text-xl px-8 py-4 rounded-md text-[#180C31] ${
+                className={`text-xl px-8 py-4 rounded-md text-[#180C31] ${
                   selectedCondition === "direct"
                     ? "bg-[#00378A] text-white"
                     : "bg-[#EBEDEF]"
@@ -386,23 +386,23 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
           </div>
 
           {/* Carrier */}
-          <div class="mb-10">
-            <div class="flex justify-between items-center mb-2">
-              <span class="font-bold text-2xl">{t("Carrier")}</span>
+          <div className="mb-10">
+            <div className="flex justify-between items-center mb-2">
+              <span className="font-bold text-2xl">{t("Carrier")}</span>
               <button
                 onClick={() => setSelectedCarrier([])}
-                class="text-[#002B6B] text-xl"
+                className="text-[#002B6B] text-xl"
               >
                 {t("Clear")}
               </button>
             </div>
-            <div id="company" class="grid grid-cols-3 gap-y-5 gap-x-3">
+            <div id="company" className="grid grid-cols-3 gap-y-5 gap-x-3">
               {tabsData?.carrier?.map((item: any) => {
                 return (
                   <button
                     key={item}
                     onClick={() => handleCarrierClick(item)}
-                    class={`text-xl px-2 py-4 rounded-md text-[#180C31] ${
+                    className={`text-xl px-2 py-4 rounded-md text-[#180C31] ${
                       selectedCarrier?.find((carrier) => carrier === item)
                         ? "bg-[#00378A] text-white"
                         : "bg-[#EBEDEF]"
@@ -416,16 +416,16 @@ const TabsComponent: FC<{ tabsData: IFreightSea }> = ({ tabsData }) => {
           </div>
 
           {/* 按钮 */}
-          <div class="flex justify-between mb-6">
+          <div className="flex justify-between mb-6">
             <button
               onClick={() => setIsFilter(false)}
-              class="w-1/2 mr-2 py-3 rounded-3xl bg-[#DBEBFF] text-[#180C31] text-xl"
+              className="w-1/2 mr-2 py-3 rounded-3xl bg-[#DBEBFF] text-[#180C31] text-xl"
             >
               {t("Reset")}
             </button>
             <button
               onClick={() => setIsFilter(false)}
-              class="w-1/2 ml-2 py-3 rounded-3xl bg-[#00378A] text-white text-xl"
+              className="w-1/2 ml-2 py-3 rounded-3xl bg-[#00378A] text-white text-xl"
             >
               {t("Confirm")}
             </button>

@@ -1,14 +1,14 @@
-import PriceCollapse from "components/freight/price-collapse";
+import PriceCollapse from "@/components/freight/price-collapse";
 import React, { FC, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useRecoilValue } from "recoil";
-import { freightIndexState, freightSeaState } from "state";
+import { freightIndexState, freightSeaState } from "@/state";
 import { Page, Header, Box, Text } from "zmp-ui";
 import {
   getMoreQuotesFreightSea,
   getScheduleFreightSea,
-} from "services/freight-sea";
-import { timeUtil } from "utils/date";
+} from "@/services/freight-sea";
+import { timeUtil } from "@/utils/date";
 
 const InfoGeneral: FC<{ freightDetail: any }> = ({ freightDetail }) => {
   const { t } = useTranslation();

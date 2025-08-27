@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { Box, Header, Text } from "zmp-ui";
-import logo from "static/logo.png";
+import logo from "@/static/logo.png";
 import appConfig from "../../../app-config.json";
-import { getConfig } from "utils/config";
-import { getDummyImage } from "utils/product";
-import picHeader from "static/header.png";
+import { getConfig } from "@/utils/config";
+import { getDummyImage } from "@/utils/product";
+import picHeader from "@/static/header.png";
 
 export const Welcome: FC = () => {
   return (

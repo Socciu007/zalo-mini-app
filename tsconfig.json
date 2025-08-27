@@ -15,7 +15,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
@@ -27,7 +27,11 @@
     "removeComments": true,
     "sourceMap": true,
     "resolveJsonModule": true,
-    "baseUrl": "src",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "utils/*": ["src/utils/*"]
+    },
     "types": ["vite/client"]
   },
   "exclude": ["node_modules", "dist"],

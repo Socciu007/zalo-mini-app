@@ -9,9 +9,9 @@
     "hideIOSSafeAreaBottom": false,
     "actionBarHidden": true
   },
-  "listCSS": [],  
-  "listSyncJS": [],
-  "listAsyncJS": [],
+  "listCSS": ["assets/index.BKX_qqEb.css"],
+  "listSyncJS": ["assets/index.DM66REJz.js"],
+  "listAsyncJS": ["assets/index.DM66REJz.js"],
   "template": {
     "name": "zaui-coffee",
     "primaryColor": "#006af5",

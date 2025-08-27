@@ -2,7 +2,7 @@ import React from "react";
 import { FC } from "react";
 import { Box, Text } from "zmp-ui";
 import { useRecoilValue } from "recoil";
-import { fargoCategoriesState } from "state";
+import { fargoCategoriesState } from "@/state";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 

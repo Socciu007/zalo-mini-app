@@ -1,4 +1,4 @@
-import http from "services";
+import http from "@/services";
 
 // Login by account
 export const login = async (data: { password: string; phone: string }) => {
