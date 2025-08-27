@@ -1,5 +1,5 @@
 import React from "react";
-import { App, ZMPRouter, SnackbarProvider } from "zmp-ui";
+import { App, ZMPRouter } from "zmp-ui";
 import { RecoilRoot } from "recoil";
 import { getConfig } from "@/utils/config";
 import { Layout } from "@/components/layout";
@@ -10,7 +10,7 @@ const MyApp = () => {
     <RecoilRoot>
       <ConfigProvider
         cssVariables={{
-          "--zmp-primary-color": getConfig((c) => c.template.primaryColor),
+          "--zmp-primary-color": getConfig((c) => c?.template?.primaryColor),
           "--zmp-background-color": "#f4f5f6",
         }}
       >

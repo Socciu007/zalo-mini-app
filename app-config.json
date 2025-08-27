@@ -9,9 +9,26 @@
     "hideIOSSafeAreaBottom": false,
     "actionBarHidden": true
   },
-  "listCSS": ["assets/index.BKX_qqEb.css"],
-  "listSyncJS": ["assets/index.DM66REJz.js"],
-  "listAsyncJS": ["assets/index.DM66REJz.js"],
+  "listCSS": [
+    "assets/index-Bu1_YcOs.css"
+  ],
+  "listSyncJS": [
+    "assets/index.DImNTCwb.module.js"
+  ],
+  "listAsyncJS": [],
+  "pages": [
+    "pages/index/index",
+    "pages/auth/index",
+    "pages/auth/login",
+    "pages/chatmsg/index",
+    "pages/profile/index",
+    "pages/profile/edit",
+    "pages/freight/index",
+    "pages/freight/destination",
+    "pages/freight/route",
+    "pages/freight/detail",
+    "pages/express/index"
+  ],
   "template": {
     "name": "zaui-coffee",
     "primaryColor": "#006af5",
