@@ -1,12 +1,12 @@
 import React, { FC } from "react";
-import { Box, Button, Header, Page, Text } from "zmp-ui";
+import { Page, Header, Box, Button, Text } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 
-const ExpressPage: FC = () => {
+const ConsigneePage: FC = () => {
   const { t } = useTranslation();
   return (
     <Page className="flex flex-col overflow-x-hidden custom-scrollbar">
-      <Header title={t("Check Freight")} />
+      <Header title="Consignee’s Address" />
 
       <Box className="flex flex-col bg-white mt-4 rounded-lg mx-4">
         <div className="mx-4 border-b border-[#E1E2E9] py-4">
@@ -14,10 +14,7 @@ const ExpressPage: FC = () => {
             <div className="tit w-24 shrink-0 text-gray-500">{t("From")}:</div>
             <div className="grow">
               <div className="font-medium text-[#19214F] opacity-40">
-                V6V 1K9
-              </div>
-              <div className="mt-1 text-sm leading-snug text-[#19214F] opacity-40">
-                14551 Burrows Road Richmond BritishColumbia
+                CANADA
               </div>
             </div>
           </div>
@@ -40,7 +37,9 @@ const ExpressPage: FC = () => {
 
         <div className="mx-4 py-4">
           <div className="flex">
-            <div className="tit w-24 shrink-0 text-gray-500">{t("Package Details")}:</div>
+            <div className="tit w-24 shrink-0 text-gray-500">
+              {t("Package Details")}:
+            </div>
             <div className="grow">
               <div className="cont font-medium text-gray-900">
                 {t("Weight, volume (CBM), pieces")}
@@ -51,10 +50,10 @@ const ExpressPage: FC = () => {
       </Box>
 
       <Button className="mt-8 mx-4 rounded-lg text-white">
-        <Text>{t("Check Shipping Cost")}</Text>
+        <Text>{t("Confirm")}</Text>
       </Button>
     </Page>
   );
 };
 
-export default ExpressPage;
+export default ConsigneePage;

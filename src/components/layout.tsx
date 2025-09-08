@@ -16,6 +16,7 @@ import ExpressPage from "@/pages/category/express";
 import EditProfile from "@/pages/profile/edit";
 import AuthLoginPage from "@/pages/login";
 import LoginPage from "@/pages/login/login";
+import ConsigneePage from "@/pages/category/express/consignee";
 if (import.meta.env.DEV) {
   document.body.style.setProperty("--zaui-safe-area-inset-top", "24px");
 } else if (getSystemInfo().platform === "android") {
@@ -47,6 +48,7 @@ export const Layout: FC = () => {
           <Route path="/freight/:route" element={<FreightPage />} />
           <Route path="/freight/detail" element={<FreightDetailPage />} />
           <Route path="/express" element={<ExpressPage />} />
+          <Route path="/express/consignee" element={<ConsigneePage />} />
         </Routes>
       </Box>
       {!location.pathname.includes("/freight/") && <Navigation />}
